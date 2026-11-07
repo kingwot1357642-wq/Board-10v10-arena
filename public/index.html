@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Board Arena — Online Foundation</title>
+<title>Board Arena Online</title>
 <style>
 :root{--bg:#0e1118;--sf:#181d29;--sf2:#212838;--tx:#e8ecf4;--mu:#8791a7;--bd:#2d3650;--me:#35a8ff;--en:#ff5a66;--gn:#43c07a;--c1:#26304a;--c2:#1d2539;color-scheme:light dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#dfe4ee;--sf:#fff;--sf2:#eef1f7;--tx:#1b2030;--mu:#667089;--bd:#c5cce0;--c1:#e6ebf6;--c2:#d3dbee}}
@@ -92,16 +92,53 @@ button.m:disabled{opacity:.4}
 .opt .sh{width:48px;height:48px;margin:0 auto 4px}.opt .sh .sy{font-size:26px}
 #rot{display:none;position:fixed;inset:0;background:var(--bg);z-index:20;align-items:center;justify-content:center;text-align:center;font-size:18px;padding:20px}
 @media (orientation:portrait){#rot{display:flex}}
-</style>
-<style>
-#online-note{position:fixed;left:8px;bottom:8px;z-index:30;background:#111c;color:#fff;
-padding:7px 10px;border:1px solid #789;border-radius:8px;font:12px system-ui;max-width:85vw}
+
+#onlineLobby{position:fixed;inset:0;z-index:30;display:flex;align-items:center;justify-content:center;padding:18px;background:radial-gradient(circle at 50% 15%,#263653 0,#111827 58%,#0b0e15 100%);color:#eef3ff;font-family:system-ui,sans-serif}
+#onlineLobby .box{width:min(440px,100%);background:#171f30;border:1px solid #3b4b69;border-radius:20px;padding:24px;box-shadow:0 18px 60px #0008;text-align:center}
+#onlineLobby h1{margin:0 0 6px;font-size:clamp(25px,6vw,34px)}
+#onlineLobby .sub{color:#aab7cf;margin:0 0 22px}
+#onlineLobby input{width:100%;padding:13px 14px;border-radius:10px;border:1px solid #52627e;background:#0e1522;color:#fff;font:inherit;text-align:center;letter-spacing:3px;text-transform:uppercase;margin:8px 0}
+#onlineLobby button{width:100%;padding:13px;border:0;border-radius:10px;background:#35a8ff;color:#071321;font:inherit;font-weight:800;margin:6px 0;cursor:pointer}
+#onlineLobby button.alt{background:#29364d;color:#eaf1ff;border:1px solid #52627e}
+#onlineLobby button:disabled{opacity:.45;cursor:not-allowed}
+#onlineLobby .status{margin-top:14px;padding:12px;border-radius:10px;background:#0e1522;color:#b9c7dd;min-height:44px;font-size:14px}
+#onlineLobby .room{font-size:30px;letter-spacing:6px;font-weight:900;color:#7fc7ff;margin:10px 0}
+#onlineLobby .players{display:flex;justify-content:space-around;margin:16px 0;color:#d8e4f7}
+#onlineLobby .tiny{font-size:12px;color:#8998b2;margin-top:14px;line-height:1.5}
+
 </style>
 </head>
 <body>
-<div id="online-note">Board Arena Online Foundation · ห้องออนไลน์อยู่ในขั้นเตรียมระบบ</div>\n<div id="rot">📱↻<br>กรุณาหมุนจอเป็นแนวนอน</div>
+
+<div id="onlineLobby">
+  <div class="box">
+    <h1>BOARD ARENA</h1>
+    <p class="sub">ONLINE ROOM</p>
+    <div id="lobbyHome">
+      <button id="createRoomBtn">สร้างห้องใหม่</button>
+      <div style="color:#9eacc3;margin:12px 0 4px">หรือเข้าร่วมห้องด้วยรหัส</div>
+      <input id="roomCodeInput" maxlength="6" placeholder="รหัสห้อง 6 ตัว" autocomplete="off">
+      <button id="joinRoomBtn" class="alt">เข้าร่วมห้อง</button>
+    </div>
+    <div id="lobbyRoom" hidden>
+      <div style="color:#9eacc3">รหัสห้องของคุณ</div>
+      <div class="room" id="roomCodeDisplay">------</div>
+      <div class="players">
+        <div>ผู้เล่น 1<br><b id="p1State">รอผู้เล่น</b></div>
+        <div>ผู้เล่น 2<br><b id="p2State">รอผู้เล่น</b></div>
+      </div>
+      <button id="readyBtn" disabled>พร้อม</button>
+      <button id="leaveRoomBtn" class="alt">ออกจากห้อง</button>
+    </div>
+    <div class="status" id="lobbyStatus">กำลังเชื่อมต่อเซิร์ฟเวอร์...</div>
+    <div class="tiny">ระบบห้องออนไลน์พร้อมใช้งาน ส่วนการซิงก์การเดินและสกิลระหว่างผู้เล่นจะเป็นขั้นตอนถัดไป</div>
+  </div>
+</div>
+
+<div id="rot">📱↻<br>กรุณาหมุนจอเป็นแนวนอน</div>
 <div class="frame" id="g"></div>
 <div class="setup" id="su"></div>
+<script src="/socket.io/socket.io.js"></script>
 <script>
 const R={
 sword:{n:"Swordman",sy:"🗡️",rar:"common",hp:100,mv:1,pop:2,
@@ -126,7 +163,7 @@ assassin:{n:"Assassin",sy:"🥷",rar:"uncommon",hp:60,mv:1,pop:3,pas:"",blk:[],
  s:[{n:"Dagger Strike",i:"🗡️",k:"t",r:1,d:7,c:"phys",l:"low",cd:1,fx:"pop",e:"🗡️",alt:{on:"ww",n:"Sharpness-Dagger",d:8,bleed:1,xww:1,x:"ติด Bleeding และออกจาก Wind-Walk"}},
     {n:"Legging-Dash",i:"💨",k:"m",r:2,cd:1,x:"หัก MP 1 เดินไกล 2 ช่อง",alt:{on:"ww",n:"Teleport",r:"ทั้งกระดาน",tp:1,x:"หัก MP 1 วาร์ปได้ 1 ครั้งต่อ Wind-Walk"}},
     {n:"Invisible Bomb",i:"🌫️",k:"w",cd:4,x:"Wind-Walk 3 เทิร์น (CD นับหลังออก)"}]},
-witch:{n:"Wandering Witch",sy:"🧹",rar:"rare",hp:60,mv:1,pop:3,pas:"",blk:[],
+witch:{n:"Wandering Witch",sy:"🧹",rar:"rare",hp:60,mv:1,pop:4,pas:"",blk:[],
  s:[{n:"Lightning Oak Wand",i:"⚡",k:"t",r:2,d:4,c:"magic",l:"low",cd:1,tg:"lightning",chain:1,fx:"bolt",x:"ชิ่งไปศัตรูใกล้เคียง 1 ตัว",
      alt:{on:"fly",n:"Lightning Strike",d:8,chain:0,fx:"drop",e:"⚡",x:"บิน: เป้าเดียว ×2"}},
     {n:"Alchemist Potions",i:"🧪",k:"p",r:1,cd:2,x:"เพื่อน = ฟื้นฟู 2 ตา ตาละ 3 · ศัตรู = Poison"},
@@ -413,7 +450,93 @@ function botAct(){
   }
   return false;
 }
-setup();
+
+/* ---------- ONLINE LOBBY ---------- */
+let onlineSocket = null;
+let onlineRoom = null;
+let onlinePlayer = 0;
+let onlineReady = false;
+let onlineStarted = false;
+
+function lobbyStatus(text){
+  const el=document.getElementById("lobbyStatus");
+  if(el) el.textContent=text;
+}
+function showLobbyRoom(data){
+  onlineRoom=data.roomCode;
+  onlinePlayer=data.playerNumber;
+  document.getElementById("lobbyHome").hidden=true;
+  document.getElementById("lobbyRoom").hidden=false;
+  document.getElementById("roomCodeDisplay").textContent=onlineRoom;
+  updateLobbyPlayers(data.players || []);
+  document.getElementById("readyBtn").disabled=false;
+  document.getElementById("readyBtn").textContent="พร้อม";
+  onlineReady=false;
+}
+function updateLobbyPlayers(players){
+  const p1=players[0],p2=players[1];
+  document.getElementById("p1State").textContent=p1?(p1.ready?"พร้อม":"กำลังเลือก"):"รอผู้เล่น";
+  document.getElementById("p2State").textContent=p2?(p2.ready?"พร้อม":"กำลังเลือก"):"รอผู้เล่น";
+}
+function connectOnlineLobby(){
+  if(typeof io!=="function"){
+    lobbyStatus("โหลด Socket.IO ไม่สำเร็จ กรุณารีเฟรชหน้าเว็บ");
+    return;
+  }
+  onlineSocket=io();
+  onlineSocket.on("connect",()=>lobbyStatus("เชื่อมต่อเซิร์ฟเวอร์แล้ว"));
+  onlineSocket.on("connect_error",()=>lobbyStatus("เชื่อมต่อเซิร์ฟเวอร์ไม่ได้ ลองรีเฟรชอีกครั้ง"));
+  onlineSocket.on("room_created",data=>{
+    showLobbyRoom(data);
+    lobbyStatus("สร้างห้องสำเร็จ ส่งรหัสนี้ให้อีกฝ่ายได้เลย");
+  });
+  onlineSocket.on("room_joined",data=>{
+    showLobbyRoom(data);
+    lobbyStatus("เข้าห้องสำเร็จ");
+  });
+  onlineSocket.on("room_update",data=>{
+    updateLobbyPlayers(data.players||[]);
+    if((data.players||[]).length===2 && data.players.every(p=>p.ready)){
+      lobbyStatus("ผู้เล่นทั้งสองฝ่ายพร้อมแล้ว! ขั้นต่อไปคือเชื่อมระบบกระดานให้ซิงก์กัน");
+      document.getElementById("readyBtn").disabled=true;
+      document.getElementById("readyBtn").textContent="ทั้งสองฝ่ายพร้อม";
+    }else{
+      lobbyStatus("รอผู้เล่นทั้งสองฝ่ายกดพร้อม...");
+    }
+  });
+  onlineSocket.on("room_error",data=>lobbyStatus(data.message||"เกิดข้อผิดพลาด"));
+  onlineSocket.on("player_left",()=>lobbyStatus("ผู้เล่นอีกฝ่ายออกจากห้องแล้ว"));
+  onlineSocket.on("disconnect",()=>lobbyStatus("การเชื่อมต่อขาดหาย กำลังรอเชื่อมต่อใหม่..."));
+}
+document.addEventListener("DOMContentLoaded",()=>{
+  connectOnlineLobby();
+  document.getElementById("createRoomBtn").onclick=()=>{
+    if(onlineSocket?.connected) onlineSocket.emit("create_room");
+    else lobbyStatus("ยังไม่ได้เชื่อมต่อเซิร์ฟเวอร์");
+  };
+  document.getElementById("joinRoomBtn").onclick=()=>{
+    const code=document.getElementById("roomCodeInput").value.trim().toUpperCase();
+    if(code.length!==6){lobbyStatus("กรุณากรอกรหัสห้อง 6 ตัว");return;}
+    if(onlineSocket?.connected) onlineSocket.emit("join_room",{roomCode:code});
+    else lobbyStatus("ยังไม่ได้เชื่อมต่อเซิร์ฟเวอร์");
+  };
+  document.getElementById("readyBtn").onclick=()=>{
+    if(!onlineRoom||!onlineSocket?.connected)return;
+    onlineReady=true;
+    document.getElementById("readyBtn").disabled=true;
+    document.getElementById("readyBtn").textContent="กำลังรออีกฝ่าย...";
+    onlineSocket.emit("set_ready",{roomCode:onlineRoom});
+    lobbyStatus("ส่งสถานะพร้อมแล้ว");
+  };
+  document.getElementById("leaveRoomBtn").onclick=()=>{
+    if(onlineSocket?.connected) onlineSocket.emit("leave_room");
+    onlineRoom=null;onlineReady=false;
+    document.getElementById("lobbyRoom").hidden=true;
+    document.getElementById("lobbyHome").hidden=false;
+    lobbyStatus("ออกจากห้องแล้ว");
+  };
+});
+
 </script>
 </body>
 </html>
