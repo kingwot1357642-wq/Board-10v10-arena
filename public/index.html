@@ -131,7 +131,7 @@ button.m:disabled{opacity:.4}
       <button id="leaveRoomBtn" class="alt">ออกจากห้อง</button>
     </div>
     <div class="status" id="lobbyStatus">กำลังเชื่อมต่อเซิร์ฟเวอร์...</div>
-    <div class="tiny">ระบบห้องออนไลน์พร้อมใช้งาน ส่วนการซิงก์การเดินและสกิลระหว่างผู้เล่นจะเป็นขั้นตอนถัดไป</div>
+    <div class="tiny">เมื่อทั้งสองฝ่ายพร้อม จะเลือกกองกำลังของตนเอง แล้วเล่น PvP ออนไลน์บนกระดานเดียวกัน</div>
   </div>
 </div>
 
@@ -163,7 +163,7 @@ assassin:{n:"Assassin",sy:"🥷",rar:"uncommon",hp:60,mv:1,pop:3,pas:"",blk:[],
  s:[{n:"Dagger Strike",i:"🗡️",k:"t",r:1,d:7,c:"phys",l:"low",cd:1,fx:"pop",e:"🗡️",alt:{on:"ww",n:"Sharpness-Dagger",d:8,bleed:1,xww:1,x:"ติด Bleeding และออกจาก Wind-Walk"}},
     {n:"Legging-Dash",i:"💨",k:"m",r:2,cd:1,x:"หัก MP 1 เดินไกล 2 ช่อง",alt:{on:"ww",n:"Teleport",r:"ทั้งกระดาน",tp:1,x:"หัก MP 1 วาร์ปได้ 1 ครั้งต่อ Wind-Walk"}},
     {n:"Invisible Bomb",i:"🌫️",k:"w",cd:4,x:"Wind-Walk 3 เทิร์น (CD นับหลังออก)"}]},
-witch:{n:"Wandering Witch",sy:"🧹",rar:"rare",hp:60,mv:1,pop:4,pas:"",blk:[],
+witch:{n:"Wandering Witch",sy:"🧹",rar:"rare",hp:60,mv:1,pop:3,pas:"",blk:[],
  s:[{n:"Lightning Oak Wand",i:"⚡",k:"t",r:2,d:4,c:"magic",l:"low",cd:1,tg:"lightning",chain:1,fx:"bolt",x:"ชิ่งไปศัตรูใกล้เคียง 1 ตัว",
      alt:{on:"fly",n:"Lightning Strike",d:8,chain:0,fx:"drop",e:"⚡",x:"บิน: เป้าเดียว ×2"}},
     {n:"Alchemist Potions",i:"🧪",k:"p",r:1,cd:2,x:"เพื่อน = ฟื้นฟู 2 ตา ตาละ 3 · ศัตรู = Poison"},
@@ -178,7 +178,7 @@ const dist=(a,b)=>Math.max(Math.abs(a.x-b.x),Math.abs(a.y-b.y));
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const eff=(u,si)=>{const s=R[u.k].s[si],a=s.alt;if(!a)return s;return(a.on==="ww"?u.ww:u.fly)>0?{...s,...a}:s};
 const dis=u=>u.stunned||u.st.freeze>0;
-const hidden=u=>u.team===1&&u.ww>0;
+const hidden=u=>(onlineGame?u.team!==onlineMyTeam:u.team===1)&&u.ww>0;
 const shape=(k,team,ex="")=>`<div class="sh s-${R[k].rar} ${ex}" style="--tc:var(${team?"--en":"--me"})"><span class="o"></span><span class="n"></span><span class="sy">${R[k].sy}</span></div>`;
 const info=s=>[s.d?((s.dt==="true"?"ดาเมจจริง":s.c==="phys"?"กายภาพ":"เวทย์")+" "+s.d):(s.heal?"ฟื้นฟู "+s.heal:null),s.r!==undefined?"ระยะ "+s.r:null,"CD "+s.cd].filter(Boolean).join(" · ");
 const icons=u=>[u.st.bleed?"🩸":"",u.st.poison?"☠️"+u.st.poison:"",u.st.burn?"🔥"+u.st.burn:"",u.st.freeze>0?"🧊":"",u.st.silent>0?"🤐":"",u.stunned&&turn===u.team?"😵":"",u.st.regen?"💚":"",u.ww>0?"👻":""].join("");
@@ -206,18 +206,25 @@ function showFx(u,s,T){
 /* ---------- setup ---------- */
 function setup(){
   const tot=pick.reduce((a,k)=>a+R[k].pop,0);
+  const online=onlineGame;
   $("su").style.display="flex";
-  $("su").innerHTML=`<h2 style="margin:0">⚔️ Board Arena</h2><div class="mu">เลือกตัวหมาก (ห้ามซ้ำ) population รวมไม่เกิน ${CAP} แล้วสู้กับบอท</div>
+  $("su").innerHTML=`<h2 style="margin:0">⚔️ Board Arena</h2><div class="mu">${online?"เลือกกองกำลังของคุณ · อีกฝ่ายจะเลือกกองกำลังของตนเอง":"เลือกตัวหมาก (ห้ามซ้ำ) population รวมไม่เกิน "+CAP+" แล้วสู้กับบอท"}</div>
   <div class="opts">${KEYS.map(k=>`<button class="opt ${pick.includes(k)?"on":""}" data-k="${k}">${shape(k,0)}<b>${R[k].n}</b><br><small class="mu">${RAR[R[k].rar]} · HP ${R[k].hp} · Pop ${R[k].pop}</small></button>`).join("")}</div>
   <div><b>Population ${tot}/${CAP}</b></div>
-  <button class="m" id="go" ${pick.length?"":"disabled"} style="padding:10px 22px;font-size:16px">เริ่มเกม</button>`;
+  <div id="pickWait" class="mu">${online?"เมื่อยืนยันแล้วจะรออีกฝ่ายเลือกตัวละคร":""}</div>
+  <button class="m" id="go" ${pick.length&&!onlineSubmitted?"":"disabled"} style="padding:10px 22px;font-size:16px">${online?"ยืนยันตัวละคร":"เริ่มเกม"}</button>`;
+  if(onlineSubmitted){$("pickWait").textContent="ยืนยันกองกำลังแล้ว กำลังรออีกฝ่าย...";$("go").textContent="รออีกฝ่าย";}
   $("su").querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>{
+    if(onlineSubmitted)return;
     const k=b.dataset.k;
     if(pick.includes(k))pick=pick.filter(x=>x!==k);
     else if(tot+R[k].pop<=CAP)pick.push(k);
     setup();
   });
-  $("go").onclick=start;
+  $("go").onclick=()=>{
+    if(online){if(!pick.length||onlineSubmitted)return;onlineSubmitted=true;setup();onlineSocket.emit("submit_pick",{roomCode:onlineRoom,picks:pick});}
+    else start();
+  };
 }
 const spread=n=>n===1?[4]:Array.from({length:n},(_,i)=>Math.round(1+i*8/(n-1)));
 function mk(k,team,x,y){return{id:nid++,k,team,x,y,hp:R[k].hp,sh:0,cd:R[k].s.map(()=>0),aura:0,ww:0,fly:0,tpUsed:false,stunned:false,st:{poison:0,burn:0,bleed:0,stun:0,freeze:0,silent:0,regen:null}}}
@@ -280,7 +287,8 @@ function begin(t){
     if(u.fly>0){u.fly--;if(u.fly===0)land(u)}
   });
   render();
-  if(t===1&&over<0)setTimeout(bot,600);
+  if(onlineGame){broadcastGameState();}
+  else if(t===1&&over<0)setTimeout(bot,600);
 }
 function usable(u,si){
   const s=eff(u,si),p=P[u.team];
@@ -347,29 +355,31 @@ function cast(u,si,tx,ty){
 
 /* ---------- render ---------- */
 function render(){
-  const vis=U.filter(u=>!hidden(u)),me=vis.filter(u=>u.team===0),en=vis.filter(u=>u.team===1),u=sel?byId(sel):null;
+  const meTeam=onlineGame?onlineMyTeam:0,enemyTeam=1-meTeam;
+  const vis=U.filter(u=>!hidden(u)),me=vis.filter(u=>u.team===meTeam),en=vis.filter(u=>u.team===enemyTeam),u=sel?byId(sel):null;
   const mv=u&&mode<0?moves(u):[];
   const sk=u&&mode>=0?eff(u,mode):null;
   const tg=sk&&["t","p","h","r"].includes(sk.k)?targetsFor(u,mode):[];
   const mc=sk&&sk.k==="m"?mcells(u,sk):[];
-  const rows=a=>a.map(x=>`<div class="row ${x.team?"e":""} ${sel===x.id?"s":""}" data-r="${x.id}">${shape(x.k,x.team)}<div class="bar"><i style="width:${Math.max(0,x.hp)/R[x.k].hp*100}%"></i></div><small>${x.hp}</small></div>`).join("");
+  const rows=a=>a.map(x=>`<div class="row ${x.team!==meTeam?"e":""} ${sel===x.id?"s":""}" data-r="${x.id}">${shape(x.k,x.team!==meTeam?1:0)}<div class="bar"><i style="width:${Math.max(0,x.hp)/R[x.k].hp*100}%"></i></div><small>${x.hp}</small></div>`).join("");
   let cells="";
-  for(let y=0;y<10;y++)for(let x=0;x<10;x++){
+  for(let vy=0;vy<10;vy++)for(let vx=0;vx<10;vx++){
+    const x=onlineGame&&meTeam===1?9-vx:vx,y=onlineGame&&meTeam===1?9-vy:vy;
     const p0=at(x,y),p=p0&&!hidden(p0)?p0:null,isMv=mv.some(m=>m[0]===x&&m[1]===y);
-    const cl=p&&tg.includes(p)?(p.team===0?"al":"at"):"";
+    const cl=p&&tg.includes(p)?(p.team===meTeam?"al":"at"):"";
     let inner="";
     if(p){
-      const ex=[p.team===0&&p.ww>0?"ghost":"",p.fly>0?"fly":"",p.aura>0?"aura":"",p.st.freeze>0?"frz":""].join(" "),ic=icons(p);
-      inner=shape(p.k,p.team,ex)+`<div class="hb"><i style="width:${Math.max(0,p.hp)/R[p.k].hp*100}%"></i></div>${p.sh?`<span class="sb">${p.sh}</span>`:""}${ic?`<span class="stb">${ic}</span>`:""}`;
+      const ex=[p.team===meTeam&&p.ww>0?"ghost":"",p.fly>0?"fly":"",p.aura>0?"aura":"",p.st.freeze>0?"frz":""].join(" "),ic=icons(p);
+      inner=shape(p.k,p.team!==meTeam?1:0,ex)+`<div class="hb"><i style="width:${Math.max(0,p.hp)/R[p.k].hp*100}%"></i></div>${p.sh?`<span class="sb">${p.sh}</span>`:""}${ic?`<span class="stb">${ic}</span>`:""}`;
     }
-    cells+=`<div class="cell ${(x+y)%2?"k":""} ${isMv?"mv":""} ${mc.some(c=>c[0]===x&&c[1]===y)?"mc":""} ${sk&&sk.k==="a"?"am":""} ${cl} ${p&&p.id===sel?"sel":""}" data-x="${x}" data-y="${y}">${inner}</div>`;
+    cells+=`<div class="cell ${(vx+vy)%2?"k":""} ${isMv?"mv":""} ${mc.some(c=>c[0]===x&&c[1]===y)?"mc":""} ${sk&&sk.k==="a"?"am":""} ${cl} ${p&&p.id===sel?"sel":""}" data-x="${x}" data-y="${y}">${inner}</div>`;
   }
   let panel=`<div class="mu" style="text-align:center;margin-top:30%">แตะตัวหมากของคุณ<br>เพื่อดูข้อมูลและสกิล</div>`;
-  if(u&&u.team===0){
+  if(u&&u.team===meTeam){
     const d=R[u.k],ic=icons(u);
     let skills="";
     if(u.st.silent>0)skills=`<div class="ps" style="font-size:1.1em;text-align:center">🤐 ถูกใบ้</div>`;
-    else skills=d.s.map((s0,i)=>{const s=eff(u,i);return `<button class="sk ${mode===i?"on":""}" data-s="${i}" ${usable(u,i)?"":"disabled"}><span class="i">${s.i}</span><span><b>${s.n}</b><small>${u.cd[i]>0?"cooldown "+u.cd[i]:info(s)}</small>${s.x&&u.cd[i]<1?`<small>${s.x}</small>`:""}</span></button>`}).join("");
+    else skills=d.s.map((s0,i)=>{const sk0=eff(u,i);return `<button class="sk ${mode===i?"on":""}" data-s="${i}" ${usable(u,i)?"":"disabled"}><span class="i">${sk0.i}</span><span><b>${sk0.n}</b><small>${u.cd[i]>0?"cooldown "+u.cd[i]:info(sk0)}</small>${sk0.x&&u.cd[i]<1?`<small>${sk0.x}</small>`:""}</span></button>`}).join("");
     panel=`<div class="por">${shape(u.k,0)}<div><div class="nm">${d.n}</div><small class="mu">${RAR[d.rar]} · Pop ${d.pop}</small></div></div>
     <div class="hp">❤️<div class="bar" style="flex:1"><i style="width:${u.hp/d.hp*100}%"></i></div><b>${u.hp}/${d.hp}</b></div>
     ${u.sh?`<div class="ps">🛡️ โล่ ${u.sh}</div>`:""}${ic?`<div class="ps">สถานะ: ${ic}${u.ww>0?" Wind-Walk":""}${u.fly>0?" 🧹 บิน":""}${u.aura?" ออร่าเหลือ "+u.aura+" ครั้ง":""}</div>`:""}
@@ -377,34 +387,36 @@ function render(){
     ${d.pas?`<div class="ps">✦ ${d.pas}</div>`:""}<hr>${skills}
     <div class="mu" style="font-size:.8em">แตะช่องฟ้าเพื่อเดิน (หัก MP 1) · ใช้สกิลหัก AP 1</div>`;
   }else if(u&&!hidden(u)){
-    panel=`<div class="por">${shape(u.k,1)}<div class="nm">${R[u.k].n}</div></div><hr><div class="mu" style="text-align:center">🔒 ข้อมูลของศัตรู<br>ไม่แสดงรายละเอียด</div>`;
+    panel=`<div class="por">${shape(u.k,1)}<div class="nm">${R[u.k].n}</div></div><hr><div class="mu" style="text-align:center">ข้อมูลของฝ่ายตรงข้าม</div>`;
   }
-  $("g").innerHTML=`<div class="col left">${rows(me)}<hr>${rows(en)}</div>
-  <div class="mid"><div class="top"><b>${over>=0?"จบเกม":turn===0?"ตาของคุณ":"ตาบอท"}</b><span>MP ${P[turn].mp}/2 · AP ${P[turn].ap}/2</span><span class="msg">${esc(msg)}</span><button class="m" id="et" ${turn!==0||over>=0?"disabled":""}>จบเทิร์น</button></div>
-  <div class="bw"><div class="bwrap"><div class="board" id="bd">${cells}</div><div class="fxl">${fxHTML()}</div>${over>=0?`<div class="ov"><div style="font-size:2.2em">${over===0?"🎉 คุณชนะ!":"😵 บอทชนะ"}</div><button class="m" id="again">เล่นอีกครั้ง</button></div>`:""}</div></div></div>
+  const turnLabel=over>=0?"จบเกม":turn===meTeam?"ตาของคุณ":"ตาฝ่ายตรงข้าม";
+  $("g").innerHTML=`<div class="col left"><div class="mu">ฝ่ายคุณ</div>${rows(me)}<hr><div class="mu">ฝ่ายตรงข้าม</div>${rows(en)}</div>
+  <div class="mid"><div class="top"><b>${turnLabel}</b><span>MP ${P[turn].mp}/2 · AP ${P[turn].ap}/2</span><span class="msg">${esc(msg)}</span><button class="m" id="et" ${turn!==meTeam||over>=0?"disabled":""}>จบเทิร์น</button></div>
+  <div class="bw"><div class="bwrap"><div class="board" id="bd">${cells}</div><div class="fxl">${fxHTML()}</div>${over>=0?`<div class="ov"><div style="font-size:2.2em">${over===meTeam?"🎉 คุณชนะ!":"😵 ฝ่ายตรงข้ามชนะ"}</div><button class="m" id="again">กลับหน้าเลือกตัวละคร</button></div>`:""}</div></div></div>
   <div class="col right">${panel}</div>`;
   $("g").querySelectorAll("[data-r]").forEach(r=>r.onclick=()=>choose(+r.dataset.r));
   $("g").querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>{
-    const si=+b.dataset.s,s=eff(u,si);
-    if(["s","w","f"].includes(s.k)){cast(u,si);mode=-1}else mode=mode===si?-1:si;
+    const si=+b.dataset.s,ss=eff(u,si);
+    if(["s","w","f"].includes(ss.k)){cast(u,si);mode=-1;render();broadcastGameState();}else mode=mode===si?-1:si;
     render();
   });
   $("bd").onclick=e=>{const c=e.target.closest(".cell");if(c)cellClick(+c.dataset.x,+c.dataset.y)};
-  $("et").onclick=()=>{if(turn===0&&over<0)begin(1)};
-  const ag=$("again");if(ag)ag.onclick=()=>{pick=[];setup()};
+  $("et").onclick=()=>{if(turn===meTeam&&over<0)begin(1-meTeam)};
+  const ag=$("again");if(ag)ag.onclick=()=>{if(onlineGame){onlineSocket.emit("request_rematch",{roomCode:onlineRoom});lobbyStatus("ระบบเริ่มเกมใหม่จะเพิ่มในขั้นถัดไป");}else{pick=[];setup();}};
 }
+
 function choose(id){sel=id;mode=-1;render()}
 function cellClick(x,y){
-  if(over>=0||turn!==0)return;
-  const u=sel?byId(sel):null,p0=at(x,y),p=p0&&!hidden(p0)?p0:null;
-  if(u&&u.team===0){
+  if(over>=0||turn!==(onlineGame?onlineMyTeam:0))return;
+  const u=sel?byId(sel):null,p0=at(x,y),p=p0&&!hidden(p0)?p0:null,meTeam=onlineGame?onlineMyTeam:0;
+  if(u&&u.team===meTeam){
     if(mode>=0){
       const s=eff(u,mode);
       if(usable(u,mode)){
         const ok=s.k==="a"||(s.k==="m"&&mcells(u,s).some(c=>c[0]===x&&c[1]===y))||(p&&targetsFor(u,mode).includes(p));
-        if(ok){cast(u,mode,x,y);mode=-1;return render()}
+        if(ok){cast(u,mode,x,y);mode=-1;render();broadcastGameState();return}
       }
-    }else if(!p0&&moves(u).some(m=>m[0]===x&&m[1]===y)){u.x=x;u.y=y;P[0].mp--;return render()}
+    }else if(!p0&&moves(u).some(m=>m[0]===x&&m[1]===y)){u.x=x;u.y=y;P[meTeam].mp--;render();broadcastGameState();return}
   }
   if(p)return choose(p.id);
   sel=null;mode=-1;render();
@@ -457,6 +469,11 @@ let onlineRoom = null;
 let onlinePlayer = 0;
 let onlineReady = false;
 let onlineStarted = false;
+let onlineGame = false;
+let onlineMyTeam = 0;
+let onlinePicks = [[], []];
+let onlineSubmitted = false;
+let applyingRemoteState = false;
 
 function lobbyStatus(text){
   const el=document.getElementById("lobbyStatus");
@@ -478,6 +495,26 @@ function updateLobbyPlayers(players){
   document.getElementById("p1State").textContent=p1?(p1.ready?"พร้อม":"กำลังเลือก"):"รอผู้เล่น";
   document.getElementById("p2State").textContent=p2?(p2.ready?"พร้อม":"กำลังเลือก"):"รอผู้เล่น";
 }
+function returnToBoardArena(){
+  if(onlineStarted)return;
+  onlineStarted=true;onlineGame=true;onlineMyTeam=onlinePlayer-1;pick=[];onlineSubmitted=false;
+  const lobby=document.getElementById("onlineLobby");
+  if(lobby)lobby.style.display="none";
+  setup();
+}
+function broadcastGameState(){
+  if(!onlineGame||applyingRemoteState||!onlineSocket?.connected||!onlineRoom)return;
+  onlineSocket.emit("game_state",{roomCode:onlineRoom,state:{U,P,turn,over,nid,msg}});
+}
+function startOnlineGame(data){
+  onlineGame=true;onlinePicks=data.picks;onlineMyTeam=onlinePlayer-1;U=[];over=-1;nid=1;msg="เกมเริ่มแล้ว";FX=[];sel=null;mode=-1;
+  for(let team=0;team<2;team++){
+    const chosen=data.picks[team]||[],coords=spread(chosen.length);
+    chosen.forEach((k,i)=>U.push(mk(k,team,coords[i],team===0?9:0)));
+  }
+  $("su").style.display="none";
+  begin(data.firstTurn===0?0:1);
+}
 function connectOnlineLobby(){
   if(typeof io!=="function"){
     lobbyStatus("โหลด Socket.IO ไม่สำเร็จ กรุณารีเฟรชหน้าเว็บ");
@@ -497,12 +534,20 @@ function connectOnlineLobby(){
   onlineSocket.on("room_update",data=>{
     updateLobbyPlayers(data.players||[]);
     if((data.players||[]).length===2 && data.players.every(p=>p.ready)){
-      lobbyStatus("ผู้เล่นทั้งสองฝ่ายพร้อมแล้ว! ขั้นต่อไปคือเชื่อมระบบกระดานให้ซิงก์กัน");
+      lobbyStatus("ผู้เล่นทั้งสองฝ่ายพร้อมแล้ว! กำลังกลับเข้าสู่ Board Arena...");
       document.getElementById("readyBtn").disabled=true;
       document.getElementById("readyBtn").textContent="ทั้งสองฝ่ายพร้อม";
+      setTimeout(returnToBoardArena,700);
     }else{
       lobbyStatus("รอผู้เล่นทั้งสองฝ่ายกดพร้อม...");
     }
+  });
+  onlineSocket.on("game_start",data=>{lobbyStatus("เริ่มการแข่งขัน!");startOnlineGame(data);});
+  onlineSocket.on("game_state",data=>{
+    if(!onlineGame||!data?.state)return;
+    applyingRemoteState=true;
+    const st=data.state;U=st.U;P=st.P;turn=st.turn;over=st.over;nid=st.nid;msg=st.msg||"";sel=null;mode=-1;
+    render();applyingRemoteState=false;
   });
   onlineSocket.on("room_error",data=>lobbyStatus(data.message||"เกิดข้อผิดพลาด"));
   onlineSocket.on("player_left",()=>lobbyStatus("ผู้เล่นอีกฝ่ายออกจากห้องแล้ว"));
