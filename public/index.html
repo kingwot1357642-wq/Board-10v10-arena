@@ -29,21 +29,21 @@ body{background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,"N
 .cell.at{background-image:linear-gradient(rgba(255,90,102,.4),rgba(255,90,102,.4));box-shadow:inset 0 0 0 2px var(--en)}
 .cell.al{background-image:linear-gradient(rgba(67,192,122,.35),rgba(67,192,122,.35));box-shadow:inset 0 0 0 2px var(--gn)}
 .cell.sel{--g:var(--me);background:linear-gradient(var(--g),var(--g)) 0 0/32% 3px no-repeat,linear-gradient(var(--g),var(--g)) 0 0/3px 32% no-repeat,linear-gradient(var(--g),var(--g)) 100% 0/32% 3px no-repeat,linear-gradient(var(--g),var(--g)) 100% 0/3px 32% no-repeat,linear-gradient(var(--g),var(--g)) 0 100%/32% 3px no-repeat,linear-gradient(var(--g),var(--g)) 0 100%/3px 32% no-repeat,linear-gradient(var(--g),var(--g)) 100% 100%/32% 3px no-repeat,linear-gradient(var(--g),var(--g)) 100% 100%/3px 32% no-repeat,var(--c1);filter:drop-shadow(0 0 4px var(--me));z-index:2}
-.sh{position:relative;width:82%;height:82%;display:flex;align-items:center;justify-content:center;z-index:1}
+.sh{--gl:drop-shadow(0 0 .1em var(--tc)) drop-shadow(0 0 .42em var(--tg));position:relative;width:82%;height:82%;display:flex;align-items:center;justify-content:center;z-index:1;filter:var(--gl)}
 .sh .o,.sh .n{position:absolute;inset:0;clip-path:var(--cp)}
-.sh .o{background:var(--tc)}.sh .n{inset:7%;background:var(--sf2)}
+.sh .o{background:linear-gradient(135deg,var(--ea),var(--eb) 30%,var(--ea) 48%,var(--eb) 68%,var(--ea))}
+.sh .n{inset:6.5%;background:#05050a}
 .s-common{--cp:circle(50%)}
 .s-uncommon{--cp:polygon(50% 0,100% 50%,50% 100%,0 50%)}
 .s-rare{--cp:polygon(50% 0,100% 38%,82% 100%,18% 100%,0 38%)}
 .s-epic{--cp:polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%)}
 .s-legend{--cp:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%)}
-.s-legend .n{background:#f3c53a}
-.sh.ghost{opacity:.45;filter:drop-shadow(0 0 4px #9ad)}
+.sh.ghost{opacity:.45;filter:var(--gl) drop-shadow(0 0 4px #9ad)}
 .sh.fly{transform:translateY(-12%)}
 .sh.fly::before{content:"";position:absolute;left:14%;right:14%;bottom:-16%;height:12%;border-radius:50%;background:#0007}
 .sh.aura{animation:au 1.2s infinite alternate}
-@keyframes au{from{filter:drop-shadow(0 0 2px #ff7a2a)}to{filter:drop-shadow(0 0 9px #ff7a2a)}}
-.sh.frz{filter:saturate(.3) brightness(1.4) hue-rotate(160deg)}
+@keyframes au{from{filter:var(--gl) drop-shadow(0 0 2px #ff7a2a)}to{filter:var(--gl) drop-shadow(0 0 9px #ff7a2a)}}
+.sh.frz{filter:var(--gl) saturate(.3) brightness(1.4) hue-rotate(160deg)}
 .hb{position:absolute;left:10%;right:10%;bottom:3%;height:10%;background:#0009;border-radius:3px;overflow:hidden;z-index:3}
 .hb i{display:block;height:100%;background:var(--gn)}
 .sb{position:absolute;left:6%;top:4%;background:var(--me);color:#04121f;font-size:.7em;font-weight:700;border-radius:99px;padding:0 .4em;z-index:3}
@@ -86,7 +86,8 @@ body{background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,"N
 @keyframes fxBeam{0%{opacity:0;transform:scaleX(.15)}18%{opacity:1;transform:scaleX(1)}75%{opacity:.9;transform:scaleX(.85)}100%{opacity:0;transform:scaleX(1.4)}}
 @keyframes fxNum{0%{transform:translateY(0);opacity:0}12%{opacity:1}70%{opacity:1}100%{transform:translateY(-9px);opacity:0}}
 .ic{width:1.15em;height:1.15em;display:inline-block;vertical-align:-.2em;flex:none}
-.sh .ch{position:absolute;inset:7%;width:86%;height:86%;display:block;clip-path:var(--cp)}
+.sh .ch{position:absolute;inset:9%;width:82%;height:82%;display:block;clip-path:var(--cp)}
+.sk small.tg{color:var(--mu);font-size:.72em}
 .sk .i .ic{width:1.1em;height:1.1em;vertical-align:middle}
 .stb .st{display:inline-flex;align-items:center;background:#000b;border-radius:99px;padding:0 .3em 0 .1em;color:#fff}
 .stb .ic{width:1.7em;height:1.7em;vertical-align:middle}
@@ -192,34 +193,70 @@ button.m:disabled{opacity:.4}
 <script src="/socket.io/socket.io.js"></script>
 <script>
 const R={
-sword:{n:"Swordman",rar:"common",hp:100,mv:1,pop:2,
+sword:{n:"Swordman",rar:"common",el:"steel",hp:100,mv:1,pop:2,
  pas:"รีเฟล็กซ์ นักรบ: โอกาส 15% ปัดป้องลูกธนูระดับต่ำ",
  blk:[{p:.15,c:["phys"],l:["low"],tg:"arrow"}],
- s:[{n:"Slash",i:"slash",k:"t",r:1,d:7,c:"phys",l:"low",cd:0,v:"slash"}]},
-archer:{n:"Archer",rar:"common",hp:60,mv:1,pop:2,pas:"",blk:[],
- s:[{n:"Wind Arrow",i:"windArrow",k:"t",r:2,d:5,c:"phys",l:"low",cd:1,tg:"arrow",v:"windArrow"},
-    {n:"Wind Meteorite",i:"arrowRain",k:"t",r:4,d:10,dt:"true",c:"phys",l:"mid",cd:3,tg:"arrow",v:"arrowRain"}]},
-mage:{n:"Firemage",rar:"common",hp:60,mv:1,pop:3,pas:"",blk:[],
- s:[{n:"Fireball",i:"fireball",k:"t",r:2,d:7,c:"magic",l:"low",cd:1,tg:"fire",v:"fireball"},
-    {n:"Meteorite",i:"meteor",v:"meteor",k:"a",r:"ทั้งกระดาน",d:5,c:"magic",l:"mid",cd:4,tg:"meteor",x:"โดน 5 ช่อง (กากบาท) โดนพวกเดียวกันได้"},
-    {n:"Fire Aura",i:"aura",v:"aura",k:"s",r:"รอบตัว 1",d:5,c:"magic",l:"mid",cd:6,tg:"fire",sh:5,x:"โล่ 5 + ดาเมจรอบตัว 3 ครั้ง"}]},
-shield:{n:"Shield man",rar:"common",hp:120,mv:1,pop:2,
+ s:[{n:"Slash",i:"slash",k:"t",r:1,d:7,c:"phys",l:"low",cd:0,v:"slash",tags:["phys","sword","melee","ground"]}]},
+archer:{n:"Archer",rar:"common",el:"wind",hp:60,mv:1,pop:2,pas:"",blk:[],
+ s:[{n:"Wind Arrow",i:"windArrow",k:"t",r:2,d:5,c:"phys",l:"low",cd:1,tg:"arrow",v:"windArrow",tags:["phys","arrow","ranged"]},
+    {n:"Wind Meteorite",i:"arrowRain",k:"t",r:4,d:10,dt:"true",c:"phys",l:"mid",cd:3,tg:"arrow",v:"arrowRain",tags:["phys","arrow","ranged"]}]},
+mage:{n:"Firemage",rar:"common",el:"fire",hp:60,mv:1,pop:3,pas:"",blk:[],
+ s:[{n:"Fireball",i:"fireball",k:"t",r:2,d:7,c:"magic",l:"low",cd:1,tg:"fire",v:"fireball",tags:["magic","fire","ranged"]},
+    {n:"Meteorite",i:"meteor",v:"meteor",k:"a",r:"ทั้งกระดาน",d:5,c:"magic",l:"mid",cd:4,tg:"meteor",tags:["magic","fire","ranged"],x:"โดน 5 ช่อง (กากบาท) โดนพวกเดียวกันได้"},
+    {n:"Fire Aura",i:"aura",v:"aura",k:"s",r:"รอบตัว 1",d:5,c:"magic",l:"mid",cd:6,tg:"fire",sh:5,tags:["magic","fire","melee"],x:"โล่ 5 + ดาเมจรอบตัว 3 ครั้ง"}]},
+shield:{n:"Shield man",rar:"common",el:"frost",hp:120,mv:1,pop:2,
  pas:"Blocker: โอกาส 40% กันกายภาพต่ำ/กลาง และเวทย์ต่ำ",
  blk:[{p:.4,c:["phys"],l:["low","mid"]},{p:.4,c:["magic"],l:["low"]}],
- s:[{n:"Shield Blast",i:"blast",k:"t",r:1,d:5,c:"phys",l:"low",cd:0,v:"blast"}]},
-meric:{n:"Meric",rar:"uncommon",hp:60,mv:1,pop:3,pas:"Healer",blk:[],
+ s:[{n:"Shield Blast",i:"blast",k:"t",r:1,d:5,c:"phys",l:"low",cd:0,v:"blast",tags:["phys","melee","ground"]}]},
+meric:{n:"Meric",rar:"uncommon",el:"holy",hp:60,mv:1,pop:3,pas:"Healer",blk:[],
  s:[{n:"Rejuvenation",i:"rejuv",v:"rejuv",k:"h",r:3,heal:6,cd:1,x:"ล้าง Bleeding/Poison ด้วย"},
     {n:"Light of Gentle",i:"light",v:"light",k:"r",r:3,heal:5,cd:5,x:"ฟื้น 5 ทันที + อีก 2 ครั้งตอนเริ่มเทิร์น"}]},
-assassin:{n:"Assassin",rar:"uncommon",hp:60,mv:1,pop:3,pas:"",blk:[],
- s:[{n:"Dagger Strike",i:"dagger",v:"dagger",k:"t",r:1,d:7,c:"phys",l:"low",cd:1,alt:{on:"ww",v:"daggerB",n:"Sharpness-Dagger",d:8,bleed:1,xww:1,x:"ติด Bleeding และออกจาก Wind-Walk"}},
+assassin:{n:"Assassin",rar:"uncommon",el:"shadow",hp:60,mv:1,pop:3,pas:"",blk:[],
+ s:[{n:"Dagger Strike",i:"dagger",v:"dagger",k:"t",r:1,d:7,c:"phys",l:"low",cd:1,tags:["phys","dagger","melee","ground"],alt:{on:"ww",v:"daggerB",n:"Sharpness-Dagger",d:8,bleed:99,xww:1,x:"ติด Bleeding (ไม่หมดจนกว่าจะถูกรักษา) และออกจาก Wind-Walk"}},
     {n:"Legging-Dash",i:"dash",v:"dash",k:"m",r:2,cd:1,x:"หัก MP 1 เดินไกล 2 ช่อง",alt:{on:"ww",v:"tele",n:"Teleport",r:"ทั้งกระดาน",tp:1,x:"หัก MP 1 วาร์ปได้ 1 ครั้งต่อ Wind-Walk"}},
     {n:"Invisible Bomb",i:"smoke",v:"smoke",k:"w",cd:4,x:"Wind-Walk 3 เทิร์น (CD นับหลังออก)"}]},
-witch:{n:"Wandering Witch",rar:"rare",hp:60,mv:1,pop:3,pas:"",blk:[],
- s:[{n:"Lightning Oak Wand",i:"lightning",v:"lightning",k:"t",r:2,d:4,c:"magic",l:"low",cd:1,tg:"lightning",chain:1,x:"ชิ่งไปศัตรูใกล้เคียง 1 ตัว",
+witch:{n:"Wandering Witch",rar:"rare",el:"arcane",hp:60,mv:1,pop:3,pas:"",blk:[],
+ s:[{n:"Lightning Oak Wand",i:"lightning",v:"lightning",k:"t",r:2,d:4,c:"magic",l:"low",cd:1,tg:"lightning",chain:1,tags:["magic","lightning","ranged"],x:"ชิ่งไปศัตรูใกล้เคียง 1 ตัว",
      alt:{on:"fly",v:"strike",n:"Lightning Strike",d:8,chain:0,x:"บิน: เป้าเดียว ×2"}},
     {n:"Alchemist Potions",i:"potion",v:"potion",k:"p",r:1,cd:2,x:"เพื่อน = ฟื้นฟู 2 ตา ตาละ 3 · ศัตรู = Poison"},
-    {n:"Witch's Broomstick",i:"broom",v:"swirl",k:"f",cd:3,x:"บิน 3 เทิร์น เดิน 2 ช่อง (CD นับหลังลงพื้น)"}]}};
+    {n:"Witch's Broomstick",i:"broom",v:"swirl",k:"f",cd:3,x:"บิน 3 เทิร์น เดิน 2 ช่อง (CD นับหลังลงพื้น)"}]},
+redscales:{n:"Red Scales",rar:"epic",el:"dragon",hp:150,mv:1,pop:5,pf:1,utags:["dragon","fire"],
+ flyRangedMul:2,rangedGroundImmune:1,res:{fire:.5,water:3},
+ pas:"มังกร: บินตลอด โจมตีแล้วลงพื้นจนถึงเทิร์นตัวเอง · ตอนบินรับดาเมจระยะไกล ×2 · ตอนอยู่พื้นโดนระยะไกลไม่ได้ · รับดาเมจแท็กไฟ −50% แท็กน้ำ +200%",
+ blk:[],
+ s:[{n:"Dragon's Claws",i:"claws",v:"claws",k:"t",r:1,d:7,c:"phys",l:"low",cd:1,bleed:2,tags:["phys","claw","melee"],x:"ติด Bleeding 2 ตา"},
+    {n:"Red Breath",i:"breath",v:"breath",k:"t",r:2,d:3,c:"magic",l:"mid",cd:3,burn:3,tags:["magic","fire","breath","ranged"],x:"ติด Burning 3 สแต็ก"},
+    {n:"Asteroid",i:"asteroid",v:"asteroid",k:"j",r:"ทุกช่อง",d:6,c:"phys",l:"mid",cd:5,tp:1,fl:1,tags:["phys","tail","melee","ground"],x:"ใช้ได้เฉพาะตอนบิน · กระโดดไปช่องไหนก็ได้ ดาเมจรอบตัว 8 ช่อง (เฉพาะศัตรูพื้นดิน)"}]},
+jugger:{n:"Juggerknight",rar:"epic",el:"royal",hp:150,mv:1,pop:4,utags:["human","armored"],
+ pas:"Armored Human: 50% ปัดป้องการโจมตีกายภาพทุกชนิดทุกระยะ",
+ blk:[{p:.5,c:["phys"],l:["low","mid","high"]}],
+ s:[{n:"Steel Giant Sword",i:"gsword",v:"gsword",k:"t",r:1,d:6,c:"phys",l:"low",cd:0,stunP:.2,stun:1,tags:["phys","sword","melee","ground","kingdom"],x:"โอกาสสตัน 20% · ดาบอาณาจักร +50% ต่อมังกร/ภูติ/ตำนาน"},
+    {n:"Crushing Leap",i:"leap",v:"leap",k:"L",r:2,d:10,c:"phys",l:"high",cd:3,stun:1,tags:["phys","high","sword","ground","kingdom"],x:"กระโดดใส่ศัตรู ผลักออก 1 ช่องแล้วยืนแทนที่ · สตัน 1 ตา"}]}};
 const KEYS=Object.keys(R),CAP=15,RAR={common:"Common",uncommon:"Uncommon",rare:"Rare",epic:"Epic",legend:"Legend"};
+const TAGN={phys:"กายภาพ",magic:"เวทย์",melee:"ระยะใกล้",ranged:"ระยะไกล",ground:"พื้นดิน",fire:"ไฟ",water:"น้ำ",sword:"ดาบ",arrow:"ธนู",kingdom:"ดาบอาณาจักร",claw:"กรงเล็บ",dagger:"มีด",lightning:"สายฟ้า",breath:"ลมหายใจ",tail:"หาง",high:"โจมตีระดับสูง"};
+const hasT=(s,g)=>(s.tags||[]).includes(g);
+// ranged = range above 1 (or the ranged tag); the melee tag always overrides
+const isRanged=s=>!hasT(s,"melee")&&(hasT(s,"ranged")||(typeof s.r==="number"&&s.r>1)||s.r==="ทั้งกระดาน");
+const unitTags=u=>[...(R[u.k].utags||[]),...(R[u.k].rar==="legend"?["legend"]:[])];
+// can this skill touch this target at all? (frozen, flying vs ground skills, grounded dragon vs ranged skills)
+function canHit(s,t){
+  if(!U.includes(t)||t.st.freeze>0)return false;
+  if(hasT(s,"ground")&&t.fly>0)return false;
+  if(isRanged(s)&&R[t.k].rangedGroundImmune&&!(t.fly>0))return false;
+  return true;
+}
+const ADJ=[[-1,-1],[0,-1],[1,-1],[-1,0],[1,0],[-1,1],[0,1],[1,1]];
+// empty cell around t where the leaping unit pushes it: farthest from the attacker
+function pushCell(u,t){
+  let best=null;
+  ADJ.forEach(d=>{
+    const x=t.x+d[0],y=t.y+d[1];
+    if(x<0||y<0||x>9||y>9||at(x,y))return;
+    const sc=Math.hypot(x-u.x,y-u.y);
+    if(!best||sc>best.sc)best={x,y,sc};
+  });
+  return best?[best.x,best.y]:null;
+}
 const CR=[[0,0],[1,0],[-1,0],[0,1],[0,-1]];
 let U=[],P=[{mp:2,ap:2},{mp:2,ap:2}],sel=null,mode=-1,turn=0,over=-1,pick=[],msg="",FX=[],fxOut=[],nid=1;
 const $=id=>document.getElementById(id);
@@ -230,105 +267,96 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 const eff=(u,si)=>{const s=R[u.k].s[si],a=s.alt;if(!a)return s;return(a.on==="ww"?u.ww:u.fly)>0?{...s,...a}:s};
 const dis=u=>u.stunned||u.st.freeze>0;
 const hidden=u=>(onlineGame?u.team!==onlineMyTeam:u.team===1)&&u.ww>0;
-const shape=(k,team,ex="")=>`<div class="sh s-${R[k].rar} ${ex}" style="--tc:var(${team?"--en":"--me"})"><span class="o"></span><span class="n"></span>${CHAR(k)}</div>`;
+const shape=(k,team,ex="")=>{const e=EL[R[k].el];return `<div class="sh s-${R[k].rar} ${ex}" style="--ea:${e.a};--eb:${e.b};--tc:var(${team?"--en":"--me"});--tg:${team?"rgba(255,90,102,.85)":"rgba(53,168,255,.85)"}"><span class="o"></span><span class="n"></span>${CHAR(k)}</div>`};
 const info=s=>[s.d?((s.dt==="true"?"ดาเมจจริง":s.c==="phys"?"กายภาพ":"เวทย์")+" "+s.d):(s.heal?"ฟื้นฟู "+s.heal:null),s.r!==undefined?"ระยะ "+s.r:null,"CD "+s.cd].filter(Boolean).join(" · ");
-const icons=u=>[u.st.bleed?stI("bleed"):"",u.st.poison?stI("poison",u.st.poison):"",u.st.burn?stI("burn",u.st.burn):"",u.st.freeze>0?stI("freeze"):"",u.st.silent>0?stI("silent"):"",u.stunned&&turn===u.team?stI("stun"):"",u.st.regen?stI("regen"):"",u.ww>0?stI("ghost"):""].join("");
+const icons=u=>[u.st.bleed>0?stI("bleed",u.st.bleed<10?u.st.bleed:""):"",u.st.poison?stI("poison",u.st.poison):"",u.st.burn?stI("burn",u.st.burn):"",u.st.freeze>0?stI("freeze"):"",u.st.silent>0?stI("silent"):"",u.stunned&&turn===u.team?stI("stun"):"",u.st.regen?stI("regen"):"",u.ww>0?stI("ghost"):""].join("");
 
-/* ---------- ART: SVG characters and icons ---------- */
-const SK="#f2cba3",OL="#1a1626";
-const eyes=(y,c=OL)=>`<ellipse cx="28.2" cy="${y}" rx="1.3" ry="1.7" fill="${c}"/><ellipse cx="35.8" cy="${y}" rx="1.3" ry="1.7" fill="${c}"/>`;
-const smile=y=>`<path d="M29.6 ${y}Q32 ${y+2} 34.4 ${y}" stroke="#8a4a3a" stroke-width="1" fill="none" stroke-linecap="round"/>`;
-const DAG=`<polygon points="15,48 18,38 21,48 21,57 15,57" fill="url(#gSteel)" stroke="${OL}" stroke-width=".8"/><path d="M18 40V56" stroke="#fff" stroke-width=".5" opacity=".7"/><rect x="13" y="57" width="10" height="2.4" rx="1" fill="url(#gGold)" stroke="${OL}" stroke-width=".6"/><rect x="16.8" y="59.4" width="2.4" height="5" fill="#3a2a2a"/>`;
+/* ---------- ART: silhouette characters (dark figure, rim light, element colour) ---------- */
+const SP="M0 -4L1.1 -1.1L4 0L1.1 1.1L0 4L-1.1 1.1L-4 0L-1.1 -1.1Z";
+// a = rim / highlight, b = metal + mid tone, d = dark edge, gl = glow
+const EL={
+ steel:{a:"#f4f8ff",b:"#8a97b2",d:"#161a26",gl:"#dbe8ff"},
+ wind:{a:"#a8ffe9",b:"#16b394",d:"#04201b",gl:"#5ff5d4"},
+ fire:{a:"#ffd27a",b:"#ff6a1f",d:"#2a0806",gl:"#ff9a3c"},
+ frost:{a:"#d9f2ff",b:"#4f9fd8",d:"#08142b",gl:"#8fd3ff"},
+ holy:{a:"#fff6c8",b:"#e0a93a",d:"#2a1d05",gl:"#ffe27a"},
+ shadow:{a:"#ffa6cc",b:"#9a3fd0",d:"#12071d",gl:"#c06bff"},
+ arcane:{a:"#e9d0ff",b:"#7a3fd0",d:"#130828",gl:"#b98cff"},
+ dragon:{a:"#ffe08a",b:"#e5281a",d:"#2b0505",gl:"#ff7a2a"},
+ royal:{a:"#ffe9a8",b:"#2f5fd0",d:"#09112e",gl:"#7fa6ff"}
+};
+const hx=c=>[1,3,5].map(i=>parseInt(c.slice(i,i+2),16));
+const mix=(c1,c2,t)=>{const a=hx(c1),b=hx(c2);return "#"+a.map((v,i)=>Math.round(v+(b[i]-v)*t).toString(16).padStart(2,"0")).join("")};
+document.body.insertAdjacentHTML("afterbegin",`<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><linearGradient id="gSil" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#201c2e"/><stop offset="1" stop-color="#050408"/></linearGradient>${Object.entries(EL).map(([k,e])=>`<radialGradient id="bg-${k}" cx=".5" cy=".36" r=".9"><stop offset="0" stop-color="${mix(e.gl,e.b,.3)}"/><stop offset=".5" stop-color="${mix(e.b,e.d,.55)}"/><stop offset="1" stop-color="${e.d}"/></radialGradient>`).join("")}</defs></svg>`);
+const sp=(x,y,s,c="#fff",o=.9)=>`<path d="${SP}" transform="translate(${x} ${y}) scale(${s})" fill="${c}" opacity="${o}"/>`;
+const plus=(x,y,s,c,o=.9)=>`<path d="M-1 -3H1V-1H3V1H1V3H-1V1H-3V-1H-1Z" transform="translate(${x} ${y}) scale(${s})" fill="${c}" opacity="${o}"/>`;
+const BGD=(k,deco)=>{const e=EL[k];return `<rect width="64" height="64" fill="url(#bg-${k})"/>${deco}<path d="M-4 52C12 44 30 58 68 42V68H-4Z" fill="${e.b}" opacity=".3"/><path d="M-2 18C14 6 38 12 66 0" fill="none" stroke="${e.a}" stroke-width="2" stroke-linecap="round" opacity=".35"/><path d="M0 58C20 46 42 60 66 46" fill="none" stroke="${e.gl}" stroke-width="1.6" stroke-linecap="round" opacity=".45"/>`};
+const S=(k,d)=>`<path d="${d}" fill="url(#gSil)" stroke="${EL[k].a}" stroke-width=".9" stroke-linejoin="round"/>`;
+const HAND=(k,x,y,r=3.2)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="url(#gSil)" stroke="${EL[k].a}" stroke-width=".8"/>`;
 const CH={
-sword:`<path d="M12 64C12 48 21 43 32 43C43 43 52 48 52 64Z" fill="url(#gSteel)" stroke="${OL}" stroke-width="1.2"/>
-<circle cx="16.5" cy="48" r="5" fill="url(#gGold)" stroke="${OL}" stroke-width="1"/>
-<path d="M32 43L27 50L32 64L37 50Z" fill="#3b4a6b" stroke="${OL}" stroke-width=".8"/>
-<path d="M22 31H42V35C42 41 37 45 32 45C27 45 22 41 22 35Z" fill="${SK}" stroke="${OL}" stroke-width="1.1"/>
-${eyes(36)}${smile(40.5)}
-<path d="M20.5 33C20.5 19 26 12.5 32 12.5C38 12.5 43.5 19 43.5 33Z" fill="url(#gSteel)" stroke="${OL}" stroke-width="1.2"/>
-<path d="M32 12.5C29 6 37 3 41 8C37 8 35 10 34.5 13Z" fill="url(#gCrim)" stroke="${OL}" stroke-width=".9"/>
-<path d="M32 14V32" stroke="#56647f" stroke-width="1.6"/>
-<g transform="rotate(20 51 40)"><path d="M49 11L51 4L53 11V35H49Z" fill="url(#gSteel)" stroke="${OL}" stroke-width="1"/><path d="M51 6V34" stroke="#fff" stroke-width=".6" opacity=".7"/><rect x="45" y="35" width="12" height="3.2" rx="1" fill="url(#gGold)" stroke="${OL}" stroke-width=".8"/><rect x="49.8" y="38" width="2.4" height="7" fill="#6b3b21" stroke="${OL}" stroke-width=".6"/><circle cx="51" cy="46.5" r="2" fill="url(#gGold)" stroke="${OL}" stroke-width=".6"/></g>`,
-archer:`<path d="M51 12C61 28 61 46 51 62" fill="none" stroke="#8a5a2b" stroke-width="3" stroke-linecap="round"/>
-<line x1="51" y1="12" x2="51" y2="62" stroke="#efe6c8" stroke-width=".8"/>
-<path d="M11 64C11 48 20 43 32 43C44 43 53 48 53 64Z" fill="url(#gForest)" stroke="${OL}" stroke-width="1.2"/>
-<path d="M32 43L25 52L32 64L39 52Z" fill="#3a2a1a" opacity=".5"/>
-<path d="M19.5 40C19.5 20 25.5 10.5 32 10.5C38.5 10.5 44.5 20 44.5 40L44.5 44L19.5 44Z" fill="#2f6a3e" stroke="${OL}" stroke-width="1.2"/>
-<ellipse cx="32" cy="32" rx="7.8" ry="8.8" fill="${SK}" stroke="${OL}" stroke-width="1"/>
-<path d="M23.5 29C26 20 38 20 40.5 29C37 25 27 25 23.5 29Z" fill="#245a33"/>
-<path d="M32 10.5C34 7 38 6 40 7C38 9 38 11 37 13Z" fill="#2f6a3e" stroke="${OL}" stroke-width=".9"/>
-${eyes(33,"#2a5a3a")}${smile(38)}
-<line x1="22" y1="50" x2="56" y2="50" stroke="#7a5a30" stroke-width="1.4"/>
-<path d="M56 47.2L62 50L56 52.8Z" fill="#e8f0ff" stroke="${OL}" stroke-width=".6"/>
-<path d="M22 50L19 47.5M22 50L19 52.5M25 50L22 47.5M25 50L22 52.5" stroke="#d9444a" stroke-width="1.2" stroke-linecap="round"/>`,
-mage:`<path d="M10 64C10 48 20 43 32 43C44 43 54 48 54 64Z" fill="url(#gRobeFire)" stroke="${OL}" stroke-width="1.2"/>
-<path d="M32 43V64" stroke="#7a1a10" stroke-width="1.2"/>
-<path d="M24 43L32 52L40 43" fill="none" stroke="url(#gGold)" stroke-width="2"/>
-<ellipse cx="32" cy="33" rx="8.4" ry="9" fill="${SK}" stroke="${OL}" stroke-width="1"/>
-<path d="M23.5 31C24 25 28 22 32 22C36 22 40 25 40.5 31C37 27 27 27 23.5 31Z" fill="#3b2418"/>
-${eyes(34)}${smile(38.5)}
-<ellipse cx="32" cy="24" rx="18" ry="4.6" fill="#8a2112" stroke="${OL}" stroke-width="1.1"/>
-<path d="M20 24C22 15 28 9 37 2C35 10 40 15 44 24C38 27 26 27 20 24Z" fill="url(#gRobeFire)" stroke="${OL}" stroke-width="1.2"/>
-<path d="M21 23.5C28 27 38 27 43.5 23.2" fill="none" stroke="url(#gGold)" stroke-width="2.2"/>
-<circle cx="50" cy="41" r="9" fill="url(#fxFire)"/>
-<path d="M50 31C54 36 57 38 56 43C55 48 45 48 44 43C43 39 47 37 50 31Z" fill="#ff8a2a" stroke="#a02a10" stroke-width=".6"/>
-<path d="M50 37C52 40 53 42 52 44C51 46.5 48 46.5 48 44C48 42 49 40 50 37Z" fill="#ffe27a"/>
-<circle cx="50" cy="51" r="3.2" fill="${SK}" stroke="${OL}" stroke-width=".8"/>`,
-shield:`<path d="M11 64C11 48 20 43 32 43C44 43 53 48 53 64Z" fill="url(#gSteel)" stroke="${OL}" stroke-width="1.2"/>
-<circle cx="49" cy="47" r="5" fill="url(#gGold)" stroke="${OL}" stroke-width=".9"/>
-<path d="M28 13C26 7 33 4 37 8C34 8 32 10 31.5 13Z" fill="url(#gCrim)" stroke="${OL}" stroke-width=".8"/>
-<path d="M21 38C21 20 26 12.5 32 12.5C38 12.5 43 20 43 38L43 42L21 42Z" fill="url(#gSteel)" stroke="${OL}" stroke-width="1.2"/>
-<rect x="23.5" y="27" width="17" height="3.6" rx="1.4" fill="${OL}"/>
-<path d="M32 13V27M32 31V42" stroke="#56647f" stroke-width="1.6"/>
-<g fill="#2a3550"><circle cx="27.5" cy="34" r=".8"/><circle cx="27.5" cy="37" r=".8"/><circle cx="27.5" cy="40" r=".8"/><circle cx="36.5" cy="34" r=".8"/><circle cx="36.5" cy="37" r=".8"/><circle cx="36.5" cy="40" r=".8"/></g>
-<path d="M6 38H34V50C34 58 23 62.5 20 64C17 62.5 6 58 6 50Z" fill="url(#gCrim)" stroke="url(#gGold)" stroke-width="2.2" stroke-linejoin="round"/>
-<path d="M20 41V62M9 48H31" stroke="url(#gGold)" stroke-width="2"/>
-<circle cx="20" cy="48" r="3" fill="url(#gGold)" stroke="${OL}" stroke-width=".7"/>`,
-meric:`<path d="M20.5 44C16 36 17 22 25 15C29 12 35 12 39 15C47 22 48 36 43.5 44Z" fill="#7a4a2a" stroke="${OL}" stroke-width="1.1"/>
-<path d="M10 64C10 48 20 43 32 43C44 43 54 48 54 64Z" fill="url(#gLeafRobe)" stroke="${OL}" stroke-width="1.2"/>
-<path d="M24 43L32 62L40 43" fill="none" stroke="url(#gGold)" stroke-width="2"/>
-<path d="M50 62V12" stroke="#8a5a2b" stroke-width="2.6" stroke-linecap="round"/>
-<circle cx="50" cy="13" r="11" fill="url(#fxGreen)"/>
-<path d="M50 14C45 12 43 6 47 3C48 7 50 9 50 14Z" fill="url(#gLeaf)" stroke="#2f6b3a" stroke-width=".7"/>
-<path d="M50 14C55 12 57 6 53 3C52 7 50 9 50 14Z" fill="url(#gLeaf)" stroke="#2f6b3a" stroke-width=".7"/>
-<path d="M50 15C47 10 49 5 50 2C51 5 53 10 50 15Z" fill="url(#gLeaf)" stroke="#2f6b3a" stroke-width=".7"/>
-<circle cx="50" cy="51" r="3" fill="${SK}" stroke="${OL}" stroke-width=".8"/>
-<ellipse cx="32" cy="32" rx="8.4" ry="9.4" fill="${SK}" stroke="${OL}" stroke-width="1"/>
-<path d="M23.5 30C24 22 28 19 32 19C36 19 40 22 40.5 30C38 25 26 25 23.5 30Z" fill="#8a5a34"/>
-<path d="M25 23C22 20 24 15.5 28 15.5C28 18.5 27 21 25 23Z" fill="url(#gLeaf)" stroke="#2f6b3a" stroke-width=".7"/>
-<path d="M39 23C42 20 40 15.5 36 15.5C36 18.5 37 21 39 23Z" fill="url(#gLeaf)" stroke="#2f6b3a" stroke-width=".7"/>
-${eyes(33,"#2f6b3a")}
-<ellipse cx="26" cy="37" rx="1.8" ry="1.1" fill="#f08a8a" opacity=".6"/><ellipse cx="38" cy="37" rx="1.8" ry="1.1" fill="#f08a8a" opacity=".6"/>${smile(38)}`,
-assassin:`<path d="M11 64C11 48 20 43 32 43C44 43 53 48 53 64Z" fill="url(#gShadow)" stroke="${OL}" stroke-width="1.2"/>
-<path d="M22 46L32 56L42 46" fill="none" stroke="#9a2a44" stroke-width="2"/>
-<path d="M19 38C19 19 25 10 32 10C39 10 45 19 45 38L45 44L19 44Z" fill="url(#gShadow)" stroke="${OL}" stroke-width="1.2"/>
-<path d="M24 27H40C41 33 38 41 32 43C26 41 23 33 24 27Z" fill="#0f0b1a"/>
-<path d="M24 28H40V34H24Z" fill="#c99a72"/>
-<path d="M24 34H40C40 39 36 43 32 43C28 43 24 39 24 34Z" fill="#1a1626"/>
-<path d="M25.5 29L31 31.2M38.5 29L33 31.2" stroke="${OL}" stroke-width="1.2" stroke-linecap="round"/>
-<ellipse cx="28.5" cy="31.6" rx="2.2" ry="1.1" fill="#fff6c8"/><ellipse cx="35.5" cy="31.6" rx="2.2" ry="1.1" fill="#fff6c8"/>
-<circle cx="28.8" cy="31.6" r=".8" fill="#c0142b"/><circle cx="35.2" cy="31.6" r=".8" fill="#c0142b"/>
-<g transform="rotate(25 18 52)">${DAG}</g><g transform="translate(64 0) scale(-1 1)"><g transform="rotate(25 18 52)">${DAG}</g></g>`,
-witch:`<path d="M20 26C15 34 16 46 21 54L28 40Z" fill="#3a1f63" stroke="${OL}" stroke-width="1"/>
-<path d="M44 26C49 34 48 46 43 54L36 40Z" fill="#3a1f63" stroke="${OL}" stroke-width="1"/>
-<path d="M11 64C11 49 20 43 32 43C44 43 53 49 53 64Z" fill="url(#gViolet)" stroke="${OL}" stroke-width="1.2"/>
-<path d="M22 44C26 50 38 50 42 44" fill="none" stroke="url(#gGold)" stroke-width="2"/>
-<path d="M4 58L60 47" stroke="#8a5a2b" stroke-width="2.6" stroke-linecap="round"/>
-<path d="M54 41L63 44.5L63 54L54 51.5Z" fill="#d9a45a" stroke="${OL}" stroke-width=".9"/>
-<path d="M56 43V52M58.5 44V53M61 45V54" stroke="#9a6a2a" stroke-width=".7"/>
-<path d="M12.5 38H15.5V41C18.5 42.5 19 47 17.5 48.5C16 50 12 50 10.5 48.5C9 47 9.5 42.5 12.5 41Z" fill="#7be39a" stroke="${OL}" stroke-width=".7"/><rect x="12.2" y="36" width="3.6" height="2.2" rx=".6" fill="#8a5a2b"/><ellipse cx="12.3" cy="45" rx="1.2" ry="1.8" fill="#fff" opacity=".5"/>
-<ellipse cx="32" cy="33" rx="8.4" ry="9.2" fill="#f5dcc6" stroke="${OL}" stroke-width="1"/>
-<path d="M23.6 30C24 24 28 22 32 22C36 22 40 24 40.4 30C37 26 27 26 23.6 30Z" fill="#3a1f63"/>
-<ellipse cx="28.3" cy="34" rx="1.5" ry="2.1" fill="#4a2a8a"/><ellipse cx="35.7" cy="34" rx="1.5" ry="2.1" fill="#4a2a8a"/>
-<circle cx="28.8" cy="33.2" r=".6" fill="#fff"/><circle cx="36.2" cy="33.2" r=".6" fill="#fff"/>
-<ellipse cx="25.8" cy="37.6" rx="1.8" ry="1.1" fill="#f08aa8" opacity=".55"/><ellipse cx="38.2" cy="37.6" rx="1.8" ry="1.1" fill="#f08aa8" opacity=".55"/>
-<path d="M30 38.8Q32 40.4 34 38.8" stroke="#a04a6a" stroke-width="1" fill="none" stroke-linecap="round"/>
-<ellipse cx="32" cy="25" rx="19.5" ry="5" fill="#2e1650" stroke="${OL}" stroke-width="1.1"/>
-<path d="M18.5 25C22 16 29 10 41 3C37 11 40 17 45.5 25C39 28 25 28 18.5 25Z" fill="url(#gViolet)" stroke="${OL}" stroke-width="1.2"/>
-<path d="M41 3C46 2 50 5 50 9C47 6.5 44 6.5 41.5 8Z" fill="url(#gViolet)" stroke="${OL}" stroke-width=".9"/>
-<path d="M19 24.5C26 28 38 28 45 24.5" fill="none" stroke="#e0aa43" stroke-width="2.2"/>
-<rect x="29" y="24.4" width="5.5" height="4.2" rx=".8" fill="none" stroke="url(#gGold)" stroke-width="1.1"/>
-<path d="M30 15L30.9 17.6L33.6 17.8L31.5 19.5L32.2 22L30 20.6L27.8 22L28.5 19.5L26.4 17.8L29.1 17.6Z" fill="url(#gGold)"/>`
+sword:BGD("steel",`<g stroke="#fff" stroke-linecap="round" opacity=".45"><path d="M40 6L46 -2M50 12L60 6M54 22L64 20" stroke-width="1.2"/><path d="M4 20L26 8M2 32L16 24" stroke-width="2"/></g>`+sp(12,50,1.2)+sp(56,54,1.4))
++S("steel","M26 50C18 50 10 56 3 64H24Z")
++S("steel","M22 64C23 50 29 41 38 38L46 40C54 44 57 54 58 64Z")
++S("steel","M36 32H44L45 41H35Z")
++S("steel","M33 20C26 17 17 20 8 28C17 27 23 28 31 31Z")
++S("steel","M32 27C25 29 18 35 12 43C21 39 26 37 33 35Z")
++S("steel","M31 25A9 9 0 1 1 49 25A9 9 0 1 1 31 25Z")
++`<g transform="rotate(-40 47 50)"><polygon points="44,48 44,12 47,4 50,12 50,48" fill="url(#gSteel)" stroke="#fff" stroke-width=".6"/><path d="M47 9V46" stroke="#6f7e9a" stroke-width="1"/><rect x="40" y="48" width="14" height="3.4" rx="1.2" fill="url(#gSteel)" stroke="#fff" stroke-width=".5"/><rect x="45.5" y="51.4" width="3" height="7" fill="#12101a"/>${HAND("steel",47,60,3.6)}</g>`,
+archer:BGD("wind",`<g fill="none" stroke-linecap="round"><path d="M0 44C14 30 28 48 44 34C52 28 58 30 64 24" stroke="${EL.wind.gl}" stroke-width="2.4" opacity=".6"/><path d="M4 18C16 8 30 18 40 10" stroke="${EL.wind.a}" stroke-width="1.6" opacity=".55"/></g>`+sp(12,12,1.6)+sp(54,54,1.3))
++S("wind","M22 22C14 20 8 24 4 32C12 30 18 30 24 30Z")
++S("wind","M14 64C15 50 22 42 30 40L38 42C42 48 44 56 44 64Z")
++S("wind","M22 31C20 18 26 10 33 8C31 13 34 15 37 14C40 19 38 27 35 33C31 35 25 35 22 31Z")
++S("wind","M33 41L55 36L56 41L36 47Z")
++HAND("wind",56,38.5)
++`<path d="M52 4C68 22 68 54 52 70" fill="none" stroke="#0a0810" stroke-width="3.4" stroke-linecap="round"/><path d="M52 4C68 22 68 54 52 70" fill="none" stroke="${EL.wind.a}" stroke-width=".9" stroke-linecap="round"/><path d="M52 4L28 37L52 70" fill="none" stroke="#eafff8" stroke-width=".7"/><path d="M28 37H62" stroke="#eafff8" stroke-width="1.4"/><path d="M62 37L56.5 34.2V39.8Z" fill="#eafff8"/><path d="M28 37L24 34.5M28 37L24 39.5" stroke="${EL.wind.gl}" stroke-width="1.2" stroke-linecap="round"/>`+HAND("wind",28,38,2.6),
+mage:BGD("fire",`<path d="M-2 66C2 50 6 40 12 30C14 42 20 48 22 40C26 52 30 58 34 66Z" fill="${EL.fire.gl}" opacity=".55"/><path d="M30 66C34 52 40 46 44 38C46 48 50 50 54 42C58 52 62 58 66 66Z" fill="${EL.fire.a}" opacity=".45"/>`+sp(10,14,1.3,"#fff6c8")+sp(56,56,1.1,"#fff6c8"))
++S("fire","M18 50C10 52 6 58 2 64H20Z")
++S("fire","M16 64C16 48 22 40 32 38C42 40 48 48 48 64Z")
++S("fire","M25 33A7 7 0 1 0 39 33A7 7 0 1 0 25 33Z")
++S("fire","M20 27C22 15 30 7 44 2C40 11 42 19 46 27Z")
++S("fire","M10 28C22 22 40 22 54 29C40 31 24 31 10 28Z")
++`<path d="M52 66L45 16" stroke="#0a0810" stroke-width="3.2" stroke-linecap="round"/><path d="M52 66L45 16" stroke="${EL.fire.a}" stroke-width=".7" stroke-linecap="round"/><circle cx="44" cy="11" r="11" fill="url(#fxFire)"/><circle cx="44" cy="11" r="4.2" fill="#fff6c8"/><path d="M37 13C36 5 51 5 51 13" fill="none" stroke="#0a0810" stroke-width="2"/>`+HAND("fire",49,41),
+shield:BGD("frost",`<g fill="${EL.frost.a}" opacity=".4"><path d="M6 12L12 2L16 14Z"/><path d="M48 8L58 14L52 22Z"/><path d="M2 40L10 34L11 48Z"/></g>`+sp(54,34,1.4)+sp(10,56,1.1))
++S("frost","M6 64C6 48 16 40 32 40C48 40 58 48 58 64Z")
++S("frost","M30 11C26 3 36 -1 45 5C39 5 37 9 35 12Z")
++S("frost","M22 36C20 20 25 10 32 10C39 10 44 20 42 36C40 41 24 41 22 36Z")
++`<rect x="24.5" y="23" width="15" height="3.4" rx="1.4" fill="${EL.frost.gl}"/><path d="M32 11V23M32 27V40" stroke="${EL.frost.a}" stroke-width=".8" opacity=".8"/>`
++S("frost","M5 38H37V53C37 62 25 66 21 69C17 66 5 62 5 53Z")
++`<path d="M21 42V66M8 52H34" stroke="${EL.frost.a}" stroke-width="1.2" opacity=".85"/><circle cx="21" cy="52" r="3.4" fill="url(#gSteel)" stroke="#fff" stroke-width=".5"/>`,
+meric:BGD("holy",`${plus(12,14,1.8,"#fff6c8")}${plus(52,40,1.5,"#fff6c8")}${plus(10,48,1.1,"#fff6c8")}<circle cx="34" cy="20" r="15" fill="none" stroke="${EL.holy.a}" stroke-width="1" opacity=".5"/>`+sp(54,10,1.6)+sp(58,56,1.1))
++S("holy","M30 17C20 17 12 28 10 42C14 52 10 58 6 64C16 62 22 56 26 46C28 38 28 30 30 17Z")
++S("holy","M18 64C18 48 24 38 34 36C44 38 50 48 50 64Z")
++S("holy","M25.5 22A8.5 8.5 0 1 1 42.5 22A8.5 8.5 0 1 1 25.5 22Z")
++`<path d="M52 66L48 18" stroke="#0a0810" stroke-width="3" stroke-linecap="round"/><path d="M52 66L48 18" stroke="${EL.holy.a}" stroke-width=".7"/><circle cx="47" cy="13" r="10" fill="url(#fxGold)"/><circle cx="47" cy="13" r="5" fill="#fffbe8"/><circle cx="47" cy="13" r="7" fill="none" stroke="#0a0810" stroke-width="2"/>`+HAND("holy",50,44),
+assassin:BGD("shadow",`<path d="M0 36C14 26 26 40 40 28C50 20 58 24 64 16" fill="none" stroke="${EL.shadow.gl}" stroke-width="3" opacity=".45" stroke-linecap="round"/><path d="M6 56C20 48 34 58 52 48" fill="none" stroke="${EL.shadow.a}" stroke-width="2" opacity=".4" stroke-linecap="round"/>`+sp(52,10,1.3,EL.shadow.a)+sp(8,22,1.2,EL.shadow.a))
++S("shadow","M22 14C14 12 8 16 4 24C12 22 18 22 24 24Z")
++S("shadow","M16 54C8 56 4 60 2 64H18Z")
++S("shadow","M14 64C14 50 22 42 32 40L44 44C52 48 54 58 54 64Z")
++S("shadow","M20 34C18 18 26 8 34 8C42 10 46 20 44 32C42 38 36 41 32 41C26 41 22 38 20 34Z")
++`<ellipse cx="34" cy="28" rx="2.8" ry="1.1" fill="#ffd0e4" transform="rotate(14 34 28)"/><ellipse cx="41" cy="28" rx="2.8" ry="1.1" fill="#ffd0e4" transform="rotate(-14 41 28)"/>`
++`<g transform="rotate(32 47 52)"><polygon points="44.5,52 47,34 49.5,52" fill="url(#gSteel)" stroke="#fff" stroke-width=".5"/><rect x="43" y="52" width="8" height="2.4" rx="1" fill="${EL.shadow.b}"/><rect x="46" y="54.4" width="2" height="5" fill="#12101a"/></g><g transform="rotate(-32 19 54)"><polygon points="16.5,54 19,36 21.5,54" fill="url(#gSteel)" stroke="#fff" stroke-width=".5"/><rect x="15" y="54" width="8" height="2.4" rx="1" fill="${EL.shadow.b}"/><rect x="18" y="56.4" width="2" height="5" fill="#12101a"/></g>`,
+witch:BGD("arcane",`<circle cx="32" cy="34" r="22" fill="none" stroke="${EL.arcane.a}" stroke-width="1" stroke-dasharray="2 3" opacity=".55"/><path d="M44 8A7 7 0 1 0 50 20A5.5 5.5 0 1 1 44 8Z" fill="${EL.arcane.a}" opacity=".7"/>`+sp(10,12,1.7)+sp(56,56,1.5,"#e6c8ff")+sp(8,40,1.1))
++S("arcane","M22 30C14 36 12 48 14 58C20 52 26 46 28 38Z")
++S("arcane","M18 64C18 50 26 42 34 41C44 43 50 52 52 64Z")
++S("arcane","M27 38A7 7 0 1 0 41 38A7 7 0 1 0 27 38Z")
++S("arcane","M18 30C22 18 28 8 40 2C38 10 44 14 46 30Z")
++S("arcane","M8 32C20 26 42 26 56 33C42 34 22 35 8 32Z")
++`<path d="M2 62L62 44" stroke="#0a0810" stroke-width="3.2" stroke-linecap="round"/><path d="M2 62L62 44" stroke="${EL.arcane.a}" stroke-width=".7"/>`+S("arcane","M54 40L65 44L64 55L54 50Z")
++`<circle cx="14" cy="47" r="9" fill="url(#fxGreen)" opacity=".8"/><path d="M12 40H16V43C20 44.5 21 50 19 52C17 54 11 54 9 52C7 50 8 44.5 12 43Z" fill="#6fe39a" stroke="#0a0810" stroke-width="1"/><circle cx="12" cy="49" r="1.6" fill="#eaffee" opacity=".8"/><rect x="11.4" y="37.5" width="5" height="3" rx=".8" fill="#0a0810"/>`,
+redscales:BGD("dragon",`<path d="M-2 66C4 46 6 34 14 24C14 38 22 44 24 34C30 48 34 56 38 66Z" fill="${EL.dragon.gl}" opacity=".5"/><path d="M36 66C40 50 48 44 50 32C54 44 60 46 62 36C64 48 66 56 68 66Z" fill="${EL.dragon.a}" opacity=".4"/>`+sp(54,56,1.3,"#ffe9a8")+sp(8,10,1.1,"#ffe9a8"))
++`<path d="M12 40L24 38L44 40L44 46L26 44L8 47Z" fill="${EL.dragon.gl}"/>`
++S("dragon","M52 22L63 19L57 29ZM54 33L65 32L57 40Z")
++S("dragon","M3 35L14 28L30 20L46 12C50 8 54 5 60 1C58 9 55 15 51 21C56 24 60 30 62 36L44 38L24 38L12 40Z")
++S("dragon","M40 14L45 2L50 13Z")
++S("dragon","M8 47L26 44L46 46C50 52 54 58 58 66L38 63C30 57 20 53 8 47Z")
++`<path d="M13 40L15 44.5L17 40ZM19 39.5L21 44.5L23 39.5ZM25 39L27 44L29 39Z" fill="#fff0c8"/><path d="M16 44.5L18 41L20 44.5ZM24 44L26 40.5L28 44ZM32 45L34 41.5L36 45Z" fill="#fff0c8"/><circle cx="35" cy="25" r="6" fill="url(#fxGold)"/><path d="M29 26L41 22L38 28Z" fill="#ffe27a"/><path d="M7 33L10 32L9 35Z" fill="${EL.dragon.gl}"/>`,
+jugger:BGD("royal",`<g stroke="${EL.royal.a}" stroke-width="1.2" opacity=".5" stroke-linecap="round"><path d="M32 22V0M32 22L12 4M32 22L52 4M32 22L2 20M32 22L62 20"/></g>`+sp(10,50,1.2)+sp(56,52,1.2))
++S("royal","M2 64C2 50 10 42 22 40L42 40C54 42 62 50 62 64Z")
++S("royal","M3 48A7 7 0 1 0 17 48A7 7 0 1 0 3 48Z")+S("royal","M47 48A7 7 0 1 0 61 48A7 7 0 1 0 47 48Z")
++S("royal","M30 10C28 -1 40 -4 47 2C41 2 39 7 36 10Z")
++S("royal","M22 38C20 20 25 8 32 8C39 8 44 20 42 38C40 42 24 42 22 38Z")
++`<path d="M24 24H40V28H24Z" fill="${EL.royal.gl}"/><path d="M32 10V24M32 28V40" stroke="${EL.royal.a}" stroke-width=".8" opacity=".8"/>`
++`<g transform="rotate(8 48 52)"><polygon points="44.5,58 44.5,16 48,6 51.5,16 51.5,58" fill="url(#gSteel)" stroke="#fff" stroke-width=".6"/><path d="M48 12V56" stroke="#6f7e9a" stroke-width="1"/><rect x="40" y="56" width="16" height="4" rx="1.5" fill="url(#gGold)" stroke="#fff6c8" stroke-width=".4"/><rect x="46.4" y="60" width="3.2" height="7" fill="#12101a"/></g>`
 };
 const CHAR=k=>`<svg class="ch" viewBox="0 0 64 64" aria-hidden="true">${CH[k]||""}</svg>`;
 
@@ -384,7 +412,6 @@ const proj=(x,y,x2,y2,body,a,b)=>{const dx=x2-x,dy=y2-y,L=Math.hypot(dx,dy),ang=
 const bits=(f,n,shape,a,b,spread,lift,seed=0,cls="rise")=>{let s="";for(let i=0;i<n;i++){const ox=(rd(f,i+seed)-.5)*spread,oy=(rd(f,i+seed+9)-.5)*spread*.6,dx=(rd(f,i+seed+3)-.5)*spread*.8;s+=`<g transform="translate(${ox.toFixed(1)} ${oy.toFixed(1)})"><g ${K(cls,(a+i*.04).toFixed(2),b,`--dx:${dx.toFixed(1)};--dy:${lift};`)}>${shape}</g></g>`}return s};
 const zig=(f,x,y,x2,y2,seed=0,amp=2.4)=>{const L=Math.hypot(x2-x,y2-y)||1,n=Math.max(4,Math.round(L/4.5)),nx=-(y2-y)/L,ny=(x2-x)/L;let d=`M${x.toFixed(1)} ${y.toFixed(1)}`;for(let i=1;i<n;i++){const t=i/n,j=(rd(f,i+seed)-.5)*2*amp;d+=`L${(x+(x2-x)*t+nx*j).toFixed(1)} ${(y+(y2-y)*t+ny*j).toFixed(1)}`}return d+`L${x2.toFixed(1)} ${y2.toFixed(1)}`};
 const FL="M0 -7C3 -3 5 -1 4 3C3 6 -3 6 -4 3C-5 0 -2 -2 0 -7Z";
-const SP="M0 -4L1.1 -1.1L4 0L1.1 1.1L0 4L-1.1 1.1L-4 0L-1.1 -1.1Z";
 const SHL="M0 -7L6 -4V2C6 6 3 8 0 10C-3 8 -6 6 -6 2V-4Z";
 const ARW=`<ellipse cx="-4" rx="8" ry="2.6" fill="url(#fxGreen)"/><path d="M-9 0H4" stroke="#8a5a2b" stroke-width="1.2" stroke-linecap="round"/><path d="M4 -2.2L9.5 0L4 2.2Z" fill="#e8f0ff" stroke="#1a1626" stroke-width=".4"/><path d="M-9 0L-11 -2M-9 0L-11 2M-7 0L-9 -2M-7 0L-9 2" stroke="#6fd08a" stroke-width="1" stroke-linecap="round"/>`;
 const S_EMBER=`<path d="${FL}" transform="scale(.4)" fill="#ff9a3c"/>`;
@@ -448,6 +475,48 @@ hit:(f,x,y)=>{const m={fire:["#ffb04a","fxFire"]}[f.v]||["#fff","fxWhite"];retur
 tick:(f,x,y)=>TR(x,y,f.v==="bleed"?bits(f,4,S_DROP,0,.7,7,8,1,"fall"):f.v==="poison"?glow("fxPoison",11,0,.6)+bits(f,5,S_PBUB,0,.7,9,-12):f.v==="burn"?glow("fxFire",10,0,.5)+bits(f,4,S_EMBER,0,.7,8,-12):glow("fxGreen",11,0,.6)+bits(f,3,S_PLUS,0,.7,8,-14)),
 num:(f,x,y)=>`<text x="${x.toFixed(1)}" y="${(y-2).toFixed(1)}" text-anchor="middle" font-size="6.2" font-weight="800" fill="${f.c||"#fff"}" stroke="#000" stroke-width=".9" stroke-linejoin="round" paint-order="stroke" font-family="system-ui,sans-serif" ${K("numt",0,1)}>${esc(f.e)}</text>`
 };
+/* ---------- extra icons, effects for the dragon and the knight ---------- */
+Object.assign(IC,{
+claws:`<g fill="none" stroke-linecap="round"><path d="M5 3C8 9 9 15 8 21M11 2C14 8 15 14 14 21M17 3C20 9 21 14 20 20" stroke="#ff4a3a" stroke-width="2.6"/><path d="M5 3C8 9 9 15 8 21M11 2C14 8 15 14 14 21M17 3C20 9 21 14 20 20" stroke="#ffe0d0" stroke-width=".9"/></g>`,
+breath:`<path d="M2 12C6 5 14 6 22 12C14 18 6 19 2 12Z" fill="#ff7a2a" stroke="#a02a10" stroke-width=".9"/><path d="M5 12C9 9 14 9.5 19 12C14 14.5 9 15 5 12Z" fill="#ffe27a"/><path d="M4 6C7 3 10 3 12 4M5 19C8 21 11 21 13 20" stroke="#ff9a3c" stroke-width="1.4" fill="none" stroke-linecap="round"/>`,
+asteroid:`<path d="M12 11C9 5 4 4 1 6C3 8 3 10 4 13C7 13 10 12 12 11Z" fill="#ff5a3a" stroke="#a02a10" stroke-width=".6"/><path d="M12 11C15 5 20 4 23 6C21 8 21 10 20 13C17 13 14 12 12 11Z" fill="#ff5a3a" stroke="#a02a10" stroke-width=".6"/><circle cx="12" cy="15" r="5" fill="#ff8a2a" stroke="#a02a10" stroke-width="1"/><circle cx="12" cy="15" r="2.2" fill="#ffe27a"/><path d="M8 21L12 24L16 21" stroke="#ffd25a" stroke-width="1.4" fill="none" stroke-linecap="round"/>`,
+gsword:`<polygon points="12,1 15,5 14,16 10,16 9,5" fill="url(#gSteel)" stroke="#2a3550" stroke-width=".8"/><path d="M12 4V15" stroke="#fff" stroke-width=".8" opacity=".8"/><rect x="5.5" y="16" width="13" height="3" rx="1" fill="url(#gGold)" stroke="#8a5f1d" stroke-width=".7"/><rect x="10.6" y="19" width="2.8" height="4" fill="#5a2a1a"/>`,
+leap:`<path d="M3 19C5 8 15 4 20 11" fill="none" stroke="#9fd0ff" stroke-width="2.2" stroke-linecap="round"/><path d="M20.5 12L15.8 11.8L19 7.5Z" fill="#9fd0ff"/><path d="M14 22L22 22M18 22V17" stroke="#ffd25a" stroke-width="1.8" stroke-linecap="round"/><circle cx="18" cy="22" r="1.4" fill="#ffd25a"/>`,
+wing:`<path d="M3 17C5 9 11 5 21 6C17 9 15 11 14 15C10 14 7 15 3 17Z" fill="#e8f0ff" stroke="#7a88b0" stroke-width=".9"/><path d="M8 13C11 11 14 9.5 17 8" stroke="#7a88b0" stroke-width=".7" fill="none"/>`
+});
+Object.assign(FXD,{claws:1100,breath:1500,asteroid:2000,gsword:1200,leap:1600});
+Object.assign(FXH,{claws:150,breath:560,asteroid:1320,gsword:220,leap:670});
+const S_SMK=`<circle r="4" fill="url(#fxSmoke)"/>`;
+const WING=`<path d="M0 0C-6 -10 -16 -12 -26 -8C-22 -4 -20 0 -18 4C-14 3 -10 3 -8 6C-6 4 -3 2 0 0Z" fill="#ff4a3a" fill-opacity=".55" stroke="#ff9a7a" stroke-width=".8"/>`;
+Object.assign(FXR,{
+claws:(f,x,y,x2,y2)=>TR(x2,y2,[-3.5,0,3.5].map((o,i)=>{const a=(.04+i*.07).toFixed(2),d=`M${-8+o} -9Q${-1+o} -1 ${6+o} 9`;return `<path pathLength="1" d="${d}" fill="none" stroke="#ff3a2a" stroke-opacity=".55" stroke-width="3.2" stroke-linecap="round" ${K("draw",a,.4)}/><path pathLength="1" d="${d}" fill="none" stroke="#ffe0d0" stroke-width="1.2" stroke-linecap="round" ${K("draw",a,.4)}/>`}).join("")+glow("fxFire",11,.2,.4)+bits(f,6,S_DROP,.22,.5,7,12,3,"fall")+rays(6,3,9,"#ff6a4a",1,.22,.3)),
+breath:(f,x,y,x2,y2)=>{
+  let s=TR(x,y,glow("fxFire",9,0,.3));
+  for(let i=0;i<7;i++)s+=proj(x,y,x2,y2,`<g transform="scale(${(.7+i*.12).toFixed(2)})"><circle r="4.5" fill="url(#fxFire)"/><path d="${FL}" transform="rotate(90) scale(.7)" fill="#ffb04a"/></g>`,(i*.05).toFixed(2),.34);
+  return s+TR(x2,y2,IMP("#ffb04a","fxFire",.4,18,10)+ring(11,"#ff5a2a",1.6,.42,.45)+bits(f,6,S_EMBER,.4,.55,14,-14)+bits(f,3,S_EMBER,.5,.5,10,-18,7));
+},
+asteroid:(f,x,y,x2,y2)=>{
+  const L=Math.hypot(x2-x,y2-y),ah=(10+L*.2).toFixed(1);
+  let s=TR(x,y,`<g ${K("burst",0,.32)}>${WING}<g transform="scale(-1 1)">${WING}</g></g>`+glow("fxFire",9,0,.3));
+  // the dragon crosses the board as a glowing red shape with faint wings
+  s+=`<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)})"><g ${K("arcx",.28,.34,`--dx:${(x2-x).toFixed(1)};`)}><g ${K("arcy",.28,.34,`--dy:${(y2-y).toFixed(1)};--ah:${ah};`)}><circle r="8" fill="url(#fxFire)"/><g transform="scale(.6)">${WING}<g transform="scale(-1 1)">${WING}</g></g><ellipse rx="3" ry="4" fill="#5a0e0a" stroke="#ff6a4a" stroke-width=".6"/></g></g></g>`;
+  let t=glow("fxFire",20,.64,.3)+ring(12,"#ff6a4a",2.2,.64,.34)+ring(8,"#ffe27a",1.4,.68,.3)
+   +`<g ${K("spin",.64,.3,"--rot:360deg;")}><path d="M13 0A13 13 0 0 1 0 13" fill="none" stroke="#ff3a2a" stroke-width="3.4" stroke-linecap="round"/><path d="M-13 0A13 13 0 0 1 0 -13" fill="none" stroke="#ff9a3c" stroke-width="2.6" stroke-linecap="round"/><path d="M0 13A13 13 0 0 1 -13 0" fill="none" stroke="#ffd25a" stroke-width="1.6" stroke-linecap="round"/></g>`
+   +bits(f,6,S_EMBER,.66,.5,14,-12);
+  ADJ.forEach((d,i)=>{t+=`<g transform="translate(${d[0]*10} ${d[1]*10})">${glow("fxFire",7,.7+(i%2)*.02,.3)}</g>`});
+  return s+TR(x2,y2,t);
+},
+gsword:(f,x,y,x2,y2)=>TR(x2,y2,`<path pathLength="1" d="M-9 -10Q6 -4 9 10" fill="none" stroke="#9fc4ff" stroke-opacity=".55" stroke-width="6" stroke-linecap="round" ${K("draw",.04,.45)}/><path pathLength="1" d="M-9 -10Q6 -4 9 10" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" ${K("draw",.04,.45)}/>`+glow("fxWhite",13,.2,.45)+ring(7,"#cfe4ff",2,.2,.4)+rays(8,3,12,"#fff",1.2,.2,.35)+bits(f,4,S_STAR,.22,.5,10,-10)),
+leap:(f,x,y,x2,y2,V)=>{
+  const px=V(f.px)*10+5,py=V(f.py)*10+5,L=Math.hypot(x2-x,y2-y),ah=(10+L*.2).toFixed(1);
+  const body=`<circle r="7" fill="url(#fxWhite)"/><path d="M-3 -4L3 -4L4 4L0 7L-4 4Z" fill="url(#gSteel)" stroke="#fff" stroke-width=".5"/>`;
+  return `<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)})"><g ${K("arcx",0,.4,`--dx:${(x2-x).toFixed(1)};`)}><g ${K("arcy",0,.4,`--dy:${(y2-y).toFixed(1)};--ah:${ah};`)}>${body}</g></g></g>`
+   +`<path pathLength="1" d="M${x2.toFixed(1)} ${y2.toFixed(1)}L${px.toFixed(1)} ${py.toFixed(1)}" fill="none" stroke="#cfe4ff" stroke-width="2.2" stroke-linecap="round" ${K("draw",.42,.3)}/>`
+   +TR(x2,y2,glow("fxWhite",17,.42,.4)+ring(8,"#fff",2,.42,.4)+ring(12,"#ffd25a",1.4,.46,.45)+rays(10,3,13,"#fff0b0",1.4,.42,.35)+bits(f,4,S_SMK,.44,.5,10,-6,5,"puff"))
+   +TR(px,py,ring(5,"#ffe27a",1,.5,.4)+bits(f,3,S_STAR,.5,.5,8,-10));
+}
+});
+
 function addFx(o){
   o.dur=o.dur||FXD[o.type]||1200;o.x2=o.x2===undefined?o.x:o.x2;o.y2=o.y2===undefined?o.y:o.y2;
   if(onlineGame&&!applyingRemoteState){fxOut.push({...o});if(fxOut.length>60)fxOut.shift()}
@@ -492,7 +561,7 @@ function setup(){
   };
 }
 const spread=n=>n===1?[4]:Array.from({length:n},(_,i)=>Math.round(1+i*8/(n-1)));
-function mk(k,team,x,y){return{id:nid++,k,team,x,y,hp:R[k].hp,sh:0,cd:R[k].s.map(()=>0),aura:0,ww:0,fly:0,tpUsed:false,stunned:false,st:{poison:0,burn:0,bleed:0,stun:0,freeze:0,silent:0,regen:null}}}
+function mk(k,team,x,y){return{id:nid++,k,team,x,y,hp:R[k].hp,sh:0,cd:R[k].s.map(()=>0),aura:0,ww:0,fly:R[k].pf?1:0,tpUsed:false,stunned:false,st:{poison:0,burn:0,bleed:0,stun:0,freeze:0,silent:0,regen:null}}}
 function start(){
   U=[];over=-1;nid=1;msg="";FX=[];
   let c=spread(pick.length);pick.forEach((k,i)=>U.push(mk(k,0,c[i],9)));
@@ -515,11 +584,21 @@ function heal(t,a,cure){
   if(cure){t.st.bleed=0;t.st.poison=0}
 }
 function hurt(src,t,s,d){
-  if(!U.includes(t)||t.st.freeze>0)return;
+  if(!canHit(s,t)){
+    if(U.includes(t)&&t.st.freeze<1&&isRanged(s)&&R[t.k].rangedGroundImmune&&!(t.fly>0))msg=R[t.k].n+" อยู่บนพื้น โดนระยะไกลไม่ได้";
+    return false;
+  }
   const rule=(R[t.k].blk||[]).find(b=>b.c.includes(s.c)&&b.l.includes(s.l)&&(!b.tg||b.tg===s.tg)&&Math.random()<b.p);
-  if(rule){addFx({type:"block",x:t.x,y:t.y});msg=R[t.k].n+" กันการโจมตีได้!";return}
+  if(rule){addFx({type:"block",x:t.x,y:t.y});msg=R[t.k].n+" กันการโจมตีได้!";return false}
+  // damage modifiers multiply: kingdom sword vs dragon/spirit/legend, ranged vs a flying dragon, element resistance
+  let m=1;const T=R[t.k];
+  if(hasT(s,"kingdom")&&unitTags(t).some(g=>["dragon","spirit","legend"].includes(g)))m*=1.5;
+  if(isRanged(s)&&T.flyRangedMul&&t.fly>0)m*=T.flyRangedMul;
+  if(T.res)(s.tags||[]).forEach(g=>{if(T.res[g]!==undefined)m*=T.res[g]});
+  d=Math.max(0,Math.round(d*m));
   msg=R[src.k].n+" ใช้ "+s.n+" ใส่ "+R[t.k].n+" -"+d;
   loseHP(t,d);
+  return true;
 }
 function exitWW(u){
   u.ww=0;
@@ -545,13 +624,13 @@ function begin(t){
     u.cd=u.cd.map(c=>Math.max(0,c-1));
     u.stunned=u.st.stun>0;u.st.stun=0;
     if(u.st.regen){addFx({type:"tick",v:"regen",x:u.x,y:u.y});heal(u,u.st.regen.amt);u.st.regen.left--;if(u.st.regen.left<=0)u.st.regen=null}
-    if(u.st.bleed&&U.includes(u)){addFx({type:"tick",v:"bleed",x:u.x,y:u.y});loseHP(u,2)}
+    if(u.st.bleed>0&&U.includes(u)){addFx({type:"tick",v:"bleed",x:u.x,y:u.y});loseHP(u,2);u.st.bleed--}
     if(u.st.poison&&U.includes(u)){addFx({type:"tick",v:"poison",x:u.x,y:u.y});loseHP(u,u.st.poison)}
     if(u.st.burn&&U.includes(u)){addFx({type:"tick",v:"burn",x:u.x,y:u.y});loseHP(u,2*u.st.burn);u.st.burn--}
     if(!U.includes(u)||over>=0)return;
     if(u.aura>0){u.aura--;tick(u,R[u.k].s.find(x=>x.k==="s"))}
     if(u.ww>0){u.ww--;if(u.ww===0)exitWW(u)}
-    if(u.fly>0){u.fly--;if(u.fly===0)land(u)}
+    if(R[u.k].pf)u.fly=1;else if(u.fly>0){u.fly--;if(u.fly===0)land(u)}
   });
   render();
   if(onlineGame){broadcastGameState();}
@@ -563,13 +642,15 @@ function usable(u,si){
   if(s.k==="m"?p.mp<1:p.ap<1)return false;
   if(s.k==="w"&&u.ww>0)return false;
   if(s.k==="f"&&u.fly>0)return false;
+  if(s.fl&&!(u.fly>0))return false;
   if(s.tp&&u.tpUsed)return false;
   return true;
 }
 function targetable(e){return !(e.ww>0)&&!(e.st.freeze>0)}
 function targetsFor(u,si){
   const s=eff(u,si),d=e=>dist(u,e);
-  if(s.k==="t")return U.filter(e=>e.team!==u.team&&targetable(e)&&d(e)>=1&&d(e)<=s.r&&!(s.r===1&&e.fly>0&&!(u.fly>0)));
+  if(s.k==="t")return U.filter(e=>e.team!==u.team&&targetable(e)&&d(e)>=1&&d(e)<=s.r&&canHit(s,e));
+  if(s.k==="L")return U.filter(e=>e.team!==u.team&&targetable(e)&&d(e)>=1&&d(e)<=s.r&&canHit(s,e)&&pushCell(u,e));
   if(s.k==="p")return U.filter(e=>e.st.freeze<1&&d(e)<=s.r&&(e.team===u.team||(targetable(e)&&d(e)>=1)));
   if(s.k==="h"||s.k==="r")return U.filter(e=>e.team===u.team&&e.st.freeze<1&&d(e)<=s.r);
   return[];
@@ -581,7 +662,7 @@ function mcells(u,s){
   return r;
 }
 function moves(u){
-  const m=u.fly>0?2:R[u.k].mv,r=[];
+  const m=(u.fly>0&&!R[u.k].pf)?2:R[u.k].mv,r=[];
   if(turn!==u.team||P[u.team].mp<1||dis(u))return r;
   for(let x=u.x-m;x<=u.x+m;x++)for(let y=u.y-m;y<=u.y+m;y++)
     if(x>=0&&y>=0&&x<10&&y<10&&!at(x,y))r.push([x,y]);
@@ -593,7 +674,8 @@ function cast(u,si,tx,ty){
   u.cd[si]=(s.k==="w"||s.k==="f")?0:s.cd;
   FXLAG=FXH[s.v]||0;
   if(s.k==="t"){
-    showFx(u,s,T);hurt(u,T,s,s.d);
+    showFx(u,s,T);
+    const ok=hurt(u,T,s,s.d);
     if(s.chain&&over<0){
       const cs=U.filter(e=>e.team!==u.team&&e!==T&&targetable(e));
       if(cs.length){
@@ -602,8 +684,23 @@ function cast(u,si,tx,ty){
         addFx({type:"lightning",x:T.x,y:T.y,x2:z.x,y2:z.y,dl:380});hurt(u,z,s,s.d);
       }
     }
-    if(s.bleed&&U.includes(T))T.st.bleed=1;
+    // status effects only land when the hit itself landed (not parried, not blocked)
+    if(ok&&U.includes(T)){
+      if(s.bleed)T.st.bleed=Math.max(T.st.bleed,s.bleed);
+      if(s.burn)T.st.burn+=s.burn;
+      if(s.stunP&&Math.random()<s.stunP)T.st.stun=Math.max(T.st.stun,s.stun||1);
+    }
     if(s.xww)exitWW(u);
+  }else if(s.k==="L"){
+    const pc=pushCell(u,T),ox=T.x,oy=T.y;
+    addFx({type:"leap",x:u.x,y:u.y,x2:ox,y2:oy,px:pc[0],py:pc[1]});
+    T.x=pc[0];T.y=pc[1];u.x=ox;u.y=oy;
+    const ok=hurt(u,T,s,s.d);
+    if(ok&&U.includes(T))T.st.stun=Math.max(T.st.stun,s.stun||1);
+  }else if(s.k==="j"){
+    addFx({type:"asteroid",x:u.x,y:u.y,x2:tx,y2:ty});
+    u.x=tx;u.y=ty;
+    ADJ.forEach(d=>{const t=at(tx+d[0],ty+d[1]);if(t&&t.team!==u.team&&over<0)hurt(u,t,s,s.d)});
   }else if(s.k==="a"){
     const cs=CR.map(d=>[tx+d[0],ty+d[1]]).filter(c=>c[0]>=0&&c[1]>=0&&c[0]<10&&c[1]<10);
     addFx({type:"meteor",x:tx,y:ty,cells:cs});
@@ -623,6 +720,8 @@ function cast(u,si,tx,ty){
     u.x=tx;u.y=ty;if(s.tp)u.tpUsed=true;
   }else if(s.k==="w"){u.ww=4;addFx({type:"smoke",x:u.x,y:u.y});msg=R[u.k].n+" หายตัว (Wind-Walk)"}
   else if(s.k==="f"){u.fly=4;addFx({type:"swirl",x:u.x,y:u.y});msg=R[u.k].n+" ขึ้นบิน"}
+  // a permanently flying unit lands after using any skill, until its own next turn
+  if(R[u.k].pf&&u.fly>0&&U.includes(u)){u.fly=0;addFx({type:"smoke",x:u.x,y:u.y,sz:.6,dl:s.k==="j"?1300:350})}
   FXLAG=0;
 }
 
@@ -632,8 +731,8 @@ function render(){
   const vis=U.filter(u=>!hidden(u)),me=vis.filter(u=>u.team===meTeam),en=vis.filter(u=>u.team===enemyTeam),u=sel?byId(sel):null;
   const mv=u&&mode<0?moves(u):[];
   const sk=u&&mode>=0?eff(u,mode):null;
-  const tg=sk&&["t","p","h","r"].includes(sk.k)?targetsFor(u,mode):[];
-  const mc=sk&&sk.k==="m"?mcells(u,sk):[];
+  const tg=sk&&["t","p","h","r","L"].includes(sk.k)?targetsFor(u,mode):[];
+  const mc=sk&&["m","j"].includes(sk.k)?mcells(u,sk):[];
   const rows=a=>a.map(x=>`<div class="row ${x.team!==meTeam?"e":""} ${sel===x.id?"s":""}" data-r="${x.id}">${shape(x.k,x.team!==meTeam?1:0)}<div class="bar"><i style="width:${Math.max(0,x.hp)/R[x.k].hp*100}%"></i></div><small>${x.hp}</small></div>`).join("");
   let cells="";
   for(let vy=0;vy<10;vy++)for(let vx=0;vx<10;vx++){
@@ -649,13 +748,13 @@ function render(){
   }
   let panel=`<div class="mu" style="text-align:center;margin-top:30%">แตะตัวหมากของคุณ<br>เพื่อดูข้อมูลและสกิล</div>`;
   if(u&&u.team===meTeam){
-    const d=R[u.k],ic=icons(u);
+    const d=R[u.k],ic=icons(u),stx=[ic,u.ww>0?"Wind-Walk":"",u.fly>0?ICON("wing")+" บิน":"",d.pf&&!(u.fly>0)?"ลงพื้น (โดนระยะไกลไม่ได้)":"",u.aura?"ออร่าเหลือ "+u.aura+" ครั้ง":""].filter(Boolean).join(" ");
     let skills="";
     if(u.st.silent>0)skills=`<div class="ps" style="font-size:1.1em;text-align:center">${ICON("silent")} ถูกใบ้</div>`;
-    else skills=d.s.map((s0,i)=>{const sk0=eff(u,i);return `<button class="sk ${mode===i?"on":""}" data-s="${i}" ${usable(u,i)?"":"disabled"}><span class="i">${ICON(sk0.i)}</span><span><b>${sk0.n}</b><small>${u.cd[i]>0?"cooldown "+u.cd[i]:info(sk0)}</small>${sk0.x&&u.cd[i]<1?`<small>${sk0.x}</small>`:""}</span></button>`}).join("");
+    else skills=d.s.map((s0,i)=>{const sk0=eff(u,i);return `<button class="sk ${mode===i?"on":""}" data-s="${i}" ${usable(u,i)?"":"disabled"}><span class="i">${ICON(sk0.i)}</span><span><b>${sk0.n}</b><small>${u.cd[i]>0?"cooldown "+u.cd[i]:info(sk0)}</small>${sk0.x&&u.cd[i]<1?`<small>${sk0.x}</small>`:""}${sk0.tags?`<small class="tg">${sk0.tags.map(g=>TAGN[g]||g).join(" · ")}</small>`:""}</span></button>`}).join("");
     panel=`<div class="por">${shape(u.k,0)}<div><div class="nm">${d.n}</div><small class="mu">${RAR[d.rar]} · Pop ${d.pop}</small></div></div>
     <div class="hp">${ICON("heart")}<div class="bar" style="flex:1"><i style="width:${u.hp/d.hp*100}%"></i></div><b>${u.hp}/${d.hp}</b></div>
-    ${u.sh?`<div class="ps">${ICON("shield")} โล่ ${u.sh}</div>`:""}${ic?`<div class="ps">สถานะ: ${ic}${u.ww>0?" Wind-Walk":""}${u.fly>0?" "+ICON("broom")+" บิน":""}${u.aura?" ออร่าเหลือ "+u.aura+" ครั้ง":""}</div>`:""}
+    ${u.sh?`<div class="ps">${ICON("shield")} โล่ ${u.sh}</div>`:""}${stx?`<div class="ps">สถานะ: ${stx}</div>`:""}
     ${dis(u)?`<div class="ps">ใช้ตัวนี้ไม่ได้ในตานี้</div>`:""}
     ${d.pas?`<div class="ps">✦ ${d.pas}</div>`:""}<hr>${skills}
     <div class="mu" style="font-size:.8em">แตะช่องฟ้าเพื่อเดิน (หัก MP 1) · ใช้สกิลหัก AP 1</div>`;
@@ -693,7 +792,7 @@ function cellClick(x,y){
     if(mode>=0){
       const s=eff(u,mode);
       if(usable(u,mode)){
-        const ok=s.k==="a"||(s.k==="m"&&mcells(u,s).some(c=>c[0]===x&&c[1]===y))||(p&&targetsFor(u,mode).includes(p));
+        const ok=s.k==="a"||(["m","j"].includes(s.k)&&mcells(u,s).some(c=>c[0]===x&&c[1]===y))||(p&&targetsFor(u,mode).includes(p));
         if(ok){cast(u,mode,x,y);mode=-1;render();broadcastGameState();return}
       }
     }else if(!p0&&moves(u).some(m=>m[0]===x&&m[1]===y)){u.x=x;u.y=y;P[meTeam].mp--;render();broadcastGameState();return}
@@ -728,6 +827,8 @@ function botAct(){
           if(sc>5)cand(u,si,x,y,sc);
         }
       }else if(s.k==="s"){const n=foes.filter(e=>dist(u,e)===1).length;if(n)cand(u,si,0,0,s.d*n+3)}
+      else if(s.k==="L")targetsFor(u,si).forEach(t=>cand(u,si,t.x,t.y,s.d+(t.hp<=s.d?20:0)+2));
+      else if(s.k==="j")mcells(u,s).forEach(c=>{let sc=0;ADJ.forEach(d=>{const t=at(c[0]+d[0],c[1]+d[1]);if(t&&t.team===0&&!(t.fly>0))sc+=s.d});if(sc>0)cand(u,si,c[0],c[1],sc)});
       else if(s.k==="h")targetsFor(u,si).forEach(t=>{const miss=R[t.k].hp-t.hp;if(miss>=4)cand(u,si,t.x,t.y,Math.min(s.heal,miss)+(t.hp<R[t.k].hp/2?4:0))});
       else if(s.k==="r")targetsFor(u,si).forEach(t=>{if(R[t.k].hp-t.hp>=10)cand(u,si,t.x,t.y,7)});
       else if(s.k==="p")targetsFor(u,si).forEach(t=>{if(t.team===0)cand(u,si,t.x,t.y,3+t.st.poison)});
