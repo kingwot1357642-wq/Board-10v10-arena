@@ -285,116 +285,14 @@ const EL={
  dragon:{a:"#ffe08a",b:"#e5281a",d:"#2b0505",gl:"#ff7a2a"},
  royal:{a:"#ffe9a8",b:"#2f5fd0",d:"#09112e",gl:"#7fa6ff"}
 };
-const hx=c=>[1,3,5].map(i=>parseInt(c.slice(i,i+2),16));
-const mix=(c1,c2,t)=>{const a=hx(c1),b=hx(c2);return "#"+a.map((v,i)=>Math.round(v+(b[i]-v)*t).toString(16).padStart(2,"0")).join("")};
-document.body.insertAdjacentHTML("afterbegin",`<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><linearGradient id="gSil" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#201c2e"/><stop offset="1" stop-color="#050408"/></linearGradient>${Object.entries(EL).map(([k,e])=>`<radialGradient id="bg-${k}" cx=".5" cy=".36" r=".9"><stop offset="0" stop-color="${mix(e.gl,e.b,.3)}"/><stop offset=".5" stop-color="${mix(e.b,e.d,.55)}"/><stop offset="1" stop-color="${e.d}"/></radialGradient>`).join("")}</defs></svg>`);
-const sp=(x,y,s,c="#fff",o=.9)=>`<path d="${SP}" transform="translate(${x} ${y}) scale(${s})" fill="${c}" opacity="${o}"/>`;
-const plus=(x,y,s,c,o=.9)=>`<path d="M-1 -3H1V-1H3V1H1V3H-1V1H-3V-1H-1Z" transform="translate(${x} ${y}) scale(${s})" fill="${c}" opacity="${o}"/>`;
-const BGD=(k,deco)=>{const e=EL[k];return `<rect width="64" height="64" fill="url(#bg-${k})"/>${deco}<path d="M-4 52C12 44 30 58 68 42V68H-4Z" fill="${e.b}" opacity=".3"/><path d="M-2 18C14 6 38 12 66 0" fill="none" stroke="${e.a}" stroke-width="2" stroke-linecap="round" opacity=".35"/><path d="M0 58C20 46 42 60 66 46" fill="none" stroke="${e.gl}" stroke-width="1.6" stroke-linecap="round" opacity=".45"/>`};
-const S=(k,d)=>`<path d="${d}" fill="url(#gSil)" stroke="${EL[k].a}" stroke-width=".9" stroke-linejoin="round"/>`;
-const HAND=(k,x,y,r=3.2)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="url(#gSil)" stroke="${EL[k].a}" stroke-width=".8"/>`;
-const CH={
-sword:BGD("steel",`<g stroke="#fff" stroke-linecap="round" opacity=".45"><path d="M40 6L46 -2M50 12L60 6M54 22L64 20" stroke-width="1.2"/><path d="M4 20L26 8M2 32L16 24" stroke-width="2"/></g>`+sp(12,50,1.2)+sp(56,54,1.4))
-+S("steel","M26 50C18 50 10 56 3 64H24Z")
-+S("steel","M22 64C23 50 29 41 38 38L46 40C54 44 57 54 58 64Z")
-+S("steel","M36 32H44L45 41H35Z")
-+S("steel","M33 20C26 17 17 20 8 28C17 27 23 28 31 31Z")
-+S("steel","M32 27C25 29 18 35 12 43C21 39 26 37 33 35Z")
-+S("steel","M31 25A9 9 0 1 1 49 25A9 9 0 1 1 31 25Z")
-+`<g transform="rotate(-40 47 50)"><polygon points="44,48 44,12 47,4 50,12 50,48" fill="url(#gSteel)" stroke="#fff" stroke-width=".6"/><path d="M47 9V46" stroke="#6f7e9a" stroke-width="1"/><rect x="40" y="48" width="14" height="3.4" rx="1.2" fill="url(#gSteel)" stroke="#fff" stroke-width=".5"/><rect x="45.5" y="51.4" width="3" height="7" fill="#12101a"/>${HAND("steel",47,60,3.6)}</g>`,
-archer:BGD("wind",`<g fill="none" stroke-linecap="round"><path d="M0 44C14 30 28 48 44 34C52 28 58 30 64 24" stroke="${EL.wind.gl}" stroke-width="2.4" opacity=".6"/><path d="M4 18C16 8 30 18 40 10" stroke="${EL.wind.a}" stroke-width="1.6" opacity=".55"/></g>`+sp(12,12,1.6)+sp(54,54,1.3))
-+S("wind","M22 22C14 20 8 24 4 32C12 30 18 30 24 30Z")
-+S("wind","M14 64C15 50 22 42 30 40L38 42C42 48 44 56 44 64Z")
-+S("wind","M22 31C20 18 26 10 33 8C31 13 34 15 37 14C40 19 38 27 35 33C31 35 25 35 22 31Z")
-+S("wind","M33 41L55 36L56 41L36 47Z")
-+HAND("wind",56,38.5)
-+`<path d="M52 4C68 22 68 54 52 70" fill="none" stroke="#0a0810" stroke-width="3.4" stroke-linecap="round"/><path d="M52 4C68 22 68 54 52 70" fill="none" stroke="${EL.wind.a}" stroke-width=".9" stroke-linecap="round"/><path d="M52 4L28 37L52 70" fill="none" stroke="#eafff8" stroke-width=".7"/><path d="M28 37H62" stroke="#eafff8" stroke-width="1.4"/><path d="M62 37L56.5 34.2V39.8Z" fill="#eafff8"/><path d="M28 37L24 34.5M28 37L24 39.5" stroke="${EL.wind.gl}" stroke-width="1.2" stroke-linecap="round"/>`+HAND("wind",28,38,2.6),
-mage:BGD("fire",`<path d="M-2 66C2 50 6 40 12 30C14 42 20 48 22 40C26 52 30 58 34 66Z" fill="${EL.fire.gl}" opacity=".55"/><path d="M30 66C34 52 40 46 44 38C46 48 50 50 54 42C58 52 62 58 66 66Z" fill="${EL.fire.a}" opacity=".45"/>`+sp(10,14,1.3,"#fff6c8")+sp(56,56,1.1,"#fff6c8"))
-+S("fire","M18 50C10 52 6 58 2 64H20Z")
-+S("fire","M16 64C16 48 22 40 32 38C42 40 48 48 48 64Z")
-+S("fire","M25 33A7 7 0 1 0 39 33A7 7 0 1 0 25 33Z")
-+S("fire","M20 27C22 15 30 7 44 2C40 11 42 19 46 27Z")
-+S("fire","M10 28C22 22 40 22 54 29C40 31 24 31 10 28Z")
-+`<path d="M52 66L45 16" stroke="#0a0810" stroke-width="3.2" stroke-linecap="round"/><path d="M52 66L45 16" stroke="${EL.fire.a}" stroke-width=".7" stroke-linecap="round"/><circle cx="44" cy="11" r="11" fill="url(#fxFire)"/><circle cx="44" cy="11" r="4.2" fill="#fff6c8"/><path d="M37 13C36 5 51 5 51 13" fill="none" stroke="#0a0810" stroke-width="2"/>`+HAND("fire",49,41),
-shield:BGD("frost",`<g fill="${EL.frost.a}" opacity=".4"><path d="M6 12L12 2L16 14Z"/><path d="M48 8L58 14L52 22Z"/><path d="M2 40L10 34L11 48Z"/></g>`+sp(54,34,1.4)+sp(10,56,1.1))
-+S("frost","M6 64C6 48 16 40 32 40C48 40 58 48 58 64Z")
-+S("frost","M30 11C26 3 36 -1 45 5C39 5 37 9 35 12Z")
-+S("frost","M22 36C20 20 25 10 32 10C39 10 44 20 42 36C40 41 24 41 22 36Z")
-+`<rect x="24.5" y="23" width="15" height="3.4" rx="1.4" fill="${EL.frost.gl}"/><path d="M32 11V23M32 27V40" stroke="${EL.frost.a}" stroke-width=".8" opacity=".8"/>`
-+S("frost","M5 38H37V53C37 62 25 66 21 69C17 66 5 62 5 53Z")
-+`<path d="M21 42V66M8 52H34" stroke="${EL.frost.a}" stroke-width="1.2" opacity=".85"/><circle cx="21" cy="52" r="3.4" fill="url(#gSteel)" stroke="#fff" stroke-width=".5"/>`,
-meric:BGD("holy",`${plus(12,14,1.8,"#fff6c8")}${plus(52,40,1.5,"#fff6c8")}${plus(10,48,1.1,"#fff6c8")}<circle cx="34" cy="20" r="15" fill="none" stroke="${EL.holy.a}" stroke-width="1" opacity=".5"/>`+sp(54,10,1.6)+sp(58,56,1.1))
-+S("holy","M30 17C20 17 12 28 10 42C14 52 10 58 6 64C16 62 22 56 26 46C28 38 28 30 30 17Z")
-+S("holy","M18 64C18 48 24 38 34 36C44 38 50 48 50 64Z")
-+S("holy","M25.5 22A8.5 8.5 0 1 1 42.5 22A8.5 8.5 0 1 1 25.5 22Z")
-+`<path d="M52 66L48 18" stroke="#0a0810" stroke-width="3" stroke-linecap="round"/><path d="M52 66L48 18" stroke="${EL.holy.a}" stroke-width=".7"/><circle cx="47" cy="13" r="10" fill="url(#fxGold)"/><circle cx="47" cy="13" r="5" fill="#fffbe8"/><circle cx="47" cy="13" r="7" fill="none" stroke="#0a0810" stroke-width="2"/>`+HAND("holy",50,44),
-assassin:BGD("shadow",`<path d="M0 36C14 26 26 40 40 28C50 20 58 24 64 16" fill="none" stroke="${EL.shadow.gl}" stroke-width="3" opacity=".45" stroke-linecap="round"/><path d="M6 56C20 48 34 58 52 48" fill="none" stroke="${EL.shadow.a}" stroke-width="2" opacity=".4" stroke-linecap="round"/>`+sp(52,10,1.3,EL.shadow.a)+sp(8,22,1.2,EL.shadow.a))
-+S("shadow","M22 14C14 12 8 16 4 24C12 22 18 22 24 24Z")
-+S("shadow","M16 54C8 56 4 60 2 64H18Z")
-+S("shadow","M14 64C14 50 22 42 32 40L44 44C52 48 54 58 54 64Z")
-+S("shadow","M20 34C18 18 26 8 34 8C42 10 46 20 44 32C42 38 36 41 32 41C26 41 22 38 20 34Z")
-+`<ellipse cx="34" cy="28" rx="2.8" ry="1.1" fill="#ffd0e4" transform="rotate(14 34 28)"/><ellipse cx="41" cy="28" rx="2.8" ry="1.1" fill="#ffd0e4" transform="rotate(-14 41 28)"/>`
-+`<g transform="rotate(32 47 52)"><polygon points="44.5,52 47,34 49.5,52" fill="url(#gSteel)" stroke="#fff" stroke-width=".5"/><rect x="43" y="52" width="8" height="2.4" rx="1" fill="${EL.shadow.b}"/><rect x="46" y="54.4" width="2" height="5" fill="#12101a"/></g><g transform="rotate(-32 19 54)"><polygon points="16.5,54 19,36 21.5,54" fill="url(#gSteel)" stroke="#fff" stroke-width=".5"/><rect x="15" y="54" width="8" height="2.4" rx="1" fill="${EL.shadow.b}"/><rect x="18" y="56.4" width="2" height="5" fill="#12101a"/></g>`,
-witch:BGD("arcane",`<circle cx="32" cy="34" r="22" fill="none" stroke="${EL.arcane.a}" stroke-width="1" stroke-dasharray="2 3" opacity=".55"/><path d="M44 8A7 7 0 1 0 50 20A5.5 5.5 0 1 1 44 8Z" fill="${EL.arcane.a}" opacity=".7"/>`+sp(10,12,1.7)+sp(56,56,1.5,"#e6c8ff")+sp(8,40,1.1))
-+S("arcane","M22 30C14 36 12 48 14 58C20 52 26 46 28 38Z")
-+S("arcane","M18 64C18 50 26 42 34 41C44 43 50 52 52 64Z")
-+S("arcane","M27 38A7 7 0 1 0 41 38A7 7 0 1 0 27 38Z")
-+S("arcane","M18 30C22 18 28 8 40 2C38 10 44 14 46 30Z")
-+S("arcane","M8 32C20 26 42 26 56 33C42 34 22 35 8 32Z")
-+`<path d="M2 62L62 44" stroke="#0a0810" stroke-width="3.2" stroke-linecap="round"/><path d="M2 62L62 44" stroke="${EL.arcane.a}" stroke-width=".7"/>`+S("arcane","M54 40L65 44L64 55L54 50Z")
-+`<circle cx="14" cy="47" r="9" fill="url(#fxGreen)" opacity=".8"/><path d="M12 40H16V43C20 44.5 21 50 19 52C17 54 11 54 9 52C7 50 8 44.5 12 43Z" fill="#6fe39a" stroke="#0a0810" stroke-width="1"/><circle cx="12" cy="49" r="1.6" fill="#eaffee" opacity=".8"/><rect x="11.4" y="37.5" width="5" height="3" rx=".8" fill="#0a0810"/>`,
-redscales:BGD("dragon",`<path d="M-2 66C4 46 6 34 14 24C14 38 22 44 24 34C30 48 34 56 38 66Z" fill="${EL.dragon.gl}" opacity=".5"/><path d="M36 66C40 50 48 44 50 32C54 44 60 46 62 36C64 48 66 56 68 66Z" fill="${EL.dragon.a}" opacity=".4"/>`+sp(54,56,1.3,"#ffe9a8")+sp(8,10,1.1,"#ffe9a8"))
-+`<path d="M12 40L24 38L44 40L44 46L26 44L8 47Z" fill="${EL.dragon.gl}"/>`
-+S("dragon","M52 22L63 19L57 29ZM54 33L65 32L57 40Z")
-+S("dragon","M3 35L14 28L30 20L46 12C50 8 54 5 60 1C58 9 55 15 51 21C56 24 60 30 62 36L44 38L24 38L12 40Z")
-+S("dragon","M40 14L45 2L50 13Z")
-+S("dragon","M8 47L26 44L46 46C50 52 54 58 58 66L38 63C30 57 20 53 8 47Z")
-+`<path d="M13 40L15 44.5L17 40ZM19 39.5L21 44.5L23 39.5ZM25 39L27 44L29 39Z" fill="#fff0c8"/><path d="M16 44.5L18 41L20 44.5ZM24 44L26 40.5L28 44ZM32 45L34 41.5L36 45Z" fill="#fff0c8"/><circle cx="35" cy="25" r="6" fill="url(#fxGold)"/><path d="M29 26L41 22L38 28Z" fill="#ffe27a"/><path d="M7 33L10 32L9 35Z" fill="${EL.dragon.gl}"/>`,
-jugger:BGD("royal",`<g stroke="${EL.royal.a}" stroke-width="1.2" opacity=".5" stroke-linecap="round"><path d="M32 22V0M32 22L12 4M32 22L52 4M32 22L2 20M32 22L62 20"/></g>`+sp(10,50,1.2)+sp(56,52,1.2))
-+S("royal","M2 64C2 50 10 42 22 40L42 40C54 42 62 50 62 64Z")
-+S("royal","M3 48A7 7 0 1 0 17 48A7 7 0 1 0 3 48Z")+S("royal","M47 48A7 7 0 1 0 61 48A7 7 0 1 0 47 48Z")
-+S("royal","M30 10C28 -1 40 -4 47 2C41 2 39 7 36 10Z")
-+S("royal","M22 38C20 20 25 8 32 8C39 8 44 20 42 38C40 42 24 42 22 38Z")
-+`<path d="M24 24H40V28H24Z" fill="${EL.royal.gl}"/><path d="M32 10V24M32 28V40" stroke="${EL.royal.a}" stroke-width=".8" opacity=".8"/>`
-+`<g transform="rotate(8 48 52)"><polygon points="44.5,58 44.5,16 48,6 51.5,16 51.5,58" fill="url(#gSteel)" stroke="#fff" stroke-width=".6"/><path d="M48 12V56" stroke="#6f7e9a" stroke-width="1"/><rect x="40" y="56" width="16" height="4" rx="1.5" fill="url(#gGold)" stroke="#fff6c8" stroke-width=".4"/><rect x="46.4" y="60" width="3.2" height="7" fill="#12101a"/></g>`
-};
-const CHAR=k=>`<svg class="ch" viewBox="0 0 64 64" aria-hidden="true">${CH[k]||""}</svg>`;
-
-const HEART="M12 21C5 16 3 12 3 8.5C3 5.5 5.4 3.5 8 3.5C9.8 3.5 11.2 4.5 12 6C12.8 4.5 14.2 3.5 16 3.5C18.6 3.5 21 5.5 21 8.5C21 12 19 16 12 21Z";
-const DROP24="M12 3C16 9 18 12 18 15C18 18.5 15.5 21 12 21C8.5 21 6 18.5 6 15C6 12 8 9 12 3Z";
-const FLAME24=(f1,f2)=>`<path d="M12 2C15 7 20 9 19 15C18 20 14 22 11 21.5C6 20.5 4.5 16 6.5 12C7.5 14 8.5 14 9.5 13C9.5 8 10.5 5 12 2Z" fill="${f1}" stroke="#a02a10" stroke-width=".9"/><path d="M12 11C14 14 15 15 14 17.5C13 20 10 20 9.5 17.5C9 15.5 11 14 12 11Z" fill="${f2}"/>`;
-const IC={
-slash:`<path d="M3 20C9 19 17 13 21 3C18 11 11 17 3 20Z" fill="#e8f2ff" stroke="#6aa8ff" stroke-width="1"/><path d="M5 17L8 14M14 8L17 5" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/>`,
-windArrow:`<path d="M3 20L19 5" stroke="#8a5a2b" stroke-width="1.6" stroke-linecap="round"/><path d="M21 3L14.5 4.5L19.5 9.5Z" fill="#e8f2ff" stroke="#5a7a9a" stroke-width=".7"/><path d="M3 14Q6 11 9 13M7 20Q10 17 13 19" stroke="#6fd6c0" stroke-width="1.6" fill="none" stroke-linecap="round"/>`,
-arrowRain:`<g stroke="#8a5a2b" stroke-width="1.4" stroke-linecap="round"><path d="M6 2V12M12 4V16M18 2V12"/></g><g fill="#e8f2ff" stroke="#5a7a9a" stroke-width=".6"><path d="M3.6 11.5H8.4L6 16Z"/><path d="M9.6 15.5H14.4L12 20Z"/><path d="M15.6 11.5H20.4L18 16Z"/></g><path d="M2 22H22" stroke="#6fd6c0" stroke-width="1.4" stroke-linecap="round"/>`,
-fireball:FLAME24("#ff8a2a","#ffe27a"),
-meteor:`<path d="M3 3L13 12M3 8L10 14M8 3L13 9" stroke="#ffb04a" stroke-width="1.6" stroke-linecap="round"/><circle cx="16" cy="16" r="5" fill="#7a4a3a" stroke="#ff8a2a" stroke-width="1.2"/><circle cx="14.5" cy="14.5" r="1.2" fill="#4a2a20"/><circle cx="17.5" cy="17.8" r=".9" fill="#4a2a20"/>`,
-aura:`<circle cx="12" cy="12" r="5" fill="#ff8a2a" opacity=".4"/><circle cx="12" cy="12" r="7.5" fill="none" stroke="#ff9a3c" stroke-width="1.4" stroke-dasharray="3 2"/><g fill="#ff7a2a" stroke="#a02a10" stroke-width=".5"><path d="M12 1C13.5 3 14.5 3.5 14 5C13.3 6.5 10.7 6.5 10 5C9.5 3.5 11 3 12 1Z"/><path d="M12 1C13.5 3 14.5 3.5 14 5C13.3 6.5 10.7 6.5 10 5C9.5 3.5 11 3 12 1Z" transform="rotate(90 12 12)"/><path d="M12 1C13.5 3 14.5 3.5 14 5C13.3 6.5 10.7 6.5 10 5C9.5 3.5 11 3 12 1Z" transform="rotate(180 12 12)"/><path d="M12 1C13.5 3 14.5 3.5 14 5C13.3 6.5 10.7 6.5 10 5C9.5 3.5 11 3 12 1Z" transform="rotate(270 12 12)"/></g>`,
-blast:`<path d="M12 3L19 6V12C19 16 15.5 19.5 12 21C8.5 19.5 5 16 5 12V6Z" fill="#6c82a8" stroke="#ffd25a" stroke-width="1.5"/><path d="M12 7V16M8 11H16" stroke="#ffd25a" stroke-width="1.4"/><path d="M2 5L4 6.5M22 5L20 6.5M1.5 12H3.5M22.5 12H20.5" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/>`,
-rejuv:`<path d="${HEART}" fill="#4fcf7a" stroke="#1f6a3a" stroke-width="1"/><path d="M12 8V15M8.5 11.5H15.5" stroke="#eaffee" stroke-width="1.8" stroke-linecap="round"/>`,
-light:`<path d="M12 2L14.2 9.8L22 12L14.2 14.2L12 22L9.8 14.2L2 12L9.8 9.8Z" fill="url(#gGold)" stroke="#8a5f1d" stroke-width=".8"/><circle cx="12" cy="12" r="2" fill="#fffbe0"/>`,
-dagger:`<polygon points="21,3 21.6,3.6 12,15 9,12" fill="url(#gSteel)" stroke="#2a3550" stroke-width=".8"/><path d="M6.5 11.5L12.5 17.5" stroke="url(#gGold)" stroke-width="2.4" stroke-linecap="round"/><path d="M9.8 14.8L4 20.5" stroke="#5a2a1a" stroke-width="2.6" stroke-linecap="round"/>`,
-dash:`<path d="M13 5L20 12L13 19" fill="none" stroke="#9fd0ff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 7L11 12L6 17" fill="none" stroke="#6aa8ff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12H3.5" stroke="#6aa8ff" stroke-width="2" stroke-linecap="round"/>`,
-smoke:`<g fill="#aeb5cc" stroke="#6a7190" stroke-width="1"><circle cx="8" cy="14" r="4.5"/><circle cx="14" cy="11" r="5"/><circle cx="17" cy="15.5" r="4"/></g><rect x="6" y="14" width="13" height="5" fill="#aeb5cc"/><path d="M5 19H21" stroke="#6a7190" stroke-width="1"/>`,
-lightning:`<path d="M13.5 2L5 13.5H11L9.5 22L19 9.5H13Z" fill="#ffe84d" stroke="#b8860b" stroke-width="1" stroke-linejoin="round"/>`,
-potion:`<path d="M10 3H14V9L19 18.5C20 20.5 18.5 22 16.5 22H7.5C5.5 22 4 20.5 5 18.5L10 9Z" fill="#9b5de5" stroke="#3a1f63" stroke-width="1" stroke-linejoin="round"/><path d="M6.5 16H17.5L19 18.5C20 20.5 18.5 22 16.5 22H7.5C5.5 22 4 20.5 5 18.5Z" fill="#7be39a"/><rect x="9" y="1.5" width="6" height="2.5" rx="1" fill="#8a5a2b"/><circle cx="10" cy="18.5" r="1" fill="#eaffee"/>`,
-broom:`<path d="M3 21L14 10" stroke="#8a5a2b" stroke-width="2" stroke-linecap="round"/><path d="M13 7L19 5L21 11L15 13Z" fill="#d9a45a" stroke="#6a4a1a" stroke-width=".8"/><path d="M15 6.5L17 12.5M17.5 6L19 12" stroke="#9a6a2a" stroke-width=".7"/>`,
-bleed:`<path d="${DROP24}" fill="#d02a3a" stroke="#6a0f1c" stroke-width="1"/><ellipse cx="9.8" cy="14.5" rx="1.2" ry="2" fill="#fff" opacity=".5"/>`,
-poison:`<path d="${DROP24}" fill="#7fcf3a" stroke="#2f6a14" stroke-width="1"/><circle cx="10" cy="15" r="1.2" fill="#1a3a0a"/><circle cx="14" cy="15" r="1.2" fill="#1a3a0a"/><path d="M10.5 18.2H13.5" stroke="#1a3a0a" stroke-width="1.1" stroke-linecap="round"/>`,
-burn:FLAME24("#ff7a2a","#ffe27a"),
-freeze:`<g stroke="#9fe6ff" stroke-width="1.8" stroke-linecap="round"><path d="M12 2V22M3.3 7L20.7 17M3.3 17L20.7 7"/></g><g stroke="#e8fbff" stroke-width="1.2" stroke-linecap="round" fill="none"><path d="M9.5 3.5L12 6L14.5 3.5M9.5 20.5L12 18L14.5 20.5"/></g>`,
-silent:`<circle cx="12" cy="12" r="9" fill="#2a3550" stroke="#9aa8c8" stroke-width="1.4"/><path d="M7.5 13.5Q12 11 16.5 13.5" fill="none" stroke="#e8f0ff" stroke-width="1.6" stroke-linecap="round"/><path d="M5 19L19 5" stroke="#ff5a66" stroke-width="2" stroke-linecap="round"/>`,
-stun:`<g fill="#ffd25a" stroke="#8a5f1d" stroke-width=".6"><path d="M7 5L8.2 8L11 8.4L8.8 10.4L9.4 13.4L7 11.8L4.6 13.4L5.2 10.4L3 8.4L5.8 8Z"/><path d="M17 11L18 13.6L20.6 14L18.6 15.8L19.2 18.6L17 17L14.8 18.6L15.4 15.8L13.4 14L16 13.6Z"/></g><path d="M5 19Q12 23 19 19" stroke="#ffd25a" stroke-width="1.4" fill="none" stroke-linecap="round"/>`,
-regen:`<path d="M12 4V20M4 12H20" stroke="#2f9a54" stroke-width="4.4" stroke-linecap="round"/><path d="M12 4V20M4 12H20" stroke="#c8ffd0" stroke-width="1.8" stroke-linecap="round"/>`,
-ghost:`<path d="M12 3C7.5 3 5 6.5 5 10.5V20L7.5 18L9.7 20.5L12 18L14.3 20.5L16.5 18L19 20V10.5C19 6.5 16.5 3 12 3Z" fill="#e8f0ff" stroke="#7a88b0" stroke-width="1"/><circle cx="9.7" cy="10" r="1.5" fill="#2a3550"/><circle cx="14.3" cy="10" r="1.5" fill="#2a3550"/><ellipse cx="12" cy="14" rx="1.4" ry="1.8" fill="#2a3550"/>`,
-heart:`<path d="${HEART}" fill="#e8445a" stroke="#6a1020" stroke-width="1"/><ellipse cx="8" cy="8" rx="1.6" ry="1" fill="#fff" opacity=".55"/>`,
-shield:`<path d="M12 2.5L20 5.5V12C20 16.5 16 20 12 21.5C8 20 4 16.5 4 12V5.5Z" fill="#6c82a8" stroke="#ffd25a" stroke-width="1.5"/><path d="M12 6V17" stroke="#ffd25a" stroke-width="1.3"/>`,
-trophy:`<path d="M7 3H17V9C17 12.5 14.8 14.5 12 14.5C9.2 14.5 7 12.5 7 9Z" fill="url(#gGold)" stroke="#8a5f1d" stroke-width="1"/><path d="M7 5H3.5C3.5 9 5 10.5 7.5 11M17 5H20.5C20.5 9 19 10.5 16.5 11" fill="none" stroke="#c88a2a" stroke-width="1.5"/><rect x="10.8" y="14.5" width="2.4" height="4" fill="#c88a2a"/><rect x="7.5" y="18.5" width="9" height="3" rx="1" fill="url(#gGold)" stroke="#8a5f1d" stroke-width=".8"/>`,
-skull:`<path d="M12 3C7 3 4.5 6.5 4.5 10.5C4.5 13.5 6 15 7.5 16V20H16.5V16C18 15 19.5 13.5 19.5 10.5C19.5 6.5 17 3 12 3Z" fill="#e8ecf4" stroke="#4a526a" stroke-width="1"/><circle cx="9" cy="11" r="2.2" fill="#2a3550"/><circle cx="15" cy="11" r="2.2" fill="#2a3550"/><path d="M12 13.5L10.8 16H13.2Z" fill="#2a3550"/><path d="M10 20V17.5M12 20V17.5M14 20V17.5" stroke="#4a526a" stroke-width=".9"/>`,
-rotate:`<rect x="8" y="3" width="8" height="14" rx="1.6" fill="#2a3550" stroke="#9aa8c8" stroke-width="1.4"/><path d="M4 15C4 19 8 22 12 22C15.5 22 18.5 20 20 17" fill="none" stroke="#35a8ff" stroke-width="1.8" stroke-linecap="round"/><path d="M20.5 21L20 16.5L15.5 17.5Z" fill="#35a8ff"/>`,
-swords:`<path d="M4 20L16 8M20 20L8 8" stroke="#dfe9ff" stroke-width="2" stroke-linecap="round"/><path d="M15 4H20V9ZM9 4H4V9Z" fill="#9fb0cc"/><path d="M3 21L6 18M21 21L18 18" stroke="#c88a2a" stroke-width="2.4" stroke-linecap="round"/>`
-};
-const ICON=n=>`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">${IC[n]||""}</svg>`;
+// Pictures live in /img as separate SVG files (img/char/<unit>.svg, img/icon/<name>.svg).
+// To change a picture, replace the file with the same name; nothing else needs editing.
+const IMG="img/";
+const CHAR=k=>`<img class="ch" src="${IMG}char/${k}.svg" alt="" draggable="false">`;
+const ICON=n=>`<img class="ic" src="${IMG}icon/${n}.svg" alt="" draggable="false">`;
+const ICON_NAMES="arrowRain asteroid aura blast bleed breath broom burn claws dagger dash fireball freeze ghost gsword heart leap light lightning meteor poison potion regen rejuv rotate shield silent skull slash smoke stun swords trophy windArrow wing".split(" ");
+// preload everything so frames never flash empty
+KEYS.forEach(k=>{new Image().src=IMG+"char/"+k+".svg"});ICON_NAMES.forEach(n=>{new Image().src=IMG+"icon/"+n+".svg"});
 const stI=(n,num)=>`<span class="st">${ICON(n)}${num?`<b>${num}</b>`:""}</span>`;
 
 /* ---------- visual effects (SVG, 10 units per board cell) ---------- */
@@ -475,15 +373,7 @@ hit:(f,x,y)=>{const m={fire:["#ffb04a","fxFire"]}[f.v]||["#fff","fxWhite"];retur
 tick:(f,x,y)=>TR(x,y,f.v==="bleed"?bits(f,4,S_DROP,0,.7,7,8,1,"fall"):f.v==="poison"?glow("fxPoison",11,0,.6)+bits(f,5,S_PBUB,0,.7,9,-12):f.v==="burn"?glow("fxFire",10,0,.5)+bits(f,4,S_EMBER,0,.7,8,-12):glow("fxGreen",11,0,.6)+bits(f,3,S_PLUS,0,.7,8,-14)),
 num:(f,x,y)=>`<text x="${x.toFixed(1)}" y="${(y-2).toFixed(1)}" text-anchor="middle" font-size="6.2" font-weight="800" fill="${f.c||"#fff"}" stroke="#000" stroke-width=".9" stroke-linejoin="round" paint-order="stroke" font-family="system-ui,sans-serif" ${K("numt",0,1)}>${esc(f.e)}</text>`
 };
-/* ---------- extra icons, effects for the dragon and the knight ---------- */
-Object.assign(IC,{
-claws:`<g fill="none" stroke-linecap="round"><path d="M5 3C8 9 9 15 8 21M11 2C14 8 15 14 14 21M17 3C20 9 21 14 20 20" stroke="#ff4a3a" stroke-width="2.6"/><path d="M5 3C8 9 9 15 8 21M11 2C14 8 15 14 14 21M17 3C20 9 21 14 20 20" stroke="#ffe0d0" stroke-width=".9"/></g>`,
-breath:`<path d="M2 12C6 5 14 6 22 12C14 18 6 19 2 12Z" fill="#ff7a2a" stroke="#a02a10" stroke-width=".9"/><path d="M5 12C9 9 14 9.5 19 12C14 14.5 9 15 5 12Z" fill="#ffe27a"/><path d="M4 6C7 3 10 3 12 4M5 19C8 21 11 21 13 20" stroke="#ff9a3c" stroke-width="1.4" fill="none" stroke-linecap="round"/>`,
-asteroid:`<path d="M12 11C9 5 4 4 1 6C3 8 3 10 4 13C7 13 10 12 12 11Z" fill="#ff5a3a" stroke="#a02a10" stroke-width=".6"/><path d="M12 11C15 5 20 4 23 6C21 8 21 10 20 13C17 13 14 12 12 11Z" fill="#ff5a3a" stroke="#a02a10" stroke-width=".6"/><circle cx="12" cy="15" r="5" fill="#ff8a2a" stroke="#a02a10" stroke-width="1"/><circle cx="12" cy="15" r="2.2" fill="#ffe27a"/><path d="M8 21L12 24L16 21" stroke="#ffd25a" stroke-width="1.4" fill="none" stroke-linecap="round"/>`,
-gsword:`<polygon points="12,1 15,5 14,16 10,16 9,5" fill="url(#gSteel)" stroke="#2a3550" stroke-width=".8"/><path d="M12 4V15" stroke="#fff" stroke-width=".8" opacity=".8"/><rect x="5.5" y="16" width="13" height="3" rx="1" fill="url(#gGold)" stroke="#8a5f1d" stroke-width=".7"/><rect x="10.6" y="19" width="2.8" height="4" fill="#5a2a1a"/>`,
-leap:`<path d="M3 19C5 8 15 4 20 11" fill="none" stroke="#9fd0ff" stroke-width="2.2" stroke-linecap="round"/><path d="M20.5 12L15.8 11.8L19 7.5Z" fill="#9fd0ff"/><path d="M14 22L22 22M18 22V17" stroke="#ffd25a" stroke-width="1.8" stroke-linecap="round"/><circle cx="18" cy="22" r="1.4" fill="#ffd25a"/>`,
-wing:`<path d="M3 17C5 9 11 5 21 6C17 9 15 11 14 15C10 14 7 15 3 17Z" fill="#e8f0ff" stroke="#7a88b0" stroke-width=".9"/><path d="M8 13C11 11 14 9.5 17 8" stroke="#7a88b0" stroke-width=".7" fill="none"/>`
-});
+/* ---------- extra effects for the dragon and the knight ---------- */
 Object.assign(FXD,{claws:1100,breath:1500,asteroid:2000,gsword:1200,leap:1600});
 Object.assign(FXH,{claws:150,breath:560,asteroid:1320,gsword:220,leap:670});
 const S_SMK=`<circle r="4" fill="url(#fxSmoke)"/>`;
