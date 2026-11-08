@@ -32,7 +32,6 @@ body{background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,"N
 .sh{position:relative;width:82%;height:82%;display:flex;align-items:center;justify-content:center;z-index:1}
 .sh .o,.sh .n{position:absolute;inset:0;clip-path:var(--cp)}
 .sh .o{background:var(--tc)}.sh .n{inset:7%;background:var(--sf2)}
-.sh .sy{position:relative;font-size:1.7em;line-height:1}
 .s-common{--cp:circle(50%)}
 .s-uncommon{--cp:polygon(50% 0,100% 50%,50% 100%,0 50%)}
 .s-rare{--cp:polygon(50% 0,100% 38%,82% 100%,18% 100%,0 38%)}
@@ -48,31 +47,64 @@ body{background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,"N
 .hb{position:absolute;left:10%;right:10%;bottom:3%;height:10%;background:#0009;border-radius:3px;overflow:hidden;z-index:3}
 .hb i{display:block;height:100%;background:var(--gn)}
 .sb{position:absolute;left:6%;top:4%;background:var(--me);color:#04121f;font-size:.7em;font-weight:700;border-radius:99px;padding:0 .4em;z-index:3}
-.stb{position:absolute;right:3%;top:3%;font-size:.55em;z-index:3;line-height:1;text-align:right}
+.stb{position:absolute;right:2%;top:2%;font-size:.55em;z-index:3;line-height:1;display:flex;flex-wrap:wrap;justify-content:flex-end;max-width:78%;gap:1px}
 .fxl{position:absolute;inset:0;pointer-events:none;z-index:6;overflow:hidden}
-.e{position:absolute;width:10%;height:10%;display:flex;align-items:center;justify-content:center;font-size:clamp(14px,4vh,34px);animation-fill-mode:both;animation-timing-function:ease-out}
-.e-pop{animation-name:pop}.e-proj{animation-name:pj}.e-drop{animation-name:dr}.e-num{animation-name:nm;font-weight:700;font-size:clamp(11px,2.8vh,20px);text-shadow:0 1px 3px #000}
-.e-ring{animation-name:rg;border:3px solid #ff7a2a;border-radius:50%;background:radial-gradient(#ff7a2a55,transparent 70%)}
-.e-flash{animation-name:fl;background:#ff9a3c}
-.e-shield{animation-name:shd;opacity:.65}
-.e-bolt{height:4px;width:calc(var(--len)*10%);transform:rotate(var(--ang));transform-origin:0 50%;background:#ffe84d;box-shadow:0 0 8px 3px #ffe84d;animation-name:bl}
-@keyframes pop{0%{transform:scale(.3);opacity:0}30%{opacity:1}60%{transform:scale(1.5);opacity:1}100%{transform:scale(1.9);opacity:0}}
-@keyframes pj{0%{transform:translate(0,0);opacity:1}90%{opacity:1}100%{transform:translate(calc(var(--dx)*100%),calc(var(--dy)*100%));opacity:0}}
-@keyframes dr{0%{transform:translateY(-700%);opacity:1}85%{transform:translateY(0);opacity:1}100%{transform:translateY(0) scale(1.4);opacity:0}}
-@keyframes nm{0%{transform:translateY(0);opacity:1}100%{transform:translateY(-90%);opacity:0}}
-@keyframes rg{0%{transform:scale(.4);opacity:.9}100%{transform:scale(2.4);opacity:0}}
-@keyframes fl{0%{opacity:.8}100%{opacity:0}}
-@keyframes shd{0%{transform:scale(1.5);opacity:.7}100%{transform:scale(1);opacity:0}}
-@keyframes bl{0%{opacity:1}100%{opacity:0}}
+.fxs{width:100%;height:100%;display:block}
+.fa{animation-delay:calc(var(--dl,0ms) + var(--d,1000ms)*var(--a,0));animation-duration:calc(var(--d,1000ms)*var(--b,1));animation-fill-mode:both;animation-timing-function:ease-out;transform-box:fill-box;transform-origin:center}
+.fa.pulse{animation-name:fxPulse}
+.fa.burst{animation-name:fxBurst}
+.fa.flash{animation-name:fxFlash}
+.fa.draw{animation-name:fxDraw;stroke-dasharray:1}
+.fa.rise{animation-name:fxRise}
+.fa.fall{animation-name:fxFall}
+.fa.fly{animation-name:fxFly}
+.fa.shot{animation-name:fxShot;animation-timing-function:cubic-bezier(.35,.05,.75,.95)}
+.fa.drop{animation-name:fxDrop;animation-timing-function:cubic-bezier(.4,0,.9,.6)}
+.fa.flick{animation-name:fxFlick;animation-timing-function:linear}
+.fa.spin{animation-name:fxSpin;animation-timing-function:linear}
+.fa.puff{animation-name:fxPuff}
+.fa.arcx{animation-name:fxArcX;animation-timing-function:linear}
+.fa.arcy{animation-name:fxArcY;animation-timing-function:ease-in-out}
+.fa.fade{animation-name:fxFade;animation-timing-function:linear}
+.fa.beam{animation-name:fxBeam}
+.fa.numt{animation-name:fxNum}
+@keyframes fxPulse{0%{transform:scale(.15);opacity:0}15%{opacity:1}100%{transform:scale(1.6);opacity:0}}
+@keyframes fxBurst{0%{transform:scale(.2);opacity:0}25%{opacity:1}100%{transform:scale(1.25);opacity:0}}
+@keyframes fxFlash{0%{opacity:0}12%{opacity:.9}100%{opacity:0}}
+@keyframes fxDraw{0%{stroke-dashoffset:1;opacity:0}2%{stroke-dashoffset:1;opacity:1}55%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:0;opacity:0}}
+@keyframes fxRise{0%{transform:translate(0,0);opacity:0}15%{opacity:1}100%{transform:translate(calc(var(--dx,0)*1px),calc(var(--dy,-12)*1px));opacity:0}}
+@keyframes fxFall{0%{transform:translate(0,0);opacity:0}15%{opacity:1}100%{transform:translate(calc(var(--dx,0)*1px),calc(var(--dy,10)*1px));opacity:0}}
+@keyframes fxFly{0%{transform:translate(0,0) scale(1);opacity:0}8%{opacity:1}100%{transform:translate(calc(var(--dx,0)*1px),calc(var(--dy,0)*1px)) scale(.4);opacity:0}}
+@keyframes fxShot{0%{transform:translate(0,0);opacity:0}8%{opacity:1}90%{opacity:1}100%{transform:translate(calc(var(--dx,0)*1px),calc(var(--dy,0)*1px));opacity:0}}
+@keyframes fxDrop{0%{transform:translate(calc(var(--sx,0)*1px),calc(var(--sy,-30)*1px));opacity:0}12%{opacity:1}88%{opacity:1}100%{transform:translate(0,0);opacity:0}}
+@keyframes fxFlick{0%{opacity:0}8%{opacity:1}20%{opacity:.35}32%{opacity:1}48%{opacity:.5}60%{opacity:1}100%{opacity:0}}
+@keyframes fxSpin{0%{transform:rotate(0);opacity:0}15%{opacity:1}100%{transform:rotate(var(--rot,180deg));opacity:0}}
+@keyframes fxPuff{0%{transform:translate(0,0) scale(.3);opacity:0}25%{opacity:.85}100%{transform:translate(calc(var(--dx,0)*1px),calc(var(--dy,-4)*1px)) scale(1.5);opacity:0}}
+@keyframes fxArcX{0%{transform:translateX(0);opacity:0}2%{opacity:1}98%{opacity:1}100%{transform:translateX(calc(var(--dx,0)*1px));opacity:0}}
+@keyframes fxArcY{0%{transform:translateY(0);animation-timing-function:ease-out}50%{transform:translateY(calc(var(--dy,0)*.5px - var(--ah,8)*1px));animation-timing-function:ease-in}100%{transform:translateY(calc(var(--dy,0)*1px))}}
+@keyframes fxFade{0%{opacity:0}10%{opacity:1}85%{opacity:1}100%{opacity:0}}
+@keyframes fxBeam{0%{opacity:0;transform:scaleX(.15)}18%{opacity:1;transform:scaleX(1)}75%{opacity:.9;transform:scaleX(.85)}100%{opacity:0;transform:scaleX(1.4)}}
+@keyframes fxNum{0%{transform:translateY(0);opacity:0}12%{opacity:1}70%{opacity:1}100%{transform:translateY(-9px);opacity:0}}
+.ic{width:1.15em;height:1.15em;display:inline-block;vertical-align:-.2em;flex:none}
+.sh .ch{position:absolute;inset:7%;width:86%;height:86%;display:block;clip-path:var(--cp)}
+.sk .i .ic{width:1.1em;height:1.1em;vertical-align:middle}
+.stb .st{display:inline-flex;align-items:center;background:#000b;border-radius:99px;padding:0 .3em 0 .1em;color:#fff}
+.stb .ic{width:1.7em;height:1.7em;vertical-align:middle}
+.stb b{font-size:1.1em;font-weight:700}
+.ov .ic{width:1.3em;height:1.3em}
+.hp .ic{width:1.3em;height:1.3em}
+.ps .ic{vertical-align:-.25em}
+#rot .ic{width:3em;height:3em;display:block;margin:0 auto .4em}
+.setup h2 .ic{width:1.1em;height:1.1em}
 .row{display:flex;align-items:center;gap:.5em;padding:.3em;border-radius:8px;cursor:pointer;margin-bottom:.3em;background:var(--sf2)}
 .row.s{outline:2px solid var(--me)}.row.e.s{outline-color:var(--en)}
-.row .sh{width:2.2em;height:2.2em;flex:none}.row .sh .sy{font-size:1.1em}
+.row .sh{width:2.2em;height:2.2em;flex:none}
 .row .bar{flex:1}
 .bar{height:.7em;background:var(--bd);border-radius:4px;overflow:hidden}.bar i{display:block;height:100%;background:var(--gn)}
 .row small{color:var(--mu)}
 hr{border:0;border-top:1px solid var(--bd);margin:.6em 0}
 .por{display:flex;gap:.6em;align-items:center}
-.por .sh{width:3.4em;height:3.4em;flex:none}.por .sh .sy{font-size:1.9em}
+.por .sh{width:3.4em;height:3.4em;flex:none}
 .nm{font-weight:700;font-size:1.1em}
 .hp{display:flex;align-items:center;gap:.5em;margin:.6em 0}
 .ps{font-size:.85em;color:var(--mu);margin-bottom:.4em}
@@ -89,7 +121,7 @@ button.m:disabled{opacity:.4}
 .opts{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
 .opt{background:var(--sf);color:var(--tx);border:2px solid var(--bd);border-radius:12px;padding:8px 10px;font:inherit;cursor:pointer;width:116px;font-size:13px}
 .opt.on{border-color:var(--me);box-shadow:0 0 8px var(--me)}
-.opt .sh{width:48px;height:48px;margin:0 auto 4px}.opt .sh .sy{font-size:26px}
+.opt .sh{width:48px;height:48px;margin:0 auto 4px}
 #rot{display:none;position:fixed;inset:0;background:var(--bg);z-index:20;align-items:center;justify-content:center;text-align:center;font-size:18px;padding:20px}
 @media (orientation:portrait){#rot{display:flex}}
 
@@ -109,6 +141,25 @@ button.m:disabled{opacity:.4}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+<linearGradient id="gSteel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f1f6ff"/><stop offset=".5" stop-color="#9fb0cc"/><stop offset="1" stop-color="#56647f"/></linearGradient>
+<linearGradient id="gGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff0b0"/><stop offset=".5" stop-color="#e0aa43"/><stop offset="1" stop-color="#8a5f1d"/></linearGradient>
+<linearGradient id="gCrim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ef5a5a"/><stop offset="1" stop-color="#7a1423"/></linearGradient>
+<linearGradient id="gForest" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#58915a"/><stop offset="1" stop-color="#1f3a26"/></linearGradient>
+<linearGradient id="gRobeFire" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff9a45"/><stop offset="1" stop-color="#9c1f10"/></linearGradient>
+<linearGradient id="gViolet" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8d5fcb"/><stop offset="1" stop-color="#2b1a4a"/></linearGradient>
+<linearGradient id="gLeafRobe" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bfe8b0"/><stop offset="1" stop-color="#3f8f52"/></linearGradient>
+<linearGradient id="gLeaf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c9f2a8"/><stop offset="1" stop-color="#3f8f4c"/></linearGradient>
+<linearGradient id="fxBeam" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe27a" stop-opacity="0"/><stop offset="1" stop-color="#fff6c8" stop-opacity=".95"/></linearGradient>
+<radialGradient id="fxFire"><stop offset="0" stop-color="#fff"/><stop offset=".25" stop-color="#ffe27a"/><stop offset=".55" stop-color="#ff8a2a"/><stop offset=".8" stop-color="#d02a12" stop-opacity=".8"/><stop offset="1" stop-color="#d02a12" stop-opacity="0"/></radialGradient>
+<radialGradient id="fxWhite"><stop offset="0" stop-color="#fff"/><stop offset=".5" stop-color="#dfe9ff" stop-opacity=".7"/><stop offset="1" stop-color="#dfe9ff" stop-opacity="0"/></radialGradient>
+<radialGradient id="fxGreen"><stop offset="0" stop-color="#f0ffe8"/><stop offset=".45" stop-color="#7fe08a" stop-opacity=".8"/><stop offset="1" stop-color="#3fae5a" stop-opacity="0"/></radialGradient>
+<radialGradient id="fxGold"><stop offset="0" stop-color="#fffbe0"/><stop offset=".45" stop-color="#ffd25a" stop-opacity=".85"/><stop offset="1" stop-color="#e09a20" stop-opacity="0"/></radialGradient>
+<radialGradient id="fxPurple"><stop offset="0" stop-color="#f5e8ff"/><stop offset=".45" stop-color="#a35be0" stop-opacity=".8"/><stop offset="1" stop-color="#5a2a9a" stop-opacity="0"/></radialGradient>
+<radialGradient id="fxSmoke"><stop offset="0" stop-color="#d7dbe8" stop-opacity=".9"/><stop offset=".6" stop-color="#8a8fa6" stop-opacity=".6"/><stop offset="1" stop-color="#6a6f86" stop-opacity="0"/></radialGradient>
+<radialGradient id="fxPoison"><stop offset="0" stop-color="#e2ffb4"/><stop offset=".5" stop-color="#7fcf3a" stop-opacity=".7"/><stop offset="1" stop-color="#4a8a1a" stop-opacity="0"/></radialGradient>
+<linearGradient id="gShadow" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a4272"/><stop offset="1" stop-color="#14101f"/></linearGradient>
+</defs></svg>
 
 <div id="onlineLobby">
   <div class="box">
@@ -135,42 +186,42 @@ button.m:disabled{opacity:.4}
   </div>
 </div>
 
-<div id="rot">📱↻<br>กรุณาหมุนจอเป็นแนวนอน</div>
+<div id="rot"></div>
 <div class="frame" id="g"></div>
 <div class="setup" id="su"></div>
 <script src="/socket.io/socket.io.js"></script>
 <script>
 const R={
-sword:{n:"Swordman",sy:"🗡️",rar:"common",hp:100,mv:1,pop:2,
+sword:{n:"Swordman",rar:"common",hp:100,mv:1,pop:2,
  pas:"รีเฟล็กซ์ นักรบ: โอกาส 15% ปัดป้องลูกธนูระดับต่ำ",
  blk:[{p:.15,c:["phys"],l:["low"],tg:"arrow"}],
- s:[{n:"Slash",i:"⚔️",k:"t",r:1,d:7,c:"phys",l:"low",cd:0,fx:"pop",e:"⚔️"}]},
-archer:{n:"Archer",sy:"🏹",rar:"common",hp:60,mv:1,pop:2,pas:"",blk:[],
- s:[{n:"Wind Arrow",i:"🌬️",k:"t",r:2,d:5,c:"phys",l:"low",cd:1,tg:"arrow",fx:"proj",e:"🌬️"},
-    {n:"Wind Meteorite",i:"☄️",k:"t",r:4,d:10,dt:"true",c:"phys",l:"mid",cd:3,tg:"arrow",fx:"drop",e:"🏹"}]},
-mage:{n:"Firemage",sy:"🧙",rar:"common",hp:60,mv:1,pop:3,pas:"",blk:[],
- s:[{n:"Fireball",i:"🔥",k:"t",r:2,d:7,c:"magic",l:"low",cd:1,tg:"fire",fx:"proj",e:"🔥"},
-    {n:"Meteorite",i:"🌠",k:"a",r:"ทั้งกระดาน",d:5,c:"magic",l:"mid",cd:4,tg:"meteor",x:"โดน 5 ช่อง (กากบาท) โดนพวกเดียวกันได้"},
-    {n:"Fire Aura",i:"💥",k:"s",r:"รอบตัว 1",d:5,c:"magic",l:"mid",cd:6,tg:"fire",sh:5,x:"โล่ 5 + ดาเมจรอบตัว 3 ครั้ง"}]},
-shield:{n:"Shield man",sy:"🛡️",rar:"common",hp:120,mv:1,pop:2,
+ s:[{n:"Slash",i:"slash",k:"t",r:1,d:7,c:"phys",l:"low",cd:0,v:"slash"}]},
+archer:{n:"Archer",rar:"common",hp:60,mv:1,pop:2,pas:"",blk:[],
+ s:[{n:"Wind Arrow",i:"windArrow",k:"t",r:2,d:5,c:"phys",l:"low",cd:1,tg:"arrow",v:"windArrow"},
+    {n:"Wind Meteorite",i:"arrowRain",k:"t",r:4,d:10,dt:"true",c:"phys",l:"mid",cd:3,tg:"arrow",v:"arrowRain"}]},
+mage:{n:"Firemage",rar:"common",hp:60,mv:1,pop:3,pas:"",blk:[],
+ s:[{n:"Fireball",i:"fireball",k:"t",r:2,d:7,c:"magic",l:"low",cd:1,tg:"fire",v:"fireball"},
+    {n:"Meteorite",i:"meteor",v:"meteor",k:"a",r:"ทั้งกระดาน",d:5,c:"magic",l:"mid",cd:4,tg:"meteor",x:"โดน 5 ช่อง (กากบาท) โดนพวกเดียวกันได้"},
+    {n:"Fire Aura",i:"aura",v:"aura",k:"s",r:"รอบตัว 1",d:5,c:"magic",l:"mid",cd:6,tg:"fire",sh:5,x:"โล่ 5 + ดาเมจรอบตัว 3 ครั้ง"}]},
+shield:{n:"Shield man",rar:"common",hp:120,mv:1,pop:2,
  pas:"Blocker: โอกาส 40% กันกายภาพต่ำ/กลาง และเวทย์ต่ำ",
  blk:[{p:.4,c:["phys"],l:["low","mid"]},{p:.4,c:["magic"],l:["low"]}],
- s:[{n:"Shield Blast",i:"💢",k:"t",r:1,d:5,c:"phys",l:"low",cd:0,fx:"pop",e:"💢"}]},
-meric:{n:"Meric",sy:"🌿",rar:"uncommon",hp:60,mv:1,pop:3,pas:"Healer",blk:[],
- s:[{n:"Rejuvenation",i:"💚",k:"h",r:3,heal:6,cd:1,x:"ล้าง Bleeding/Poison ด้วย"},
-    {n:"Light of Gentle",i:"✨",k:"r",r:3,heal:5,cd:5,x:"ฟื้น 5 ทันที + อีก 2 ครั้งตอนเริ่มเทิร์น"}]},
-assassin:{n:"Assassin",sy:"🥷",rar:"uncommon",hp:60,mv:1,pop:3,pas:"",blk:[],
- s:[{n:"Dagger Strike",i:"🗡️",k:"t",r:1,d:7,c:"phys",l:"low",cd:1,fx:"pop",e:"🗡️",alt:{on:"ww",n:"Sharpness-Dagger",d:8,bleed:1,xww:1,x:"ติด Bleeding และออกจาก Wind-Walk"}},
-    {n:"Legging-Dash",i:"💨",k:"m",r:2,cd:1,x:"หัก MP 1 เดินไกล 2 ช่อง",alt:{on:"ww",n:"Teleport",r:"ทั้งกระดาน",tp:1,x:"หัก MP 1 วาร์ปได้ 1 ครั้งต่อ Wind-Walk"}},
-    {n:"Invisible Bomb",i:"🌫️",k:"w",cd:4,x:"Wind-Walk 3 เทิร์น (CD นับหลังออก)"}]},
-witch:{n:"Wandering Witch",sy:"🧹",rar:"rare",hp:60,mv:1,pop:3,pas:"",blk:[],
- s:[{n:"Lightning Oak Wand",i:"⚡",k:"t",r:2,d:4,c:"magic",l:"low",cd:1,tg:"lightning",chain:1,fx:"bolt",x:"ชิ่งไปศัตรูใกล้เคียง 1 ตัว",
-     alt:{on:"fly",n:"Lightning Strike",d:8,chain:0,fx:"drop",e:"⚡",x:"บิน: เป้าเดียว ×2"}},
-    {n:"Alchemist Potions",i:"🧪",k:"p",r:1,cd:2,x:"เพื่อน = ฟื้นฟู 2 ตา ตาละ 3 · ศัตรู = Poison"},
-    {n:"Witch's Broomstick",i:"🧹",k:"f",cd:3,x:"บิน 3 เทิร์น เดิน 2 ช่อง (CD นับหลังลงพื้น)"}]}};
+ s:[{n:"Shield Blast",i:"blast",k:"t",r:1,d:5,c:"phys",l:"low",cd:0,v:"blast"}]},
+meric:{n:"Meric",rar:"uncommon",hp:60,mv:1,pop:3,pas:"Healer",blk:[],
+ s:[{n:"Rejuvenation",i:"rejuv",v:"rejuv",k:"h",r:3,heal:6,cd:1,x:"ล้าง Bleeding/Poison ด้วย"},
+    {n:"Light of Gentle",i:"light",v:"light",k:"r",r:3,heal:5,cd:5,x:"ฟื้น 5 ทันที + อีก 2 ครั้งตอนเริ่มเทิร์น"}]},
+assassin:{n:"Assassin",rar:"uncommon",hp:60,mv:1,pop:3,pas:"",blk:[],
+ s:[{n:"Dagger Strike",i:"dagger",v:"dagger",k:"t",r:1,d:7,c:"phys",l:"low",cd:1,alt:{on:"ww",v:"daggerB",n:"Sharpness-Dagger",d:8,bleed:1,xww:1,x:"ติด Bleeding และออกจาก Wind-Walk"}},
+    {n:"Legging-Dash",i:"dash",v:"dash",k:"m",r:2,cd:1,x:"หัก MP 1 เดินไกล 2 ช่อง",alt:{on:"ww",v:"tele",n:"Teleport",r:"ทั้งกระดาน",tp:1,x:"หัก MP 1 วาร์ปได้ 1 ครั้งต่อ Wind-Walk"}},
+    {n:"Invisible Bomb",i:"smoke",v:"smoke",k:"w",cd:4,x:"Wind-Walk 3 เทิร์น (CD นับหลังออก)"}]},
+witch:{n:"Wandering Witch",rar:"rare",hp:60,mv:1,pop:3,pas:"",blk:[],
+ s:[{n:"Lightning Oak Wand",i:"lightning",v:"lightning",k:"t",r:2,d:4,c:"magic",l:"low",cd:1,tg:"lightning",chain:1,x:"ชิ่งไปศัตรูใกล้เคียง 1 ตัว",
+     alt:{on:"fly",v:"strike",n:"Lightning Strike",d:8,chain:0,x:"บิน: เป้าเดียว ×2"}},
+    {n:"Alchemist Potions",i:"potion",v:"potion",k:"p",r:1,cd:2,x:"เพื่อน = ฟื้นฟู 2 ตา ตาละ 3 · ศัตรู = Poison"},
+    {n:"Witch's Broomstick",i:"broom",v:"swirl",k:"f",cd:3,x:"บิน 3 เทิร์น เดิน 2 ช่อง (CD นับหลังลงพื้น)"}]}};
 const KEYS=Object.keys(R),CAP=15,RAR={common:"Common",uncommon:"Uncommon",rare:"Rare",epic:"Epic",legend:"Legend"};
 const CR=[[0,0],[1,0],[-1,0],[0,1],[0,-1]];
-let U=[],P=[{mp:2,ap:2},{mp:2,ap:2}],sel=null,mode=-1,turn=0,over=-1,pick=[],msg="",FX=[],nid=1;
+let U=[],P=[{mp:2,ap:2},{mp:2,ap:2}],sel=null,mode=-1,turn=0,over=-1,pick=[],msg="",FX=[],fxOut=[],nid=1;
 const $=id=>document.getElementById(id);
 const at=(x,y)=>U.find(u=>u.x===x&&u.y===y);
 const byId=id=>U.find(u=>u.id===id);
@@ -179,36 +230,250 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 const eff=(u,si)=>{const s=R[u.k].s[si],a=s.alt;if(!a)return s;return(a.on==="ww"?u.ww:u.fly)>0?{...s,...a}:s};
 const dis=u=>u.stunned||u.st.freeze>0;
 const hidden=u=>(onlineGame?u.team!==onlineMyTeam:u.team===1)&&u.ww>0;
-const shape=(k,team,ex="")=>`<div class="sh s-${R[k].rar} ${ex}" style="--tc:var(${team?"--en":"--me"})"><span class="o"></span><span class="n"></span><span class="sy">${R[k].sy}</span></div>`;
+const shape=(k,team,ex="")=>`<div class="sh s-${R[k].rar} ${ex}" style="--tc:var(${team?"--en":"--me"})"><span class="o"></span><span class="n"></span>${CHAR(k)}</div>`;
 const info=s=>[s.d?((s.dt==="true"?"ดาเมจจริง":s.c==="phys"?"กายภาพ":"เวทย์")+" "+s.d):(s.heal?"ฟื้นฟู "+s.heal:null),s.r!==undefined?"ระยะ "+s.r:null,"CD "+s.cd].filter(Boolean).join(" · ");
-const icons=u=>[u.st.bleed?"🩸":"",u.st.poison?"☠️"+u.st.poison:"",u.st.burn?"🔥"+u.st.burn:"",u.st.freeze>0?"🧊":"",u.st.silent>0?"🤐":"",u.stunned&&turn===u.team?"😵":"",u.st.regen?"💚":"",u.ww>0?"👻":""].join("");
+const icons=u=>[u.st.bleed?stI("bleed"):"",u.st.poison?stI("poison",u.st.poison):"",u.st.burn?stI("burn",u.st.burn):"",u.st.freeze>0?stI("freeze"):"",u.st.silent>0?stI("silent"):"",u.stunned&&turn===u.team?stI("stun"):"",u.st.regen?stI("regen"):"",u.ww>0?stI("ghost"):""].join("");
 
-/* ---------- visual effects ---------- */
-function addFx(o){o.t0=Date.now();o.dur=o.dur||700;o.x2=o.x2===undefined?o.x:o.x2;o.y2=o.y2===undefined?o.y:o.y2;FX.push(o);setTimeout(()=>{FX=FX.filter(f=>f!==o)},o.dur+(o.dl||0)+80)}
-const pop=(x,y,e,dl=0)=>addFx({type:"pop",x,y,e,dl});
-const num=(t,txt,c)=>addFx({type:"num",x:t.x,y:t.y,e:txt,c,dur:900});
+/* ---------- ART: SVG characters and icons ---------- */
+const SK="#f2cba3",OL="#1a1626";
+const eyes=(y,c=OL)=>`<ellipse cx="28.2" cy="${y}" rx="1.3" ry="1.7" fill="${c}"/><ellipse cx="35.8" cy="${y}" rx="1.3" ry="1.7" fill="${c}"/>`;
+const smile=y=>`<path d="M29.6 ${y}Q32 ${y+2} 34.4 ${y}" stroke="#8a4a3a" stroke-width="1" fill="none" stroke-linecap="round"/>`;
+const DAG=`<polygon points="15,48 18,38 21,48 21,57 15,57" fill="url(#gSteel)" stroke="${OL}" stroke-width=".8"/><path d="M18 40V56" stroke="#fff" stroke-width=".5" opacity=".7"/><rect x="13" y="57" width="10" height="2.4" rx="1" fill="url(#gGold)" stroke="${OL}" stroke-width=".6"/><rect x="16.8" y="59.4" width="2.4" height="5" fill="#3a2a2a"/>`;
+const CH={
+sword:`<path d="M12 64C12 48 21 43 32 43C43 43 52 48 52 64Z" fill="url(#gSteel)" stroke="${OL}" stroke-width="1.2"/>
+<circle cx="16.5" cy="48" r="5" fill="url(#gGold)" stroke="${OL}" stroke-width="1"/>
+<path d="M32 43L27 50L32 64L37 50Z" fill="#3b4a6b" stroke="${OL}" stroke-width=".8"/>
+<path d="M22 31H42V35C42 41 37 45 32 45C27 45 22 41 22 35Z" fill="${SK}" stroke="${OL}" stroke-width="1.1"/>
+${eyes(36)}${smile(40.5)}
+<path d="M20.5 33C20.5 19 26 12.5 32 12.5C38 12.5 43.5 19 43.5 33Z" fill="url(#gSteel)" stroke="${OL}" stroke-width="1.2"/>
+<path d="M32 12.5C29 6 37 3 41 8C37 8 35 10 34.5 13Z" fill="url(#gCrim)" stroke="${OL}" stroke-width=".9"/>
+<path d="M32 14V32" stroke="#56647f" stroke-width="1.6"/>
+<g transform="rotate(20 51 40)"><path d="M49 11L51 4L53 11V35H49Z" fill="url(#gSteel)" stroke="${OL}" stroke-width="1"/><path d="M51 6V34" stroke="#fff" stroke-width=".6" opacity=".7"/><rect x="45" y="35" width="12" height="3.2" rx="1" fill="url(#gGold)" stroke="${OL}" stroke-width=".8"/><rect x="49.8" y="38" width="2.4" height="7" fill="#6b3b21" stroke="${OL}" stroke-width=".6"/><circle cx="51" cy="46.5" r="2" fill="url(#gGold)" stroke="${OL}" stroke-width=".6"/></g>`,
+archer:`<path d="M51 12C61 28 61 46 51 62" fill="none" stroke="#8a5a2b" stroke-width="3" stroke-linecap="round"/>
+<line x1="51" y1="12" x2="51" y2="62" stroke="#efe6c8" stroke-width=".8"/>
+<path d="M11 64C11 48 20 43 32 43C44 43 53 48 53 64Z" fill="url(#gForest)" stroke="${OL}" stroke-width="1.2"/>
+<path d="M32 43L25 52L32 64L39 52Z" fill="#3a2a1a" opacity=".5"/>
+<path d="M19.5 40C19.5 20 25.5 10.5 32 10.5C38.5 10.5 44.5 20 44.5 40L44.5 44L19.5 44Z" fill="#2f6a3e" stroke="${OL}" stroke-width="1.2"/>
+<ellipse cx="32" cy="32" rx="7.8" ry="8.8" fill="${SK}" stroke="${OL}" stroke-width="1"/>
+<path d="M23.5 29C26 20 38 20 40.5 29C37 25 27 25 23.5 29Z" fill="#245a33"/>
+<path d="M32 10.5C34 7 38 6 40 7C38 9 38 11 37 13Z" fill="#2f6a3e" stroke="${OL}" stroke-width=".9"/>
+${eyes(33,"#2a5a3a")}${smile(38)}
+<line x1="22" y1="50" x2="56" y2="50" stroke="#7a5a30" stroke-width="1.4"/>
+<path d="M56 47.2L62 50L56 52.8Z" fill="#e8f0ff" stroke="${OL}" stroke-width=".6"/>
+<path d="M22 50L19 47.5M22 50L19 52.5M25 50L22 47.5M25 50L22 52.5" stroke="#d9444a" stroke-width="1.2" stroke-linecap="round"/>`,
+mage:`<path d="M10 64C10 48 20 43 32 43C44 43 54 48 54 64Z" fill="url(#gRobeFire)" stroke="${OL}" stroke-width="1.2"/>
+<path d="M32 43V64" stroke="#7a1a10" stroke-width="1.2"/>
+<path d="M24 43L32 52L40 43" fill="none" stroke="url(#gGold)" stroke-width="2"/>
+<ellipse cx="32" cy="33" rx="8.4" ry="9" fill="${SK}" stroke="${OL}" stroke-width="1"/>
+<path d="M23.5 31C24 25 28 22 32 22C36 22 40 25 40.5 31C37 27 27 27 23.5 31Z" fill="#3b2418"/>
+${eyes(34)}${smile(38.5)}
+<ellipse cx="32" cy="24" rx="18" ry="4.6" fill="#8a2112" stroke="${OL}" stroke-width="1.1"/>
+<path d="M20 24C22 15 28 9 37 2C35 10 40 15 44 24C38 27 26 27 20 24Z" fill="url(#gRobeFire)" stroke="${OL}" stroke-width="1.2"/>
+<path d="M21 23.5C28 27 38 27 43.5 23.2" fill="none" stroke="url(#gGold)" stroke-width="2.2"/>
+<circle cx="50" cy="41" r="9" fill="url(#fxFire)"/>
+<path d="M50 31C54 36 57 38 56 43C55 48 45 48 44 43C43 39 47 37 50 31Z" fill="#ff8a2a" stroke="#a02a10" stroke-width=".6"/>
+<path d="M50 37C52 40 53 42 52 44C51 46.5 48 46.5 48 44C48 42 49 40 50 37Z" fill="#ffe27a"/>
+<circle cx="50" cy="51" r="3.2" fill="${SK}" stroke="${OL}" stroke-width=".8"/>`,
+shield:`<path d="M11 64C11 48 20 43 32 43C44 43 53 48 53 64Z" fill="url(#gSteel)" stroke="${OL}" stroke-width="1.2"/>
+<circle cx="49" cy="47" r="5" fill="url(#gGold)" stroke="${OL}" stroke-width=".9"/>
+<path d="M28 13C26 7 33 4 37 8C34 8 32 10 31.5 13Z" fill="url(#gCrim)" stroke="${OL}" stroke-width=".8"/>
+<path d="M21 38C21 20 26 12.5 32 12.5C38 12.5 43 20 43 38L43 42L21 42Z" fill="url(#gSteel)" stroke="${OL}" stroke-width="1.2"/>
+<rect x="23.5" y="27" width="17" height="3.6" rx="1.4" fill="${OL}"/>
+<path d="M32 13V27M32 31V42" stroke="#56647f" stroke-width="1.6"/>
+<g fill="#2a3550"><circle cx="27.5" cy="34" r=".8"/><circle cx="27.5" cy="37" r=".8"/><circle cx="27.5" cy="40" r=".8"/><circle cx="36.5" cy="34" r=".8"/><circle cx="36.5" cy="37" r=".8"/><circle cx="36.5" cy="40" r=".8"/></g>
+<path d="M6 38H34V50C34 58 23 62.5 20 64C17 62.5 6 58 6 50Z" fill="url(#gCrim)" stroke="url(#gGold)" stroke-width="2.2" stroke-linejoin="round"/>
+<path d="M20 41V62M9 48H31" stroke="url(#gGold)" stroke-width="2"/>
+<circle cx="20" cy="48" r="3" fill="url(#gGold)" stroke="${OL}" stroke-width=".7"/>`,
+meric:`<path d="M20.5 44C16 36 17 22 25 15C29 12 35 12 39 15C47 22 48 36 43.5 44Z" fill="#7a4a2a" stroke="${OL}" stroke-width="1.1"/>
+<path d="M10 64C10 48 20 43 32 43C44 43 54 48 54 64Z" fill="url(#gLeafRobe)" stroke="${OL}" stroke-width="1.2"/>
+<path d="M24 43L32 62L40 43" fill="none" stroke="url(#gGold)" stroke-width="2"/>
+<path d="M50 62V12" stroke="#8a5a2b" stroke-width="2.6" stroke-linecap="round"/>
+<circle cx="50" cy="13" r="11" fill="url(#fxGreen)"/>
+<path d="M50 14C45 12 43 6 47 3C48 7 50 9 50 14Z" fill="url(#gLeaf)" stroke="#2f6b3a" stroke-width=".7"/>
+<path d="M50 14C55 12 57 6 53 3C52 7 50 9 50 14Z" fill="url(#gLeaf)" stroke="#2f6b3a" stroke-width=".7"/>
+<path d="M50 15C47 10 49 5 50 2C51 5 53 10 50 15Z" fill="url(#gLeaf)" stroke="#2f6b3a" stroke-width=".7"/>
+<circle cx="50" cy="51" r="3" fill="${SK}" stroke="${OL}" stroke-width=".8"/>
+<ellipse cx="32" cy="32" rx="8.4" ry="9.4" fill="${SK}" stroke="${OL}" stroke-width="1"/>
+<path d="M23.5 30C24 22 28 19 32 19C36 19 40 22 40.5 30C38 25 26 25 23.5 30Z" fill="#8a5a34"/>
+<path d="M25 23C22 20 24 15.5 28 15.5C28 18.5 27 21 25 23Z" fill="url(#gLeaf)" stroke="#2f6b3a" stroke-width=".7"/>
+<path d="M39 23C42 20 40 15.5 36 15.5C36 18.5 37 21 39 23Z" fill="url(#gLeaf)" stroke="#2f6b3a" stroke-width=".7"/>
+${eyes(33,"#2f6b3a")}
+<ellipse cx="26" cy="37" rx="1.8" ry="1.1" fill="#f08a8a" opacity=".6"/><ellipse cx="38" cy="37" rx="1.8" ry="1.1" fill="#f08a8a" opacity=".6"/>${smile(38)}`,
+assassin:`<path d="M11 64C11 48 20 43 32 43C44 43 53 48 53 64Z" fill="url(#gShadow)" stroke="${OL}" stroke-width="1.2"/>
+<path d="M22 46L32 56L42 46" fill="none" stroke="#9a2a44" stroke-width="2"/>
+<path d="M19 38C19 19 25 10 32 10C39 10 45 19 45 38L45 44L19 44Z" fill="url(#gShadow)" stroke="${OL}" stroke-width="1.2"/>
+<path d="M24 27H40C41 33 38 41 32 43C26 41 23 33 24 27Z" fill="#0f0b1a"/>
+<path d="M24 28H40V34H24Z" fill="#c99a72"/>
+<path d="M24 34H40C40 39 36 43 32 43C28 43 24 39 24 34Z" fill="#1a1626"/>
+<path d="M25.5 29L31 31.2M38.5 29L33 31.2" stroke="${OL}" stroke-width="1.2" stroke-linecap="round"/>
+<ellipse cx="28.5" cy="31.6" rx="2.2" ry="1.1" fill="#fff6c8"/><ellipse cx="35.5" cy="31.6" rx="2.2" ry="1.1" fill="#fff6c8"/>
+<circle cx="28.8" cy="31.6" r=".8" fill="#c0142b"/><circle cx="35.2" cy="31.6" r=".8" fill="#c0142b"/>
+<g transform="rotate(25 18 52)">${DAG}</g><g transform="translate(64 0) scale(-1 1)"><g transform="rotate(25 18 52)">${DAG}</g></g>`,
+witch:`<path d="M20 26C15 34 16 46 21 54L28 40Z" fill="#3a1f63" stroke="${OL}" stroke-width="1"/>
+<path d="M44 26C49 34 48 46 43 54L36 40Z" fill="#3a1f63" stroke="${OL}" stroke-width="1"/>
+<path d="M11 64C11 49 20 43 32 43C44 43 53 49 53 64Z" fill="url(#gViolet)" stroke="${OL}" stroke-width="1.2"/>
+<path d="M22 44C26 50 38 50 42 44" fill="none" stroke="url(#gGold)" stroke-width="2"/>
+<path d="M4 58L60 47" stroke="#8a5a2b" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M54 41L63 44.5L63 54L54 51.5Z" fill="#d9a45a" stroke="${OL}" stroke-width=".9"/>
+<path d="M56 43V52M58.5 44V53M61 45V54" stroke="#9a6a2a" stroke-width=".7"/>
+<path d="M12.5 38H15.5V41C18.5 42.5 19 47 17.5 48.5C16 50 12 50 10.5 48.5C9 47 9.5 42.5 12.5 41Z" fill="#7be39a" stroke="${OL}" stroke-width=".7"/><rect x="12.2" y="36" width="3.6" height="2.2" rx=".6" fill="#8a5a2b"/><ellipse cx="12.3" cy="45" rx="1.2" ry="1.8" fill="#fff" opacity=".5"/>
+<ellipse cx="32" cy="33" rx="8.4" ry="9.2" fill="#f5dcc6" stroke="${OL}" stroke-width="1"/>
+<path d="M23.6 30C24 24 28 22 32 22C36 22 40 24 40.4 30C37 26 27 26 23.6 30Z" fill="#3a1f63"/>
+<ellipse cx="28.3" cy="34" rx="1.5" ry="2.1" fill="#4a2a8a"/><ellipse cx="35.7" cy="34" rx="1.5" ry="2.1" fill="#4a2a8a"/>
+<circle cx="28.8" cy="33.2" r=".6" fill="#fff"/><circle cx="36.2" cy="33.2" r=".6" fill="#fff"/>
+<ellipse cx="25.8" cy="37.6" rx="1.8" ry="1.1" fill="#f08aa8" opacity=".55"/><ellipse cx="38.2" cy="37.6" rx="1.8" ry="1.1" fill="#f08aa8" opacity=".55"/>
+<path d="M30 38.8Q32 40.4 34 38.8" stroke="#a04a6a" stroke-width="1" fill="none" stroke-linecap="round"/>
+<ellipse cx="32" cy="25" rx="19.5" ry="5" fill="#2e1650" stroke="${OL}" stroke-width="1.1"/>
+<path d="M18.5 25C22 16 29 10 41 3C37 11 40 17 45.5 25C39 28 25 28 18.5 25Z" fill="url(#gViolet)" stroke="${OL}" stroke-width="1.2"/>
+<path d="M41 3C46 2 50 5 50 9C47 6.5 44 6.5 41.5 8Z" fill="url(#gViolet)" stroke="${OL}" stroke-width=".9"/>
+<path d="M19 24.5C26 28 38 28 45 24.5" fill="none" stroke="#e0aa43" stroke-width="2.2"/>
+<rect x="29" y="24.4" width="5.5" height="4.2" rx=".8" fill="none" stroke="url(#gGold)" stroke-width="1.1"/>
+<path d="M30 15L30.9 17.6L33.6 17.8L31.5 19.5L32.2 22L30 20.6L27.8 22L28.5 19.5L26.4 17.8L29.1 17.6Z" fill="url(#gGold)"/>`
+};
+const CHAR=k=>`<svg class="ch" viewBox="0 0 64 64" aria-hidden="true">${CH[k]||""}</svg>`;
+
+const HEART="M12 21C5 16 3 12 3 8.5C3 5.5 5.4 3.5 8 3.5C9.8 3.5 11.2 4.5 12 6C12.8 4.5 14.2 3.5 16 3.5C18.6 3.5 21 5.5 21 8.5C21 12 19 16 12 21Z";
+const DROP24="M12 3C16 9 18 12 18 15C18 18.5 15.5 21 12 21C8.5 21 6 18.5 6 15C6 12 8 9 12 3Z";
+const FLAME24=(f1,f2)=>`<path d="M12 2C15 7 20 9 19 15C18 20 14 22 11 21.5C6 20.5 4.5 16 6.5 12C7.5 14 8.5 14 9.5 13C9.5 8 10.5 5 12 2Z" fill="${f1}" stroke="#a02a10" stroke-width=".9"/><path d="M12 11C14 14 15 15 14 17.5C13 20 10 20 9.5 17.5C9 15.5 11 14 12 11Z" fill="${f2}"/>`;
+const IC={
+slash:`<path d="M3 20C9 19 17 13 21 3C18 11 11 17 3 20Z" fill="#e8f2ff" stroke="#6aa8ff" stroke-width="1"/><path d="M5 17L8 14M14 8L17 5" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/>`,
+windArrow:`<path d="M3 20L19 5" stroke="#8a5a2b" stroke-width="1.6" stroke-linecap="round"/><path d="M21 3L14.5 4.5L19.5 9.5Z" fill="#e8f2ff" stroke="#5a7a9a" stroke-width=".7"/><path d="M3 14Q6 11 9 13M7 20Q10 17 13 19" stroke="#6fd6c0" stroke-width="1.6" fill="none" stroke-linecap="round"/>`,
+arrowRain:`<g stroke="#8a5a2b" stroke-width="1.4" stroke-linecap="round"><path d="M6 2V12M12 4V16M18 2V12"/></g><g fill="#e8f2ff" stroke="#5a7a9a" stroke-width=".6"><path d="M3.6 11.5H8.4L6 16Z"/><path d="M9.6 15.5H14.4L12 20Z"/><path d="M15.6 11.5H20.4L18 16Z"/></g><path d="M2 22H22" stroke="#6fd6c0" stroke-width="1.4" stroke-linecap="round"/>`,
+fireball:FLAME24("#ff8a2a","#ffe27a"),
+meteor:`<path d="M3 3L13 12M3 8L10 14M8 3L13 9" stroke="#ffb04a" stroke-width="1.6" stroke-linecap="round"/><circle cx="16" cy="16" r="5" fill="#7a4a3a" stroke="#ff8a2a" stroke-width="1.2"/><circle cx="14.5" cy="14.5" r="1.2" fill="#4a2a20"/><circle cx="17.5" cy="17.8" r=".9" fill="#4a2a20"/>`,
+aura:`<circle cx="12" cy="12" r="5" fill="#ff8a2a" opacity=".4"/><circle cx="12" cy="12" r="7.5" fill="none" stroke="#ff9a3c" stroke-width="1.4" stroke-dasharray="3 2"/><g fill="#ff7a2a" stroke="#a02a10" stroke-width=".5"><path d="M12 1C13.5 3 14.5 3.5 14 5C13.3 6.5 10.7 6.5 10 5C9.5 3.5 11 3 12 1Z"/><path d="M12 1C13.5 3 14.5 3.5 14 5C13.3 6.5 10.7 6.5 10 5C9.5 3.5 11 3 12 1Z" transform="rotate(90 12 12)"/><path d="M12 1C13.5 3 14.5 3.5 14 5C13.3 6.5 10.7 6.5 10 5C9.5 3.5 11 3 12 1Z" transform="rotate(180 12 12)"/><path d="M12 1C13.5 3 14.5 3.5 14 5C13.3 6.5 10.7 6.5 10 5C9.5 3.5 11 3 12 1Z" transform="rotate(270 12 12)"/></g>`,
+blast:`<path d="M12 3L19 6V12C19 16 15.5 19.5 12 21C8.5 19.5 5 16 5 12V6Z" fill="#6c82a8" stroke="#ffd25a" stroke-width="1.5"/><path d="M12 7V16M8 11H16" stroke="#ffd25a" stroke-width="1.4"/><path d="M2 5L4 6.5M22 5L20 6.5M1.5 12H3.5M22.5 12H20.5" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/>`,
+rejuv:`<path d="${HEART}" fill="#4fcf7a" stroke="#1f6a3a" stroke-width="1"/><path d="M12 8V15M8.5 11.5H15.5" stroke="#eaffee" stroke-width="1.8" stroke-linecap="round"/>`,
+light:`<path d="M12 2L14.2 9.8L22 12L14.2 14.2L12 22L9.8 14.2L2 12L9.8 9.8Z" fill="url(#gGold)" stroke="#8a5f1d" stroke-width=".8"/><circle cx="12" cy="12" r="2" fill="#fffbe0"/>`,
+dagger:`<polygon points="21,3 21.6,3.6 12,15 9,12" fill="url(#gSteel)" stroke="#2a3550" stroke-width=".8"/><path d="M6.5 11.5L12.5 17.5" stroke="url(#gGold)" stroke-width="2.4" stroke-linecap="round"/><path d="M9.8 14.8L4 20.5" stroke="#5a2a1a" stroke-width="2.6" stroke-linecap="round"/>`,
+dash:`<path d="M13 5L20 12L13 19" fill="none" stroke="#9fd0ff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 7L11 12L6 17" fill="none" stroke="#6aa8ff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12H3.5" stroke="#6aa8ff" stroke-width="2" stroke-linecap="round"/>`,
+smoke:`<g fill="#aeb5cc" stroke="#6a7190" stroke-width="1"><circle cx="8" cy="14" r="4.5"/><circle cx="14" cy="11" r="5"/><circle cx="17" cy="15.5" r="4"/></g><rect x="6" y="14" width="13" height="5" fill="#aeb5cc"/><path d="M5 19H21" stroke="#6a7190" stroke-width="1"/>`,
+lightning:`<path d="M13.5 2L5 13.5H11L9.5 22L19 9.5H13Z" fill="#ffe84d" stroke="#b8860b" stroke-width="1" stroke-linejoin="round"/>`,
+potion:`<path d="M10 3H14V9L19 18.5C20 20.5 18.5 22 16.5 22H7.5C5.5 22 4 20.5 5 18.5L10 9Z" fill="#9b5de5" stroke="#3a1f63" stroke-width="1" stroke-linejoin="round"/><path d="M6.5 16H17.5L19 18.5C20 20.5 18.5 22 16.5 22H7.5C5.5 22 4 20.5 5 18.5Z" fill="#7be39a"/><rect x="9" y="1.5" width="6" height="2.5" rx="1" fill="#8a5a2b"/><circle cx="10" cy="18.5" r="1" fill="#eaffee"/>`,
+broom:`<path d="M3 21L14 10" stroke="#8a5a2b" stroke-width="2" stroke-linecap="round"/><path d="M13 7L19 5L21 11L15 13Z" fill="#d9a45a" stroke="#6a4a1a" stroke-width=".8"/><path d="M15 6.5L17 12.5M17.5 6L19 12" stroke="#9a6a2a" stroke-width=".7"/>`,
+bleed:`<path d="${DROP24}" fill="#d02a3a" stroke="#6a0f1c" stroke-width="1"/><ellipse cx="9.8" cy="14.5" rx="1.2" ry="2" fill="#fff" opacity=".5"/>`,
+poison:`<path d="${DROP24}" fill="#7fcf3a" stroke="#2f6a14" stroke-width="1"/><circle cx="10" cy="15" r="1.2" fill="#1a3a0a"/><circle cx="14" cy="15" r="1.2" fill="#1a3a0a"/><path d="M10.5 18.2H13.5" stroke="#1a3a0a" stroke-width="1.1" stroke-linecap="round"/>`,
+burn:FLAME24("#ff7a2a","#ffe27a"),
+freeze:`<g stroke="#9fe6ff" stroke-width="1.8" stroke-linecap="round"><path d="M12 2V22M3.3 7L20.7 17M3.3 17L20.7 7"/></g><g stroke="#e8fbff" stroke-width="1.2" stroke-linecap="round" fill="none"><path d="M9.5 3.5L12 6L14.5 3.5M9.5 20.5L12 18L14.5 20.5"/></g>`,
+silent:`<circle cx="12" cy="12" r="9" fill="#2a3550" stroke="#9aa8c8" stroke-width="1.4"/><path d="M7.5 13.5Q12 11 16.5 13.5" fill="none" stroke="#e8f0ff" stroke-width="1.6" stroke-linecap="round"/><path d="M5 19L19 5" stroke="#ff5a66" stroke-width="2" stroke-linecap="round"/>`,
+stun:`<g fill="#ffd25a" stroke="#8a5f1d" stroke-width=".6"><path d="M7 5L8.2 8L11 8.4L8.8 10.4L9.4 13.4L7 11.8L4.6 13.4L5.2 10.4L3 8.4L5.8 8Z"/><path d="M17 11L18 13.6L20.6 14L18.6 15.8L19.2 18.6L17 17L14.8 18.6L15.4 15.8L13.4 14L16 13.6Z"/></g><path d="M5 19Q12 23 19 19" stroke="#ffd25a" stroke-width="1.4" fill="none" stroke-linecap="round"/>`,
+regen:`<path d="M12 4V20M4 12H20" stroke="#2f9a54" stroke-width="4.4" stroke-linecap="round"/><path d="M12 4V20M4 12H20" stroke="#c8ffd0" stroke-width="1.8" stroke-linecap="round"/>`,
+ghost:`<path d="M12 3C7.5 3 5 6.5 5 10.5V20L7.5 18L9.7 20.5L12 18L14.3 20.5L16.5 18L19 20V10.5C19 6.5 16.5 3 12 3Z" fill="#e8f0ff" stroke="#7a88b0" stroke-width="1"/><circle cx="9.7" cy="10" r="1.5" fill="#2a3550"/><circle cx="14.3" cy="10" r="1.5" fill="#2a3550"/><ellipse cx="12" cy="14" rx="1.4" ry="1.8" fill="#2a3550"/>`,
+heart:`<path d="${HEART}" fill="#e8445a" stroke="#6a1020" stroke-width="1"/><ellipse cx="8" cy="8" rx="1.6" ry="1" fill="#fff" opacity=".55"/>`,
+shield:`<path d="M12 2.5L20 5.5V12C20 16.5 16 20 12 21.5C8 20 4 16.5 4 12V5.5Z" fill="#6c82a8" stroke="#ffd25a" stroke-width="1.5"/><path d="M12 6V17" stroke="#ffd25a" stroke-width="1.3"/>`,
+trophy:`<path d="M7 3H17V9C17 12.5 14.8 14.5 12 14.5C9.2 14.5 7 12.5 7 9Z" fill="url(#gGold)" stroke="#8a5f1d" stroke-width="1"/><path d="M7 5H3.5C3.5 9 5 10.5 7.5 11M17 5H20.5C20.5 9 19 10.5 16.5 11" fill="none" stroke="#c88a2a" stroke-width="1.5"/><rect x="10.8" y="14.5" width="2.4" height="4" fill="#c88a2a"/><rect x="7.5" y="18.5" width="9" height="3" rx="1" fill="url(#gGold)" stroke="#8a5f1d" stroke-width=".8"/>`,
+skull:`<path d="M12 3C7 3 4.5 6.5 4.5 10.5C4.5 13.5 6 15 7.5 16V20H16.5V16C18 15 19.5 13.5 19.5 10.5C19.5 6.5 17 3 12 3Z" fill="#e8ecf4" stroke="#4a526a" stroke-width="1"/><circle cx="9" cy="11" r="2.2" fill="#2a3550"/><circle cx="15" cy="11" r="2.2" fill="#2a3550"/><path d="M12 13.5L10.8 16H13.2Z" fill="#2a3550"/><path d="M10 20V17.5M12 20V17.5M14 20V17.5" stroke="#4a526a" stroke-width=".9"/>`,
+rotate:`<rect x="8" y="3" width="8" height="14" rx="1.6" fill="#2a3550" stroke="#9aa8c8" stroke-width="1.4"/><path d="M4 15C4 19 8 22 12 22C15.5 22 18.5 20 20 17" fill="none" stroke="#35a8ff" stroke-width="1.8" stroke-linecap="round"/><path d="M20.5 21L20 16.5L15.5 17.5Z" fill="#35a8ff"/>`,
+swords:`<path d="M4 20L16 8M20 20L8 8" stroke="#dfe9ff" stroke-width="2" stroke-linecap="round"/><path d="M15 4H20V9ZM9 4H4V9Z" fill="#9fb0cc"/><path d="M3 21L6 18M21 21L18 18" stroke="#c88a2a" stroke-width="2.4" stroke-linecap="round"/>`
+};
+const ICON=n=>`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">${IC[n]||""}</svg>`;
+const stI=(n,num)=>`<span class="st">${ICON(n)}${num?`<b>${num}</b>`:""}</span>`;
+
+/* ---------- visual effects (SVG, 10 units per board cell) ---------- */
+let FXLAG=0;
+const FXD={slash:1100,windArrow:1400,arrowRain:1700,fireball:1400,meteor:1900,aura:1400,blast:1200,rejuv:1600,light:1900,dagger:1000,daggerB:1200,dash:1100,tele:1300,smoke:1500,lightning:1200,strike:1300,potion:1700,swirl:1400,block:1100,hit:1100,tick:1100,num:1200};
+// milliseconds until the visual "impact", used to delay damage/heal numbers
+const FXH={slash:180,windArrow:560,arrowRain:1020,fireball:560,meteor:860,blast:200,dagger:120,daggerB:120,lightning:220,strike:180,potion:680,rejuv:480,light:250};
+const K=(c,a,b,x="")=>`class="fa ${c}" style="--a:${a};--b:${b};${x}"`;
+const rd=(f,i)=>{const s=Math.sin(((f.x||0)*7.1+(f.y||0)*13.7+(f.x2||0)*17.3+(f.y2||0)*19.1+i*31.7)*12.9898)*43758.5453;return s-Math.floor(s)};
+const TR=(x,y,body,sc=1)=>`<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)})${sc!==1?` scale(${sc})`:""}">${body}</g>`;
+const glow=(g,r,a,b)=>`<circle r="${r}" fill="url(#${g})" ${K("burst",a,b)}/>`;
+const ring=(r,col,w,a,b)=>`<circle r="${r}" fill="none" stroke="${col}" stroke-width="${w}" ${K("pulse",a,b)}/>`;
+const rays=(n,r0,r1,col,w,a,b,rot=0)=>{let s="";for(let i=0;i<n;i++){const t=rot+i*6.2832/n,c=Math.cos(t),d=Math.sin(t);s+=`<line x1="${(c*r0).toFixed(1)}" y1="${(d*r0).toFixed(1)}" x2="${(c*r1).toFixed(1)}" y2="${(d*r1).toFixed(1)}"/>`}return `<g stroke="${col}" stroke-width="${w}" stroke-linecap="round" ${K("burst",a,b)}>${s}</g>`};
+const proj=(x,y,x2,y2,body,a,b)=>{const dx=x2-x,dy=y2-y,L=Math.hypot(dx,dy),ang=Math.atan2(dy,dx)*180/Math.PI;return `<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${ang.toFixed(1)})"><g ${K("shot",a,b,`--dx:${L.toFixed(1)};--dy:0;`)}>${body}</g></g>`};
+const bits=(f,n,shape,a,b,spread,lift,seed=0,cls="rise")=>{let s="";for(let i=0;i<n;i++){const ox=(rd(f,i+seed)-.5)*spread,oy=(rd(f,i+seed+9)-.5)*spread*.6,dx=(rd(f,i+seed+3)-.5)*spread*.8;s+=`<g transform="translate(${ox.toFixed(1)} ${oy.toFixed(1)})"><g ${K(cls,(a+i*.04).toFixed(2),b,`--dx:${dx.toFixed(1)};--dy:${lift};`)}>${shape}</g></g>`}return s};
+const zig=(f,x,y,x2,y2,seed=0,amp=2.4)=>{const L=Math.hypot(x2-x,y2-y)||1,n=Math.max(4,Math.round(L/4.5)),nx=-(y2-y)/L,ny=(x2-x)/L;let d=`M${x.toFixed(1)} ${y.toFixed(1)}`;for(let i=1;i<n;i++){const t=i/n,j=(rd(f,i+seed)-.5)*2*amp;d+=`L${(x+(x2-x)*t+nx*j).toFixed(1)} ${(y+(y2-y)*t+ny*j).toFixed(1)}`}return d+`L${x2.toFixed(1)} ${y2.toFixed(1)}`};
+const FL="M0 -7C3 -3 5 -1 4 3C3 6 -3 6 -4 3C-5 0 -2 -2 0 -7Z";
+const SP="M0 -4L1.1 -1.1L4 0L1.1 1.1L0 4L-1.1 1.1L-4 0L-1.1 -1.1Z";
+const SHL="M0 -7L6 -4V2C6 6 3 8 0 10C-3 8 -6 6 -6 2V-4Z";
+const ARW=`<ellipse cx="-4" rx="8" ry="2.6" fill="url(#fxGreen)"/><path d="M-9 0H4" stroke="#8a5a2b" stroke-width="1.2" stroke-linecap="round"/><path d="M4 -2.2L9.5 0L4 2.2Z" fill="#e8f0ff" stroke="#1a1626" stroke-width=".4"/><path d="M-9 0L-11 -2M-9 0L-11 2M-7 0L-9 -2M-7 0L-9 2" stroke="#6fd08a" stroke-width="1" stroke-linecap="round"/>`;
+const S_EMBER=`<path d="${FL}" transform="scale(.4)" fill="#ff9a3c"/>`;
+const S_LEAF=`<path d="M0 -3.6C2.8 -1.8 2.8 1.8 0 3.6C-2.8 1.8 -2.8 -1.8 0 -3.6Z" fill="url(#gLeaf)" stroke="#2f6b3a" stroke-width=".4"/>`;
+const S_PLUS=`<path d="M-.8 -2.6H.8V-.8H2.6V.8H.8V2.6H-.8V.8H-2.6V-.8H-.8Z" fill="#d8ffd8"/>`;
+const S_STAR=`<path d="${SP}" fill="#fff6c8"/>`;
+const S_STARP=`<path d="${SP}" fill="#e6c8ff"/>`;
+const S_BUB=`<circle r="1.3" fill="none" stroke="#d8ffd8" stroke-width=".5"/>`;
+const S_DROP=`<path d="M0 -2.2C1.6 .2 2 1 2 1.6C2 2.8 1 3.4 0 3.4C-1 3.4 -2 2.8 -2 1.6C-2 1 -1.6 .2 0 -2.2Z" fill="#c01c2e"/>`;
+const S_PBUB=`<circle r="1.4" fill="#9be04a" fill-opacity=".7" stroke="#2f6a14" stroke-width=".4"/>`;
+const S_PCLOUD=`<circle r="4.5" fill="url(#fxPoison)"/>`;
+const IMP=(col,grad,a,r=12,n=8)=>glow(grad,r,a,.35)+rays(n,3,r-1,col,1.2,a,.3)+ring(r*.55,col,1.2,a,.38);
+
+const FXR={
+slash:(f,x,y,x2,y2)=>TR(x2,y2,`<path pathLength="1" d="M-8 -8Q3 -3 8 8" fill="none" stroke="#7fb4ff" stroke-opacity=".55" stroke-width="5" stroke-linecap="round" ${K("draw",.04,.5)}/><path pathLength="1" d="M-8 -8Q3 -3 8 8" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" ${K("draw",.04,.5)}/>`+glow("fxWhite",10,.18,.5)+rays(6,2,9,"#cfe4ff",1,.2,.45)),
+windArrow:(f,x,y,x2,y2)=>TR(x,y,glow("fxGreen",7,0,.25))+proj(x,y,x2,y2,ARW+`<path d="M-12 -2.4Q-16 -4.6 -20 -1.4M-12 2.4Q-17 4.6 -22 1.4" stroke="#bfe8ff" stroke-width=".9" fill="none" stroke-linecap="round"/>`,0,.4)+TR(x2,y2,IMP("#c8ffe0","fxGreen",.4,12,8)+bits(f,4,S_LEAF,.4,.5,10,-12)),
+arrowRain:(f,x,y,x2,y2)=>TR(x,y,glow("fxGreen",8,0,.25))+TR(x2,y2,ring(8,"#ffd25a",1,0,.45)+ring(8,"#ffd25a",.8,.12,.45)+[0,1,2,3,4].map(i=>`<g transform="translate(${((i-2)*3.4).toFixed(1)} 0)"><g ${K("drop",(.06+i*.07).toFixed(2),.28,`--sx:${(i-2)*-2};--sy:-52;`)}><g transform="rotate(90)">${ARW}</g></g></g>`).join("")+IMP("#ffe27a","fxGold",.6,14,10)+ring(10,"#fff6c8",1.6,.6,.4)+bits(f,5,S_STAR,.6,.4,12,-10)),
+fireball:(f,x,y,x2,y2)=>TR(x,y,glow("fxFire",8,0,.25))+proj(x,y,x2,y2,`<path d="M-3 0Q-11 -4 -19 0Q-11 4 -3 0Z" fill="#ff7a2a" fill-opacity=".8"/><path d="M-3 0Q-8 -2 -13 0Q-8 2 -3 0Z" fill="#ffe27a"/><circle r="5.8" fill="url(#fxFire)"/><circle r="2.4" fill="#fff6c8"/>`,0,.4)+TR(x2,y2,IMP("#ffb04a","fxFire",.4,18,10)+ring(11,"#ff5a2a",1.6,.42,.45)+bits(f,6,S_EMBER,.4,.55,14,-14)),
+meteor:(f,x,y,x2,y2,V)=>{
+  const cs=f.cells||[[f.x,f.y]];
+  let s=TR(x,y,`<g ${K("drop",0,.45,"--sx:-42;--sy:-84;")}><path d="M-3 -1L-17 -34L2.5 -3Z" fill="#ff8a2a"/><path d="M-1.5 -1L-9 -22L1 -2Z" fill="#ffe27a"/><circle r="9" fill="url(#fxFire)"/><circle r="3.6" fill="#6a3424" stroke="#ff8a2a" stroke-width="1"/><circle cx="-1" cy="-1" r=".9" fill="#3a1c12"/></g>`);
+  cs.forEach((c,i)=>{s+=TR(V(c[0])*10+5,V(c[1])*10+5,glow("fxFire",i?13:15,.45,.4)+rays(8,2,i?10:12,"#ffb04a",1.2,.45,.35)+bits(f,3,S_EMBER,.46,.5,9,-10,i*5))});
+  return s+TR(x,y,ring(14,"#fff6c8",1.8,.45,.35)+ring(18,"#ff7a2a",1.6,.5,.45)+glow("fxWhite",20,.44,.18));
+},
+aura:(f,x,y)=>TR(x,y,glow("fxFire",17,0,.55)+ring(10,"#ff9a3c",1.8,0,.5)+ring(10,"#ffd25a",1.1,.12,.5)+ring(10,"#ff5a2a",1.3,.26,.55)+`<g ${K("spin",0,.85,"--rot:220deg;")}>`+[0,1,2,3,4,5,6,7].map(i=>{const a=i*45,t=a*Math.PI/180;return `<path d="${FL}" transform="translate(${(11*Math.cos(t)).toFixed(1)} ${(11*Math.sin(t)).toFixed(1)}) rotate(${a+90}) scale(.55)" fill="#ff9a3c"/>`}).join("")+`</g>`),
+blast:(f,x,y,x2,y2)=>TR(x2,y2,glow("fxWhite",13,.05,.4)+ring(6,"#ffd25a",2,.08,.4)+ring(6,"#fff",1,.2,.4)+rays(8,4,12,"#fff0b0",1.4,.12,.35)+`<path d="${SHL}" fill="url(#gSteel)" stroke="#ffd25a" stroke-width="1.2" ${K("burst",.05,.5)}/>`),
+rejuv:(f,x,y,x2,y2)=>{
+  let s="";if(Math.hypot(x2-x,y2-y)>3)for(let i=0;i<3;i++)s+=proj(x,y,x2,y2,S_LEAF,i*.07,.3);
+  return s+TR(x2,y2,glow("fxGreen",15,.28,.6)+ring(8,"#7fe08a",1.4,.3,.5)+bits(f,6,S_LEAF,.3,.55,12,-18)+bits(f,3,S_PLUS,.4,.5,10,-20,7));
+},
+light:(f,x,y,x2,y2)=>TR(x2,y2,`<rect x="-6" y="-70" width="12" height="70" fill="url(#fxBeam)" ${K("beam",.05,.7)}/>`+glow("fxGold",16,.08,.7)+ring(9,"#ffd25a",1.5,.1,.5)+ring(9,"#fff6c8",1,.3,.5)+bits(f,7,S_STAR,.12,.6,13,-24)),
+dagger:(f,x,y,x2,y2)=>TR(x2,y2,`<path pathLength="1" d="M-7 -7L7 7" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" ${K("draw",.05,.28)}/><path pathLength="1" d="M7 -7L-7 7" fill="none" stroke="#cfe4ff" stroke-width="2" stroke-linecap="round" ${K("draw",.22,.28)}/>`+glow("fxWhite",9,.2,.4)+rays(6,2,8,"#e8f0ff",1,.22,.35)),
+daggerB:(f,x,y,x2,y2)=>FXR.dagger(f,x,y,x2,y2)+TR(x2,y2,bits(f,7,S_DROP,.22,.5,6,12,3,"fall")+rays(8,3,10,"#ff4a5a",1.1,.22,.35)),
+dash:(f,x,y,x2,y2)=>{
+  let s=TR(x,y,glow("fxSmoke",9,0,.4));
+  for(let i=0;i<5;i++){const t=i/5,px=x+(x2-x)*t,py=y+(y2-y)*t,a=(i*.07).toFixed(2);s+=TR(px,py,`<circle r="4.4" fill="#6a5fa0" ${K("fade",a,.4)}/><circle r="2" fill="#c8bfff" ${K("fade",a,.4)}/>`)}
+  s+=`<path pathLength="1" d="M${x.toFixed(1)} ${y.toFixed(1)}L${x2.toFixed(1)} ${y2.toFixed(1)}" fill="none" stroke="#bfb4ff" stroke-width="1.6" stroke-linecap="round" ${K("draw",0,.4)}/>`;
+  return s+TR(x2,y2,glow("fxSmoke",10,.35,.5)+rays(6,3,9,"#d8d0ff",1,.35,.35));
+},
+tele:(f,x,y,x2,y2)=>TR(x,y,glow("fxPurple",14,0,.45)+ring(8,"#c58bff",1.4,0,.4)+bits(f,5,S_STARP,0,.45,10,-14))+`<line x1="${x.toFixed(1)}" y1="${y.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="#c58bff" stroke-width=".8" stroke-dasharray="1.5 2.5" ${K("fade",.05,.5)}/>`+TR(x2,y2,glow("fxPurple",15,.35,.5)+ring(8,"#c58bff",1.4,.35,.45)+rays(8,2,11,"#e6c8ff",1.2,.35,.35)+bits(f,6,S_STARP,.38,.5,11,-16,4)),
+smoke:(f,x,y)=>TR(x,y,glow("fxWhite",10,0,.3)+[0,1,2,3,4,5,6].map(i=>{const a=i*.9+rd(f,i)*.5,r=2+rd(f,i+4)*3;return `<g transform="translate(${(Math.cos(a)*r).toFixed(1)} ${(Math.sin(a)*r).toFixed(1)})"><circle r="${(4+rd(f,i+8)*2.5).toFixed(1)}" fill="url(#fxSmoke)" ${K("puff",(i*.05).toFixed(2),.7,`--dx:${(Math.cos(a)*6).toFixed(1)};--dy:${(Math.sin(a)*5-3).toFixed(1)};`)}/></g>`}).join(""),f.sz||1),
+lightning:(f,x,y,x2,y2)=>{
+  const d=zig(f,x,y,x2,y2),fk=zig(f,(x+x2)/2,(y+y2)/2,(x+x2)/2+(rd(f,50)-.5)*16,(y+y2)/2+(rd(f,51)-.5)*16,20,1.4);
+  return `<g ${K("flick",0,.7)}><path pathLength="1" d="${d}" fill="none" stroke="#ffe84d" stroke-opacity=".45" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" ${K("draw",.02,.45)}/><path pathLength="1" d="${d}" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" ${K("draw",.02,.45)}/><path pathLength="1" d="${fk}" fill="none" stroke="#fff6a0" stroke-width="1" stroke-linecap="round" ${K("draw",.1,.4)}/></g>`+TR(x,y,glow("fxGold",7,0,.3))+TR(x2,y2,glow("fxGold",13,.2,.45)+rays(8,2,10,"#fff6a0",1.2,.22,.35)+ring(6,"#ffe84d",1.2,.22,.4));
+},
+strike:(f,x,y,x2,y2)=>{
+  const d=zig(f,x2,y2-70,x2,y2,5,3.2);
+  return TR(x,y,glow("fxGold",8,0,.3))+`<g ${K("flick",.02,.55)}><path pathLength="1" d="${d}" fill="none" stroke="#ffe84d" stroke-opacity=".45" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" ${K("draw",.02,.3)}/><path pathLength="1" d="${d}" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ${K("draw",.02,.3)}/></g>`+`<rect x="${(x2-5).toFixed(1)}" y="${(y2-5).toFixed(1)}" width="10" height="10" fill="#fff" ${K("flash",.14,.25)}/>`+TR(x2,y2,glow("fxGold",18,.14,.45)+ring(10,"#ffe84d",1.8,.14,.45)+rays(10,3,14,"#fff6a0",1.4,.14,.35)+bits(f,4,S_STAR,.16,.5,10,-12));
+},
+potion:(f,x,y,x2,y2)=>{
+  const ally=f.ally,c=ally?"#7be39a":"#b46bff",L=Math.hypot(x2-x,y2-y);
+  const flask=`<path d="M-1.4 -5H1.4V-2.6C4 -1.2 4.6 3 3 4.6C1.5 6 -1.5 6 -3 4.6C-4.6 3 -4 -1.2 -1.4 -2.6Z" fill="${c}" stroke="#1a1626" stroke-width=".6"/><rect x="-1.7" y="-6.8" width="3.4" height="2" rx=".5" fill="#8a5a2b"/><ellipse cx="-1.3" cy="2" rx=".9" ry="1.5" fill="#fff" fill-opacity=".55"/>`;
+  const fly=`<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)})"><g ${K("arcx",0,.4,`--dx:${(x2-x).toFixed(1)};`)}><g ${K("arcy",0,.4,`--dy:${(y2-y).toFixed(1)};--ah:${(8+L*.18).toFixed(1)};`)}>${flask}</g></g></g>`;
+  return fly+(ally
+    ?TR(x2,y2,glow("fxGreen",14,.4,.55)+ring(8,"#7fe08a",1.4,.4,.5)+bits(f,6,S_BUB,.4,.55,11,-16)+bits(f,3,S_PLUS,.45,.5,9,-18,6))
+    :TR(x2,y2,glow("fxPoison",15,.4,.55)+bits(f,5,S_PCLOUD,.4,.55,8,-3,11,"puff")+bits(f,6,S_PBUB,.42,.55,11,-14)+rays(7,3,10,"#9be04a",1,.4,.3)));
+},
+swirl:(f,x,y)=>TR(x,y,glow("fxWhite",11,0,.4)+[0,1,2].map(i=>`<ellipse cy="${3-i*3.2}" rx="${9-i*1.5}" ry="2.6" fill="none" stroke="#dff6ff" stroke-width="1.2" ${K("pulse",(i*.1).toFixed(2),.5)}/>`).join("")+`<g ${K("spin",0,.85,"--rot:360deg;")}><path d="M-9 2A9 3 0 0 1 9 2M-6 -3A6 2.2 0 0 0 6 -3" fill="none" stroke="#bfe8ff" stroke-width="1.3" stroke-linecap="round"/></g>`+bits(f,6,S_LEAF,.1,.55,12,-14,2)),
+block:(f,x,y)=>TR(x,y,glow("fxWhite",12,0,.4)+rays(8,5,12,"#fff",1.2,0,.35)+ring(7,"#ffd25a",1.5,.05,.4)+`<path d="${SHL}" fill="url(#gSteel)" stroke="#ffd25a" stroke-width="1.2" ${K("burst",0,.55)}/>`),
+hit:(f,x,y)=>{const m={fire:["#ffb04a","fxFire"]}[f.v]||["#fff","fxWhite"];return TR(x,y,IMP(m[0],m[1],0,12,8))},
+tick:(f,x,y)=>TR(x,y,f.v==="bleed"?bits(f,4,S_DROP,0,.7,7,8,1,"fall"):f.v==="poison"?glow("fxPoison",11,0,.6)+bits(f,5,S_PBUB,0,.7,9,-12):f.v==="burn"?glow("fxFire",10,0,.5)+bits(f,4,S_EMBER,0,.7,8,-12):glow("fxGreen",11,0,.6)+bits(f,3,S_PLUS,0,.7,8,-14)),
+num:(f,x,y)=>`<text x="${x.toFixed(1)}" y="${(y-2).toFixed(1)}" text-anchor="middle" font-size="6.2" font-weight="800" fill="${f.c||"#fff"}" stroke="#000" stroke-width=".9" stroke-linejoin="round" paint-order="stroke" font-family="system-ui,sans-serif" ${K("numt",0,1)}>${esc(f.e)}</text>`
+};
+function addFx(o){
+  o.dur=o.dur||FXD[o.type]||1200;o.x2=o.x2===undefined?o.x:o.x2;o.y2=o.y2===undefined?o.y:o.y2;
+  if(onlineGame&&!applyingRemoteState){fxOut.push({...o});if(fxOut.length>60)fxOut.shift()}
+  o.t0=Date.now();FX.push(o);setTimeout(()=>{FX=FX.filter(f=>f!==o)},o.dur+(o.dl||0)+150);
+}
+const num=(t,txt,c)=>addFx({type:"num",x:t.x,y:t.y,e:txt,c,dl:FXLAG});
 function fxHTML(){
-  const n=Date.now();
-  return FX.map(f=>{
-    const d=(f.dl||0)-(n-f.t0),a=`animation-duration:${f.dur}ms;animation-delay:${d}ms;`;
-    if(f.type==="bolt"){const dx=f.x2-f.x,dy=f.y2-f.y;return `<div class="e e-bolt" style="left:${(f.x+.5)*10}%;top:${(f.y+.5)*10}%;--len:${Math.hypot(dx,dy)};--ang:${Math.atan2(dy,dx)}rad;${a}"></div>`}
-    return `<div class="e e-${f.type}" style="left:${f.x*10}%;top:${f.y*10}%;--dx:${f.x2-f.x};--dy:${f.y2-f.y};${f.c?"color:"+f.c+";":""}${a}">${f.e||""}</div>`;
-  }).join("");
+  // Player 2 sees the board rotated 180deg, so effect coordinates are rotated the same way.
+  const n=Date.now(),flip=onlineGame&&onlineMyTeam===1,V=v=>flip?9-v:v,my=onlineGame?onlineMyTeam:0;
+  return `<svg class="fxs" viewBox="0 0 100 100" aria-hidden="true">`+FX.filter(f=>!f.hid||f.team===my).map(f=>{
+    const r=FXR[f.type];if(!r)return "";
+    return `<g style="--d:${f.dur}ms;--dl:${Math.round((f.dl||0)-(n-f.t0))}ms">${r(f,V(f.x)*10+5,V(f.y)*10+5,V(f.x2)*10+5,V(f.y2)*10+5,V)}</g>`;
+  }).join("")+`</svg>`;
 }
 function showFx(u,s,T){
-  if(!T)return;
-  if(s.fx==="proj"){addFx({type:"proj",x:u.x,y:u.y,x2:T.x,y2:T.y,e:s.e,dur:450});pop(T.x,T.y,"💥",380)}
-  else if(s.fx==="drop"){addFx({type:"drop",x:T.x,y:T.y,e:s.e,dur:600});pop(T.x,T.y,"💫",520)}
-  else if(s.fx==="bolt"){addFx({type:"bolt",x:u.x,y:u.y,x2:T.x,y2:T.y,dur:400});pop(T.x,T.y,"⚡",150)}
-  else pop(T.x,T.y,s.e||"💥");
+  if(!T||!s.v)return;
+  addFx({type:s.v,x:u.x,y:u.y,x2:T.x,y2:T.y});
 }
+$("rot").innerHTML=ICON("rotate")+"กรุณาหมุนจอเป็นแนวนอน";
 
 /* ---------- setup ---------- */
 function setup(){
   const tot=pick.reduce((a,k)=>a+R[k].pop,0);
   const online=onlineGame;
   $("su").style.display="flex";
-  $("su").innerHTML=`<h2 style="margin:0">⚔️ Board Arena</h2><div class="mu">${online?"เลือกกองกำลังของคุณ · อีกฝ่ายจะเลือกกองกำลังของตนเอง":"เลือกตัวหมาก (ห้ามซ้ำ) population รวมไม่เกิน "+CAP+" แล้วสู้กับบอท"}</div>
+  $("su").innerHTML=`<h2 style="margin:0">${ICON("swords")} Board Arena</h2><div class="mu">${online?"เลือกกองกำลังของคุณ · อีกฝ่ายจะเลือกกองกำลังของตนเอง":"เลือกตัวหมาก (ห้ามซ้ำ) population รวมไม่เกิน "+CAP+" แล้วสู้กับบอท"}</div>
   <div class="opts">${KEYS.map(k=>`<button class="opt ${pick.includes(k)?"on":""}" data-k="${k}">${shape(k,0)}<b>${R[k].n}</b><br><small class="mu">${RAR[R[k].rar]} · HP ${R[k].hp} · Pop ${R[k].pop}</small></button>`).join("")}</div>
   <div><b>Population ${tot}/${CAP}</b></div>
   <div id="pickWait" class="mu">${online?"เมื่อยืนยันแล้วจะรออีกฝ่ายเลือกตัวละคร":""}</div>
@@ -252,7 +517,7 @@ function heal(t,a,cure){
 function hurt(src,t,s,d){
   if(!U.includes(t)||t.st.freeze>0)return;
   const rule=(R[t.k].blk||[]).find(b=>b.c.includes(s.c)&&b.l.includes(s.l)&&(!b.tg||b.tg===s.tg)&&Math.random()<b.p);
-  if(rule){pop(t.x,t.y,"🛡️",0);addFx({type:"shield",x:t.x,y:t.y,e:"🛡️",dur:900});msg=R[t.k].n+" กันการโจมตีได้!";return}
+  if(rule){addFx({type:"block",x:t.x,y:t.y});msg=R[t.k].n+" กันการโจมตีได้!";return}
   msg=R[src.k].n+" ใช้ "+s.n+" ใส่ "+R[t.k].n+" -"+d;
   loseHP(t,d);
 }
@@ -260,16 +525,18 @@ function exitWW(u){
   u.ww=0;
   const w=R[u.k].s.findIndex(x=>x.k==="w");if(w>=0)u.cd[w]=R[u.k].s[w].cd;
   if(u.tpUsed){const m=R[u.k].s.findIndex(x=>x.k==="m");if(m>=0)u.cd[m]=1}
-  u.tpUsed=false;pop(u.x,u.y,"💨");
+  u.tpUsed=false;addFx({type:"smoke",x:u.x,y:u.y,sz:.8});
 }
 function land(u){
   u.fly=0;
   const f=R[u.k].s.findIndex(x=>x.k==="f");if(f>=0)u.cd[f]=R[u.k].s[f].cd;
-  pop(u.x,u.y,"🌪️");
+  addFx({type:"swirl",x:u.x,y:u.y,dur:1000});
 }
 function tick(u,s){
-  addFx({type:"ring",x:u.x,y:u.y,dur:700});
-  U.filter(e=>e.team!==u.team&&dist(u,e)===1).forEach(e=>{if(over<0){pop(e.x,e.y,"🔥",200);hurt(u,e,s,s.d)}});
+  addFx({type:"aura",x:u.x,y:u.y});
+  FXLAG=320;
+  U.filter(e=>e.team!==u.team&&dist(u,e)===1).forEach(e=>{if(over<0){addFx({type:"hit",v:"fire",x:e.x,y:e.y,dl:300});hurt(u,e,s,s.d)}});
+  FXLAG=0;
 }
 function begin(t){
   turn=t;sel=null;mode=-1;P[t]={mp:2,ap:2};
@@ -277,10 +544,10 @@ function begin(t){
     if(!U.includes(u)||over>=0)return;
     u.cd=u.cd.map(c=>Math.max(0,c-1));
     u.stunned=u.st.stun>0;u.st.stun=0;
-    if(u.st.regen){heal(u,u.st.regen.amt);u.st.regen.left--;if(u.st.regen.left<=0)u.st.regen=null}
-    if(u.st.bleed&&U.includes(u)){loseHP(u,2);pop(u.x,u.y,"🩸")}
-    if(u.st.poison&&U.includes(u)){loseHP(u,u.st.poison);pop(u.x,u.y,"☠️")}
-    if(u.st.burn&&U.includes(u)){loseHP(u,2*u.st.burn);u.st.burn--;pop(u.x,u.y,"🔥")}
+    if(u.st.regen){addFx({type:"tick",v:"regen",x:u.x,y:u.y});heal(u,u.st.regen.amt);u.st.regen.left--;if(u.st.regen.left<=0)u.st.regen=null}
+    if(u.st.bleed&&U.includes(u)){addFx({type:"tick",v:"bleed",x:u.x,y:u.y});loseHP(u,2)}
+    if(u.st.poison&&U.includes(u)){addFx({type:"tick",v:"poison",x:u.x,y:u.y});loseHP(u,u.st.poison)}
+    if(u.st.burn&&U.includes(u)){addFx({type:"tick",v:"burn",x:u.x,y:u.y});loseHP(u,2*u.st.burn);u.st.burn--}
     if(!U.includes(u)||over>=0)return;
     if(u.aura>0){u.aura--;tick(u,R[u.k].s.find(x=>x.k==="s"))}
     if(u.ww>0){u.ww--;if(u.ww===0)exitWW(u)}
@@ -324,33 +591,39 @@ function cast(u,si,tx,ty){
   const s=eff(u,si),T=at(tx,ty);
   if(s.k==="m")P[u.team].mp--;else P[u.team].ap--;
   u.cd[si]=(s.k==="w"||s.k==="f")?0:s.cd;
+  FXLAG=FXH[s.v]||0;
   if(s.k==="t"){
     showFx(u,s,T);hurt(u,T,s,s.d);
     if(s.chain&&over<0){
       const cs=U.filter(e=>e.team!==u.team&&e!==T&&targetable(e));
       if(cs.length){
         const m=Math.min(...cs.map(e=>dist(T,e))),c=cs.filter(e=>dist(T,e)===m),z=c[Math.floor(Math.random()*c.length)];
-        addFx({type:"bolt",x:T.x,y:T.y,x2:z.x,y2:z.y,dur:400,dl:200});pop(z.x,z.y,"⚡",350);hurt(u,z,s,s.d);
+        FXLAG=(FXH.lightning||0)+380;
+        addFx({type:"lightning",x:T.x,y:T.y,x2:z.x,y2:z.y,dl:380});hurt(u,z,s,s.d);
       }
     }
     if(s.bleed&&U.includes(T))T.st.bleed=1;
     if(s.xww)exitWW(u);
   }else if(s.k==="a"){
     const cs=CR.map(d=>[tx+d[0],ty+d[1]]).filter(c=>c[0]>=0&&c[1]>=0&&c[0]<10&&c[1]<10);
-    addFx({type:"drop",x:tx,y:ty,e:"☄️",dur:600});
-    cs.forEach(c=>{addFx({type:"flash",x:c[0],y:c[1],dl:520,dur:500});pop(c[0],c[1],"💥",520)});
+    addFx({type:"meteor",x:tx,y:ty,cells:cs});
     cs.forEach(c=>{const t=at(c[0],c[1]);if(t&&over<0)hurt(u,t,s,s.d)});
   }else if(s.k==="s"){u.sh+=s.sh;u.aura=2;tick(u,s)}
-  else if(s.k==="h"){pop(T.x,T.y,"💚");heal(T,s.heal,true);msg=R[u.k].n+" ฟื้นฟู "+R[T.k].n}
-  else if(s.k==="r"){pop(T.x,T.y,"✨");heal(T,s.heal,false);T.st.regen={left:2,amt:s.heal};msg=R[u.k].n+" ใช้ "+s.n+" กับ "+R[T.k].n}
+  else if(s.k==="h"){addFx({type:"rejuv",x:u.x,y:u.y,x2:T.x,y2:T.y});heal(T,s.heal,true);msg=R[u.k].n+" ฟื้นฟู "+R[T.k].n}
+  else if(s.k==="r"){addFx({type:"light",x:u.x,y:u.y,x2:T.x,y2:T.y});heal(T,s.heal,false);T.st.regen={left:2,amt:s.heal};msg=R[u.k].n+" ใช้ "+s.n+" กับ "+R[T.k].n}
   else if(s.k==="p"){
-    addFx({type:"proj",x:u.x,y:u.y,x2:T.x,y2:T.y,e:"🧪",dur:450});
-    if(T.team===u.team){pop(T.x,T.y,"🫧",380);T.st.regen={left:2,amt:3};msg=R[u.k].n+" ให้ยาฟื้นฟู "+R[T.k].n}
-    else{pop(T.x,T.y,"☠️",380);T.st.poison++;msg=R[u.k].n+" ทำให้ "+R[T.k].n+" ติดพิษ"}
+    const ally=T.team===u.team;
+    addFx({type:"potion",x:u.x,y:u.y,x2:T.x,y2:T.y,ally:ally?1:0});
+    if(ally){T.st.regen={left:2,amt:3};msg=R[u.k].n+" ให้ยาฟื้นฟู "+R[T.k].n}
+    else{T.st.poison++;msg=R[u.k].n+" ทำให้ "+R[T.k].n+" ติดพิษ"}
   }else if(s.k==="m"){
-    pop(u.x,u.y,s.tp?"✨":"💨");u.x=tx;u.y=ty;if(s.tp){u.tpUsed=true;pop(tx,ty,"✨",150)}
-  }else if(s.k==="w"){u.ww=4;pop(u.x,u.y,"💨");msg=R[u.k].n+" หายตัว (Wind-Walk)"}
-  else if(s.k==="f"){u.fly=4;pop(u.x,u.y,"🌪️");msg=R[u.k].n+" ขึ้นบิน"}
+    // A unit that is invisible must not reveal where it went to the opponent.
+    const H=u.ww>0?{hid:1,team:u.team}:{};
+    addFx({type:s.tp?"tele":"dash",x:u.x,y:u.y,x2:tx,y2:ty,...H});
+    u.x=tx;u.y=ty;if(s.tp)u.tpUsed=true;
+  }else if(s.k==="w"){u.ww=4;addFx({type:"smoke",x:u.x,y:u.y});msg=R[u.k].n+" หายตัว (Wind-Walk)"}
+  else if(s.k==="f"){u.fly=4;addFx({type:"swirl",x:u.x,y:u.y});msg=R[u.k].n+" ขึ้นบิน"}
+  FXLAG=0;
 }
 
 /* ---------- render ---------- */
@@ -378,11 +651,11 @@ function render(){
   if(u&&u.team===meTeam){
     const d=R[u.k],ic=icons(u);
     let skills="";
-    if(u.st.silent>0)skills=`<div class="ps" style="font-size:1.1em;text-align:center">🤐 ถูกใบ้</div>`;
-    else skills=d.s.map((s0,i)=>{const sk0=eff(u,i);return `<button class="sk ${mode===i?"on":""}" data-s="${i}" ${usable(u,i)?"":"disabled"}><span class="i">${sk0.i}</span><span><b>${sk0.n}</b><small>${u.cd[i]>0?"cooldown "+u.cd[i]:info(sk0)}</small>${sk0.x&&u.cd[i]<1?`<small>${sk0.x}</small>`:""}</span></button>`}).join("");
+    if(u.st.silent>0)skills=`<div class="ps" style="font-size:1.1em;text-align:center">${ICON("silent")} ถูกใบ้</div>`;
+    else skills=d.s.map((s0,i)=>{const sk0=eff(u,i);return `<button class="sk ${mode===i?"on":""}" data-s="${i}" ${usable(u,i)?"":"disabled"}><span class="i">${ICON(sk0.i)}</span><span><b>${sk0.n}</b><small>${u.cd[i]>0?"cooldown "+u.cd[i]:info(sk0)}</small>${sk0.x&&u.cd[i]<1?`<small>${sk0.x}</small>`:""}</span></button>`}).join("");
     panel=`<div class="por">${shape(u.k,0)}<div><div class="nm">${d.n}</div><small class="mu">${RAR[d.rar]} · Pop ${d.pop}</small></div></div>
-    <div class="hp">❤️<div class="bar" style="flex:1"><i style="width:${u.hp/d.hp*100}%"></i></div><b>${u.hp}/${d.hp}</b></div>
-    ${u.sh?`<div class="ps">🛡️ โล่ ${u.sh}</div>`:""}${ic?`<div class="ps">สถานะ: ${ic}${u.ww>0?" Wind-Walk":""}${u.fly>0?" 🧹 บิน":""}${u.aura?" ออร่าเหลือ "+u.aura+" ครั้ง":""}</div>`:""}
+    <div class="hp">${ICON("heart")}<div class="bar" style="flex:1"><i style="width:${u.hp/d.hp*100}%"></i></div><b>${u.hp}/${d.hp}</b></div>
+    ${u.sh?`<div class="ps">${ICON("shield")} โล่ ${u.sh}</div>`:""}${ic?`<div class="ps">สถานะ: ${ic}${u.ww>0?" Wind-Walk":""}${u.fly>0?" "+ICON("broom")+" บิน":""}${u.aura?" ออร่าเหลือ "+u.aura+" ครั้ง":""}</div>`:""}
     ${dis(u)?`<div class="ps">ใช้ตัวนี้ไม่ได้ในตานี้</div>`:""}
     ${d.pas?`<div class="ps">✦ ${d.pas}</div>`:""}<hr>${skills}
     <div class="mu" style="font-size:.8em">แตะช่องฟ้าเพื่อเดิน (หัก MP 1) · ใช้สกิลหัก AP 1</div>`;
@@ -390,9 +663,12 @@ function render(){
     panel=`<div class="por">${shape(u.k,1)}<div class="nm">${R[u.k].n}</div></div><hr><div class="mu" style="text-align:center">ข้อมูลของฝ่ายตรงข้าม</div>`;
   }
   const turnLabel=over>=0?"จบเกม":turn===meTeam?"ตาของคุณ":"ตาฝ่ายตรงข้าม";
+  const endBtns=onlineGame
+    ?`<button class="m" id="again" ${onlineRematchSent?"disabled":""}>${onlineRematchSent?"รออีกฝ่ายตอบรับ...":onlineRematchOpp?"อีกฝ่ายขอเล่นอีกครั้ง · กดเพื่อรับ":"เล่นอีกครั้ง"}</button><button class="m" id="leave" style="background:var(--sf2);color:var(--tx)">ออกจากห้อง</button>`
+    :`<button class="m" id="again">กลับหน้าเลือกตัวละคร</button>`;
   $("g").innerHTML=`<div class="col left"><div class="mu">ฝ่ายคุณ</div>${rows(me)}<hr><div class="mu">ฝ่ายตรงข้าม</div>${rows(en)}</div>
   <div class="mid"><div class="top"><b>${turnLabel}</b><span>MP ${P[turn].mp}/2 · AP ${P[turn].ap}/2</span><span class="msg">${esc(msg)}</span><button class="m" id="et" ${turn!==meTeam||over>=0?"disabled":""}>จบเทิร์น</button></div>
-  <div class="bw"><div class="bwrap"><div class="board" id="bd">${cells}</div><div class="fxl">${fxHTML()}</div>${over>=0?`<div class="ov"><div style="font-size:2.2em">${over===meTeam?"🎉 คุณชนะ!":"😵 ฝ่ายตรงข้ามชนะ"}</div><button class="m" id="again">กลับหน้าเลือกตัวละคร</button></div>`:""}</div></div></div>
+  <div class="bw"><div class="bwrap"><div class="board" id="bd">${cells}</div><div class="fxl">${fxHTML()}</div>${over>=0?`<div class="ov"><div style="font-size:2.2em">${over===meTeam?ICON("trophy")+" คุณชนะ!":ICON("skull")+" ฝ่ายตรงข้ามชนะ"}</div>${endBtns}</div>`:""}</div></div></div>
   <div class="col right">${panel}</div>`;
   $("g").querySelectorAll("[data-r]").forEach(r=>r.onclick=()=>choose(+r.dataset.r));
   $("g").querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>{
@@ -402,7 +678,11 @@ function render(){
   });
   $("bd").onclick=e=>{const c=e.target.closest(".cell");if(c)cellClick(+c.dataset.x,+c.dataset.y)};
   $("et").onclick=()=>{if(turn===meTeam&&over<0)begin(1-meTeam)};
-  const ag=$("again");if(ag)ag.onclick=()=>{if(onlineGame){onlineSocket.emit("request_rematch",{roomCode:onlineRoom});lobbyStatus("ระบบเริ่มเกมใหม่จะเพิ่มในขั้นถัดไป");}else{pick=[];setup();}};
+  const ag=$("again");if(ag)ag.onclick=()=>{
+    if(onlineGame){if(onlineRematchSent||!onlineSocket?.connected)return;onlineRematchSent=true;onlineSocket.emit("request_rematch",{roomCode:onlineRoom});render();}
+    else{pick=[];setup();}
+  };
+  const lv=$("leave");if(lv)lv.onclick=()=>{if(onlineSocket?.connected)onlineSocket.emit("leave_room");backToLobby("ออกจากห้องแล้ว",false);};
 }
 
 function choose(id){sel=id;mode=-1;render()}
@@ -473,6 +753,9 @@ let onlineGame = false;
 let onlineMyTeam = 0;
 let onlinePicks = [[], []];
 let onlineSubmitted = false;
+let onlineRematchSent = false;
+let onlineRematchOpp = false;
+let onlineEverConnected = false;
 let applyingRemoteState = false;
 
 function lobbyStatus(text){
@@ -486,34 +769,54 @@ function showLobbyRoom(data){
   document.getElementById("lobbyRoom").hidden=false;
   document.getElementById("roomCodeDisplay").textContent=onlineRoom;
   updateLobbyPlayers(data.players || []);
-  document.getElementById("readyBtn").disabled=false;
-  document.getElementById("readyBtn").textContent="พร้อม";
-  onlineReady=false;
 }
+// players = [slot1, slot2]; an empty slot is null. Also keeps the Ready button in sync with what the server knows.
 function updateLobbyPlayers(players){
   const p1=players[0],p2=players[1];
-  document.getElementById("p1State").textContent=p1?(p1.ready?"พร้อม":"กำลังเลือก"):"รอผู้เล่น";
-  document.getElementById("p2State").textContent=p2?(p2.ready?"พร้อม":"กำลังเลือก"):"รอผู้เล่น";
+  const label=p=>p?(p.ready?"พร้อม":"ยังไม่พร้อม"):"รอผู้เล่น";
+  document.getElementById("p1State").textContent=label(p1);
+  document.getElementById("p2State").textContent=label(p2);
+  const mine=players[onlinePlayer-1];
+  onlineReady=!!(mine&&mine.ready);
+  const both=!!(p1&&p2),btn=document.getElementById("readyBtn");
+  btn.disabled=!both||onlineReady;
+  btn.textContent=!both?"รอผู้เล่นอีกฝ่าย":(p1.ready&&p2.ready)?"ทั้งสองฝ่ายพร้อม":onlineReady?"กำลังรออีกฝ่าย...":"พร้อม";
+}
+// Leave the board / pick screens and show the lobby again (inRoom=true keeps the room code on screen).
+function backToLobby(message,inRoom){
+  onlineStarted=false;onlineGame=false;onlineSubmitted=false;onlineRematchSent=false;onlineRematchOpp=false;onlineReady=false;
+  U=[];over=-1;FX=[];fxOut=[];sel=null;mode=-1;msg="";pick=[];
+  $("g").innerHTML="";$("su").style.display="none";
+  $("onlineLobby").style.display="flex";
+  if(!inRoom){onlineRoom=null;onlinePlayer=0}
+  $("lobbyHome").hidden=inRoom;
+  $("lobbyRoom").hidden=!inRoom;
+  lobbyStatus(message);
 }
 function returnToBoardArena(){
   if(onlineStarted)return;
-  onlineStarted=true;onlineGame=true;onlineMyTeam=onlinePlayer-1;pick=[];onlineSubmitted=false;
+  onlineStarted=true;onlineGame=true;onlineMyTeam=onlinePlayer-1;pick=[];onlineSubmitted=false;onlineRematchSent=false;onlineRematchOpp=false;
   const lobby=document.getElementById("onlineLobby");
   if(lobby)lobby.style.display="none";
   setup();
 }
+// Sends the current snapshot plus the visual effects produced since the last snapshot.
 function broadcastGameState(){
   if(!onlineGame||applyingRemoteState||!onlineSocket?.connected||!onlineRoom)return;
-  onlineSocket.emit("game_state",{roomCode:onlineRoom,state:{U,P,turn,over,nid,msg}});
+  onlineSocket.emit("game_state",{roomCode:onlineRoom,state:{U,P,turn,over,nid,msg,fx:fxOut}});
+  fxOut=[];
 }
 function startOnlineGame(data){
-  onlineGame=true;onlinePicks=data.picks;onlineMyTeam=onlinePlayer-1;U=[];over=-1;nid=1;msg="เกมเริ่มแล้ว";FX=[];sel=null;mode=-1;
+  onlineGame=true;onlinePicks=data.picks;onlineMyTeam=onlinePlayer-1;U=[];over=-1;nid=1;msg="เกมเริ่มแล้ว";FX=[];fxOut=[];sel=null;mode=-1;
+  onlineRematchSent=false;onlineRematchOpp=false;
   for(let team=0;team<2;team++){
     const chosen=data.picks[team]||[],coords=spread(chosen.length);
     chosen.forEach((k,i)=>U.push(mk(k,team,coords[i],team===0?9:0)));
   }
   $("su").style.display="none";
-  begin(data.firstTurn===0?0:1);
+  // Both clients build the identical opening position, so neither needs to send it to the other.
+  applyingRemoteState=true;
+  try{begin(data.firstTurn===0?0:1)}finally{applyingRemoteState=false}
 }
 function connectOnlineLobby(){
   if(typeof io!=="function"){
@@ -521,7 +824,13 @@ function connectOnlineLobby(){
     return;
   }
   onlineSocket=io();
-  onlineSocket.on("connect",()=>lobbyStatus("เชื่อมต่อเซิร์ฟเวอร์แล้ว"));
+  onlineSocket.on("connect",()=>{
+    if(onlineEverConnected&&onlineRoom){
+      // The server drops a player's room when the connection breaks, so the old room no longer exists.
+      backToLobby("การเชื่อมต่อหลุด ห้องเดิมถูกปิดแล้ว กรุณาสร้างห้องใหม่หรือเข้าร่วมอีกครั้ง",false);
+    }else lobbyStatus("เชื่อมต่อเซิร์ฟเวอร์แล้ว");
+    onlineEverConnected=true;
+  });
   onlineSocket.on("connect_error",()=>lobbyStatus("เชื่อมต่อเซิร์ฟเวอร์ไม่ได้ ลองรีเฟรชอีกครั้ง"));
   onlineSocket.on("room_created",data=>{
     showLobbyRoom(data);
@@ -532,26 +841,45 @@ function connectOnlineLobby(){
     lobbyStatus("เข้าห้องสำเร็จ");
   });
   onlineSocket.on("room_update",data=>{
-    updateLobbyPlayers(data.players||[]);
-    if((data.players||[]).length===2 && data.players.every(p=>p.ready)){
+    const ps=data.players||[];
+    updateLobbyPlayers(ps);
+    if(onlineStarted)return;
+    const both=ps.length===2&&ps.every(p=>p);
+    if(both&&ps.every(p=>p.ready)){
       lobbyStatus("ผู้เล่นทั้งสองฝ่ายพร้อมแล้ว! กำลังกลับเข้าสู่ Board Arena...");
-      document.getElementById("readyBtn").disabled=true;
-      document.getElementById("readyBtn").textContent="ทั้งสองฝ่ายพร้อม";
       setTimeout(returnToBoardArena,700);
     }else{
-      lobbyStatus("รอผู้เล่นทั้งสองฝ่ายกดพร้อม...");
+      lobbyStatus(both?"รอผู้เล่นทั้งสองฝ่ายกดพร้อม...":"รอผู้เล่นอีกฝ่ายเข้าห้อง...");
     }
   });
   onlineSocket.on("game_start",data=>{lobbyStatus("เริ่มการแข่งขัน!");startOnlineGame(data);});
   onlineSocket.on("game_state",data=>{
     if(!onlineGame||!data?.state)return;
     applyingRemoteState=true;
-    const st=data.state;U=st.U;P=st.P;turn=st.turn;over=st.over;nid=st.nid;msg=st.msg||"";sel=null;mode=-1;
-    render();applyingRemoteState=false;
+    try{
+      const st=data.state;
+      U=st.U;P=st.P;turn=st.turn;over=st.over;nid=st.nid;msg=st.msg||"";sel=null;mode=-1;
+      (st.fx||[]).forEach(f=>addFx(f));
+      render();
+    }finally{applyingRemoteState=false}
   });
-  onlineSocket.on("room_error",data=>lobbyStatus(data.message||"เกิดข้อผิดพลาด"));
-  onlineSocket.on("player_left",()=>lobbyStatus("ผู้เล่นอีกฝ่ายออกจากห้องแล้ว"));
-  onlineSocket.on("disconnect",()=>lobbyStatus("การเชื่อมต่อขาดหาย กำลังรอเชื่อมต่อใหม่..."));
+  onlineSocket.on("rematch_requested",()=>{onlineRematchOpp=true;if(over>=0)render();});
+  onlineSocket.on("rematch_start",()=>{
+    U=[];over=-1;FX=[];fxOut=[];sel=null;mode=-1;msg="";pick=[];
+    onlineSubmitted=false;onlineRematchSent=false;onlineRematchOpp=false;
+    $("g").innerHTML="";
+    setup();
+  });
+  onlineSocket.on("room_error",data=>{
+    const text=data.message||"เกิดข้อผิดพลาด";
+    if(onlineStarted&&onlineSubmitted&&!U.length){onlineSubmitted=false;setup();$("pickWait").textContent=text;}
+    else lobbyStatus(text);
+  });
+  onlineSocket.on("player_left",()=>{
+    if(onlineStarted)backToLobby("ผู้เล่นอีกฝ่ายออกจากห้อง กลับมารอที่ล็อบบี้ ส่งรหัสห้องให้คนใหม่ได้เลย",true);
+    else lobbyStatus("ผู้เล่นอีกฝ่ายออกจากห้องแล้ว");
+  });
+  onlineSocket.on("disconnect",()=>lobbyStatus("การเชื่อมต่อขาดหาย กำลังเชื่อมต่อใหม่..."));
 }
 document.addEventListener("DOMContentLoaded",()=>{
   connectOnlineLobby();
@@ -567,18 +895,12 @@ document.addEventListener("DOMContentLoaded",()=>{
   };
   document.getElementById("readyBtn").onclick=()=>{
     if(!onlineRoom||!onlineSocket?.connected)return;
-    onlineReady=true;
-    document.getElementById("readyBtn").disabled=true;
-    document.getElementById("readyBtn").textContent="กำลังรออีกฝ่าย...";
     onlineSocket.emit("set_ready",{roomCode:onlineRoom});
     lobbyStatus("ส่งสถานะพร้อมแล้ว");
   };
   document.getElementById("leaveRoomBtn").onclick=()=>{
     if(onlineSocket?.connected) onlineSocket.emit("leave_room");
-    onlineRoom=null;onlineReady=false;
-    document.getElementById("lobbyRoom").hidden=true;
-    document.getElementById("lobbyHome").hidden=false;
-    lobbyStatus("ออกจากห้องแล้ว");
+    backToLobby("ออกจากห้องแล้ว",false);
   };
 });
 
